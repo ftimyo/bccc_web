@@ -35,5 +35,5 @@ class Fellowship(models.Model):
 class FellowshipMessage(models.Model):
     msg = models.CharField('Message', max_length=150)
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
-    fellowship = models.ForeignKey(Fellowships, verbose_name='Fellowship')
+    fellowship = models.ForeignKey(Fellowship, verbose_name='Fellowship')
     owner = models.ForeignKey(User, verbose_name="Publisher")
