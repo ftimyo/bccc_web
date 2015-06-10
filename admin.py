@@ -12,6 +12,8 @@ class EventAdmin(admin.ModelAdmin):
             ]
 
     list_display = ('event_time', 'location', 'title', 'owner', 'pub_time')
+    list_filter = ['pub_time', 'event_time',]
+    search_fields = ['desc', 'title']
     def save_model(self, request, obj, form, change):
         obj.owner = request.user
         obj.save()
@@ -23,6 +25,8 @@ class NoticeAdmin(admin.ModelAdmin):
             (None, {'fields' : ('event_time','desc',)}),
             ]
     list_display = ('event_time', 'owner', 'pub_time', 'desc',)
+    list_filter = ['pub_time', 'event_time',]
+    search_fields = ['desc']
     def save_model(self, request, obj, form, change):
         obj.owner = request.user
         obj.save()
@@ -41,6 +45,10 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {'fields' : ('fellowship', 'msg',)}),
             ]
+
+    list_filter = ['pub_time', 'fellowship']
+    search_fields = ['msg',]
+
     def save_model(self, request, obj, form, change):
         obj.owner = request.user
         obj.save()
