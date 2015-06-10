@@ -2,6 +2,31 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Event, Notice, Fellowship, FellowshipMessage
+from .models import About, YearlyTheme, Sermon
+from django.forms import TextInput, Textarea
+from django.db import models
+
+@admin.register(Sermon)
+class SermonAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.CharField: {'widget': TextInput(attrs={'size':'80'})},
+        models.TextField: {'widget': Textarea(attrs={'rows':80, 'cols':80})},
+    }
+    list_display = ('title', 'author', 'pub_time')
+    list_filter = ['pub_time']
+    search_fields = ['content', 'title']
+
+
+@admin.register(About)
+class AboutAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(YearlyTheme)
+class YearlyThemeAdmin(admin.ModelAdmin):
+    list_display = ('theme', 'desc', 'pub_time')
+    list_filter = ['pub_time']
+    search_fields = ['desc', 'theme']
+
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
@@ -34,7 +59,7 @@ class NoticeAdmin(admin.ModelAdmin):
 @admin.register(Fellowship)
 class FellowshipAdmin(admin.ModelAdmin):
     fieldsets = [
-            (None, {'fields' : ('name','location',
+            (None, {'fields' : ('name', 'schedule', 'location',
                 'admin','admin_email','admin_phone','dp_order')}),
             (None, {'fields' : ('desc',)}),
             ]
