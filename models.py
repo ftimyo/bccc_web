@@ -22,7 +22,7 @@ class Event(models.Model):
 class Fellowship(models.Model):
 
     name = models.CharField('Fellowship Name', max_length=50)
-    desc = models.TextField('Fellowship Description')
+    desc = models.TextField('Fellowship Description', default=2)
     location = models.CharField('Location', max_length=50)
 
     dp_order = models.IntegerField('Display Order')
@@ -33,6 +33,7 @@ class Fellowship(models.Model):
     admin_phone = models.CharField('Phone', max_length=16, blank = True)
 
 class FellowshipMessage(models.Model):
+
     msg = models.TextField('Message')
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
     fellowship = models.ForeignKey(Fellowship, verbose_name='Fellowship')
