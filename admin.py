@@ -46,7 +46,7 @@ class AboutAdmin(admin.ModelAdmin):
 
 @admin.register(YearlyTheme)
 class YearlyThemeAdmin(admin.ModelAdmin):
-    list_display = ('theme', 'desc', 'pub_time')
+    list_display = ('theme', 'pub_time')
     list_filter = ['pub_time']
     search_fields = ['desc', 'theme']
 
@@ -121,7 +121,8 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_filter = ['pub_time', 'fellowship']
+    list_display = ['fellowship', 'shortened_msg', 'is_biweekly_msg',]
+    list_filter = ['pub_time', 'fellowship',]
     search_fields = ['msg',]
 
     def save_model(self, request, obj, form, change):

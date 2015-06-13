@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <title>濱城華人基督教會 | Binghamton Chinese Christian Church</title>
+  <style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: device-width;
+      margin: auto;
+  }
+  </style>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">濱城華人基督教會</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+			{% if events %}
+				<li><a href="#event">近期活動</a></li>
+			{% endif %}
+
+			{% if fellowships %}
+				<li><a href="#fellowship">各種聚會</a></li>
+			{% endif %}
+
+			{% if abouts and themes %}
+        <li><a href="#about">教會介紹</a></li>
+			{% endif %}
+
+			{% if contacts %}
+        <li><a href="#contact">聯絡我們</a></li>
+			{% endif %}
+      </ul>
+			<!--Signup panel and search panel
+      <form action="" class="navbar-form navbar-right">
+        <div class="input-group">
+          <input type="Search" placeholder="Search..." class="form-control" />
+        <div class="input-group-btn">
+          <button class="btn btn-info">
+          <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+			-->
+    </div>
+  </div>
+  </nav>
+  <div class="container">
+    <br/><br/><br/>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner" role="listbox">
+
+        <div class="item active">
+          <img src="http://www.jmas.info/xSites/Appraisers/JimMurrayAppraisalService/Content/UploadedFiles/3.jpg" alt="Binghamton1" width="7133" height="2363">
+          <div class="carousel-caption">
+            <h3>Binghamton</h3>
+            <p>Birdview of Binghamton Downtown.</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://www.jmas.info/xSites/Appraisers/JimMurrayAppraisalService/Content/UploadedFiles/3.jpg" alt="Binghamton2" width="7133" height="2363">
+          <div class="carousel-caption">
+            <h3>Binghamton</h3>
+            <p>Birdview of Binghamton Downtown.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+
+<!--Event-->
+	{% if events or notices %}
+		<div id='event'>
+			<br/><br/>
+		</div>
+
+		<div class="container">
+			{% if events %}
+			<h1>近期活動</h1>
+			{% endif %}
+			<div class="row equal">
+			{% if events %}
+				{% if notices %}
+					<div class="col-md-6">
+				{% else %}
+					<div class="col-md-12">
+				{% endif %}
+				<div class="panel panel-info">
+				<div class="panel-heading"><h3>活動列表</h3></div>
+				<div class="panel-body" style="height:350px; overflow-y: scroll;">
+
+				<table class="table table-hover">
+				<thead>
+					<tr>
+						<th style="width:15%;">時間</th>
+						<th style="width:15%;">地點</th>
+						<th style="width:60%;">活動</th>
+						<th style="width:10%;">單張</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for event in events %}
+					<tr>
+						<td>{{ event.event_time|date:"m/d l P" }}</td>
+						<td>{{ event.location }}</td>
+						<td>
+							{% if event.desc %}
+								<a data-toggle="modal" href="#event{{ event.id }}">{{ event.title }}</a>
+							{% else %}
+								{{ event.title }}
+							{% endif %}
+						</td>
+						<td>---</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+				</table>
+				</div>
+				</div>
+				</div>
+			{% endif %}
+
+			{% if notices %}
+				{% if events %}
+					<div class="col-md-6">
+				{% else %}
+					<div class="col-md-12">
+				{% endif %}
+				<div class="panel panel-warning">
+				<div class="panel-heading"><h3>重要通啟</h3></div>
+				<div class="panel-body" style="height:350px; overflow-y: scroll;">
+				{% for notice in notices %}
+					{{ notice.desc }}
+					{% if not forloop.last %}
+						<hr/>
+					{% endif %}
+				{% endfor %}
+				</div>
+				</div>
+				</div>
+			{% endif %}
+
+			</div>
+			{% for event in events %}
+				<div class="modal fade" id="event{{ event.id }}" role="dialog">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<br/>
+							</div>
+							<div class="modal-body">
+								{% autoescape off %}
+								{{ event.desc }}
+								{% endautoescape %}
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% endif %}
+
+<!--Fellowship-->
+	{% if fellowships %}
+  <div id='fellowship'>
+		<hr/><br/><br/>
+  </div>
+
+  <div class="container">
+    <h1>各種聚會</h1>
+    <ul class="nav nav-tabs nav-justified">
+			{% for fellow in fellowships %}
+				{% if forloop.first %}
+				<li class='active'><a data-toggle="tab" href="#fellowship{{ fellow.id }}">{{ fellow.name }}</a></li>
+				{% else %}
+				<li><a data-toggle="tab" href="#fellowship{{ fellow.id }}">{{ fellow.name }}</a></li>
+				{% endif %}
+			{% endfor %}
+    </ul>
+		<div class="tab-content"> 
+			{% for fellow in fellowships %}
+				{% if forloop.first %}
+					<div id="fellowship{{ fellow.id }}" class="tab-pane fade in active">
+				{% else %}
+					<div id="fellowship{{ fellow.id }}" class="tab-pane fade">
+				{% endif %}
+					<div class='row'>
+					{% if fellow.recent_msgs %}
+						<div class='col-md-6' style="height : 320px; overflow-y : scroll;">
+					{% else %}
+						<div class='col-md-12' style="height : 320px; overflow-y : scroll;">
+					{% endif %}
+					<h3>{{ fellow.name }}</h3>
+					{% if fellow.schedule %}
+					<b>時間：</b>{{ fellow.schedule }}
+					{% endif %}
+					{% if fellow.location %}
+					<br/>
+					<b>地點：</b>{{ fellow.location }}
+					{% endif %}
+					{% if fellow.admin %}
+					<br/>
+					<b>負責人：</b>{{ fellow.admin }}
+					{% endif %}
+					{% if fellow.admin_phone %}
+					<br/>
+					<b>電話：</b>{{ fellow.admin_phone }}
+					{% endif %}
+					{% if fellow.admin_email %}
+					<br/>
+					<b>郵件：</b>{{ fellow.admin_email }}
+					{% endif %}
+					<br/>
+					{% autoescape off %}
+						{{ fellow.desc }}
+					{% endautoescape %}
+					</div>
+
+					{% if fellow.recent_msgs %}
+					<div class='col-md-6'>
+					<div class="panel panel-warning" style="height : 320px; overflow-y : scroll;">
+
+					<div class="panel-heading">{{ fellow.name }}最新消息</div>
+					<div class="panel-body">
+						{% for fm in fellow.recent_msgs %}
+							{{ fm.msg }}
+							{% if not forloop.last %}
+							<hr/>
+							{% endif %}
+						{% endfor %}
+					</div>
+
+					</div>
+					</div>
+					{% endif %}
+
+					</div>
+					</div>
+			{% endfor %}
+    </div>
+  </div>
+	{% endif %}
+
+<!--About-->
+	{% if abouts and themes %}
+  <div id='about'>
+		<hr/><br/><br/>
+  </div>
+
+  <div class="container">
+    <h1>教會介紹</h1>
+    <ul class="nav nav-tabs nav-justified">
+      <li class="active"><a data-toggle="tab" href="#AboutChurch">教會簡介</a></li>
+      <li><a data-toggle="tab" href="#pastor">牧者簡介</a></li>
+      <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
+      <li><a data-toggle="tab" href="#theme">年度主題</a></li>
+    </ul>
+    <div class="tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
+    <div id="AboutChurch" class="tab-pane fade in active">
+			<h3>教會簡介</h3>
+			{% for about in abouts %}
+				{% autoescape off %}
+				{{ about.desc }}
+				{% endautoescape %}
+			{% endfor %}
+    </div>
+    <div id="pastor" class="tab-pane fade">
+			{% for about in abouts %}
+				<h4>{{ about.pastor }}</h4>
+				{% autoescape off %}
+				{{ about.pastor_profile }}
+				{% endautoescape %}
+			{% endfor %}
+    </div>
+    <div id="faith" class="tab-pane fade">
+			<h3>信仰告白</h3>
+			{% for about in abouts %}
+				{% autoescape off %}
+				{{ about.faith }}
+				{% endautoescape %}
+			{% endfor %}
+    </div>
+    <div id="theme" class="tab-pane fade">
+			{% for theme in themes %}
+				<h3>{{ theme.theme }}</h3>
+				{% autoescape off %}
+				{{ theme.desc }}
+				{% endautoescape %}
+			{% endfor %}
+    </div>
+    </div>
+	</div>
+	{% endif %}
+
+<!--Contact-->
+	{% if contacts %}
+		<div id='contact'>
+			<br/><br/>
+		</div>
+
+		<div class="container">
+		<div class="well">
+			<h1>聯絡我們</h1>
+			<div class="list-group">
+			{% for contact in contacts %}
+				<div class="list-group-item"><b>{{ contact.title }}</b></div>
+				<div class="list-group-item"><b>地址：</b>{{ contact.address }}</div>
+				<div class="list-group-item"><b>電話：</b>{{ contact.phone }}</div>
+				<div class="list-group-item"><b>郵件：</b>{{ contact.email }}</div>
+			{% endfor %}
+			</div>
+		</div>
+		</div>
+	{% endif %}
+</body>
+</html>
