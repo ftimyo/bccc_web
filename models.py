@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
 
+def rename_flyer(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "flyer_%s.%s" % (instance.id, ext)
+    return filename
+
 # Create your models here.
 class Notice(models.Model):
     #outdated event won't be displayed according to event_time
@@ -30,7 +35,7 @@ class Event(models.Model):
             help_text='活動詳細說明 支持 HTML Tags.',
             null=True, blank=True)
     owner = models.ForeignKey(User, verbose_name='Publisher', editable=False)
-    pdf = models.FileField(verbose_name = 'Flyer PDF', upload_to='pdfs', null=True, blank=True)
+    flyer = models.FileField(verbose_name = 'Flyer File', upload_to=rename_flyer, null=True, blank=True)
 
     def __unicode__(self):
         return str(self.owner) + ': ' + self.title[:10] + ' ...'
