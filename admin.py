@@ -61,7 +61,7 @@ class EventAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {'fields' : ('event_time','location','title')}),
             (None, {'fields' : ('desc',),}),
-            (None, {'fields' : ('pdf',)}),
+            (None, {'fields' : ('flyer',)}),
             ]
 
     formfield_overrides = {

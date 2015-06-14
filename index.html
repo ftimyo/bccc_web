@@ -193,6 +193,7 @@
 								{% autoescape off %}
 								{{ event.desc }}
 								{% endautoescape %}
+								<img class='img-responsive' src="{{ event.flyer.url }}" alt="">
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
@@ -221,7 +222,7 @@
 				{% endif %}
 			{% endfor %}
     </ul>
-		<div class="tab-content"> 
+		<div class="tab-content">
 			{% for fellow in fellowships %}
 				{% if forloop.first %}
 					<div id="fellowship{{ fellow.id }}" class="tab-pane fade in active">
