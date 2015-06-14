@@ -35,7 +35,7 @@ class Event(models.Model):
             help_text='活動詳細說明 支持 HTML Tags.',
             null=True, blank=True)
     owner = models.ForeignKey(User, verbose_name='Publisher', editable=False)
-    flyer = models.FileField(verbose_name = 'Flyer File', upload_to=rename_flyer, null=True, blank=True)
+    flyer = models.ImageField(verbose_name = 'Flyer File', upload_to=rename_flyer, null=True, blank=True)
 
     def __unicode__(self):
         return str(self.owner) + ': ' + self.title[:10] + ' ...'
