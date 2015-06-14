@@ -69,7 +69,7 @@ class EventAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_display = ('event_time', 'location', 'title', 'owner', 'pub_time')
+    list_display = ('event_time', 'location', 'title', 'owner', 'pub_time', 'admin_image')
     list_filter = ['pub_time', 'event_time',]
     search_fields = ['desc', 'title']
     def save_model(self, request, obj, form, change):
