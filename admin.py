@@ -22,6 +22,8 @@ class SermonDocumentInline(admin.TabularInline):
 
 class PhotoInline(admin.TabularInline):
     model = Photo
+    fields = ('carousel', 'name', 'image', 'thumbnail')
+    readonly_fields = ['thumbnail',]
     extra = 1
 
 @admin.register(PhotoAlbum)
@@ -51,6 +53,9 @@ class SermonAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'pub_time')
     list_filter = ['pub_time']
     search_fields = ['keywords', 'title']
+    inlines = [
+            SermonDocumentInline,
+            ]
 
 
 @admin.register(About)

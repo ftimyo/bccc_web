@@ -210,7 +210,7 @@ class EventAttachment(models.Model):
     def __str__(self):
         return self.name
 
-def rename_sermon_file(instance, filename)
+def rename_sermon_file(instance, filename):
     ext = filename.split('.')[-1]
     stamp = timezone.now()
     filename = "s%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
@@ -221,6 +221,7 @@ class SermonDocument(models.Model):
     document = models.FileField(verbose_name = 'Document File',
             help_text = '.doc .pdf .docx .mp3 .m4a .wma etc.',
             upload_to=rename_sermon_file)
+    sermon = models.ForeignKey(Sermon, verbose_name='Sermon', editable=False)
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
 
     def __unicode__(self):
@@ -238,7 +239,7 @@ class PhotoAlbum(models.Model):
     def __str__(self):
         return self.name
 
-def rename_photo(instance, filename)
+def rename_photo(instance, filename):
     ext = filename.split('.')[-1]
     stamp = timezone.now()
     filename = "s%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
@@ -249,6 +250,8 @@ class Photo(models.Model):
     name = models.CharField('Photo Title', max_length=255)
     image = models.ImageField(verbose_name = 'Photo',
             upload_to=rename_photo)
+    album = models.ForeignKey(PhotoAlbum, verbose_name='Photo Album', editable=False)
+
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
 
     def thumbnail(self):
