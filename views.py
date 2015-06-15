@@ -26,8 +26,3 @@ def index(request):
             }
 
     return render(request, 'church/index.html', context)
-
-@gzip_page
-def showfile(request, filename):
-    response = FileResponse(open(os.path.join('media', filename), 'rb'))
-    return response
