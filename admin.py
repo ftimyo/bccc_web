@@ -3,7 +3,8 @@ from django.contrib import admin
 # Register your models here.
 from .models import Event, Notice, Fellowship, FellowshipMessage
 from .models import About, YearlyTheme, Sermon, Contact
-from .models import EventAttachment, MessageAttachment
+from .models import EventAttachment, MessageAttachment, SermonDocument
+from .models import Photo, PhotoAlbum
 from django.forms import TextInput, Textarea
 from django.db import models
 
@@ -14,6 +15,21 @@ class EventAttachmentInline(admin.StackedInline):
 class MessageAttachmentInline(admin.StackedInline):
     model = MessageAttachment
     extra = 1
+
+class SermonDocumentInline(admin.TabularInline):
+    model = SermonDocument
+    extra = 1
+
+class PhotoInline(admin.TabularInline):
+    model = Photo
+    extra = 1
+
+@admin.register(PhotoAlbum)
+class PhotoAlbumAdmin(admin.ModelAdmin):
+    list_display = ('name', 'pub_time')
+    inlines = [
+            PhotoInline,
+            ]
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
@@ -31,11 +47,10 @@ class ContactAdmin(admin.ModelAdmin):
 class SermonAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':80, 'cols':80})},
     }
     list_display = ('title', 'author', 'pub_time')
     list_filter = ['pub_time']
-    search_fields = ['content', 'title']
+    search_fields = ['keywords', 'title']
 
 
 @admin.register(About)

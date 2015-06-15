@@ -96,6 +96,7 @@ class Fellowship(models.Model):
     #Recent Messages
     def recent_msgs(self):
         return self.fellowshipmessage_set.filter(pub_time__gte = timezone.now() - datetime.timedelta(days=15))
+
     def __unicode__(self):
         return self.name
     def __str__(self):
@@ -155,8 +156,9 @@ class YearlyTheme(models.Model):
 class Sermon(models.Model):
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
     title = models.CharField('Title', max_length=100)
-    author = models.CharField('Author', max_length=20)
-    content = models.TextField('Sermon Content', blank=True, null=True)
+    author = models.CharField('Author', max_length=50)
+    keywords = models.CharField('Keywords', max_length=50, help_text='Used for search')
+    #content = models.TextField('Sermon Content', blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -175,14 +177,22 @@ class Contact(models.Model):
     def __str__(self):
         return self.title
 
+#####File Management####################
 class MessageAttachment(models.Model):
     '''
     MessageAttachment support multiple attachments for FellowshipMessage
     '''
     name = models.CharField('Attachment Name', max_length=255)
     attach = models.FileField(verbose_name = 'Attachment File',
-            upload_to=rename_message_file, null=True, blank=True)
+            help_text = '.doc .pdf .docx .mp3 .m4a .wma etc.',
+            upload_to=rename_message_file)
     msg = models.ForeignKey(FellowshipMessage, verbose_name='Fellowship Message', editable=False)
+    pub_time = models.DateTimeField('Time Published', auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.name
 
 class EventAttachment(models.Model):
     '''
@@ -190,6 +200,67 @@ class EventAttachment(models.Model):
     '''
     name = models.CharField('Attachment Name', max_length=255)
     attach = models.FileField(verbose_name = 'Attachment File',
-            upload_to=rename_event_file, null=True, blank=True)
+            help_text = '.doc .pdf .docx .mp3 .m4a .wma etc.',
+            upload_to=rename_event_file)
     msg = models.ForeignKey(Event, verbose_name='Event', editable=False)
+    pub_time = models.DateTimeField('Time Published', auto_now_add=True)
 
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.name
+
+def rename_sermon_file(instance, filename)
+    ext = filename.split('.')[-1]
+    stamp = timezone.now()
+    filename = "s%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
+    return os.path.join('sermon', filename)
+
+class SermonDocument(models.Model):
+    name = models.CharField('Document Name', max_length=255)
+    document = models.FileField(verbose_name = 'Document File',
+            help_text = '.doc .pdf .docx .mp3 .m4a .wma etc.',
+            upload_to=rename_sermon_file)
+    pub_time = models.DateTimeField('Time Published', auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.name
+
+
+class PhotoAlbum(models.Model):
+    name = models.CharField("Album Title", max_length=255)
+    pub_time = models.DateTimeField('Time Published', auto_now_add=True)
+
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.name
+
+def rename_photo(instance, filename)
+    ext = filename.split('.')[-1]
+    stamp = timezone.now()
+    filename = "s%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
+    return os.path.join('photo', filename)
+
+class Photo(models.Model):
+    carousel = models.BooleanField('Show in Carousel', default=False)
+    name = models.CharField('Photo Title', max_length=255)
+    image = models.ImageField(verbose_name = 'Photo',
+            upload_to=rename_photo)
+    pub_time = models.DateTimeField('Time Published', auto_now_add=True)
+
+    def thumbnail(self):
+        if self.image:
+            return u'<img src="%s" style="height:90px; width:175px;"/>' % self.image.url
+        else:
+            return 'No Photo'
+
+    thumbnail.short_description = 'Photo Thumbnail'
+    thumbnail.allow_tags = True
+
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.name
