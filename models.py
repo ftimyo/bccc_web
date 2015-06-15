@@ -2,11 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
+import os
 
 def rename_flyer(instance, filename):
     ext = filename.split('.')[-1]
-    filename = "flyer_%s.%s" % (instance.id, ext)
-    return filename
+    stamp = timezone.now()
+    filename = "f%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
+    return os.path.join('flyer', filename)
+
+def rename_event_file(instance, filename):
+    ext = filename.split('.')[-1]
+    stamp = timezone.now()
+    filename = "e%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
+    return os.path.join('event', filename)
+
+def rename_message_file(instance, filename):
+    ext = filename.split('.')[-1]
+    stamp = timezone.now()
+    filename = "m%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
+    return os.path.join('message', filename)
 
 # Create your models here.
 class Notice(models.Model):
@@ -35,7 +49,9 @@ class Event(models.Model):
             help_text='活動詳細說明 支持 HTML Tags.',
             null=True, blank=True)
     owner = models.ForeignKey(User, verbose_name='Publisher', editable=False)
-    flyer = models.ImageField(verbose_name = 'Flyer Image', upload_to=rename_flyer, null=True, blank=True)
+    flyer = models.ImageField(verbose_name = 'Flyer Image',
+            help_text = '活動宣傳圖片',
+            upload_to=rename_flyer, null=True, blank=True)
 
     def admin_image(self):
         if self.flyer:
@@ -140,7 +156,7 @@ class Sermon(models.Model):
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
     title = models.CharField('Title', max_length=100)
     author = models.CharField('Author', max_length=20)
-    content = models.TextField('Sermon Content')
+    content = models.TextField('Sermon Content', blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -158,3 +174,22 @@ class Contact(models.Model):
         return self.title
     def __str__(self):
         return self.title
+
+class MessageAttachment(models.Model):
+    '''
+    MessageAttachment support multiple attachments for FellowshipMessage
+    '''
+    name = models.CharField('Attachment Name', max_length=255)
+    attach = models.FileField(verbose_name = 'Attachment File',
+            upload_to=rename_message_file, null=True, blank=True)
+    msg = models.ForeignKey(FellowshipMessage, verbose_name='Fellowship Message', editable=False)
+
+class EventAttachment(models.Model):
+    '''
+    EventAttachment support multiple attachments for Event
+    '''
+    name = models.CharField('Attachment Name', max_length=255)
+    attach = models.FileField(verbose_name = 'Attachment File',
+            upload_to=rename_event_file, null=True, blank=True)
+    msg = models.ForeignKey(Event, verbose_name='Event', editable=False)
+

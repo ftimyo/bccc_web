@@ -1,0 +1,74 @@
+/*Carousel-------------------*/
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+		width: device-width;
+		margin: auto;
+}
+/*Default Navbar-------------------*/
+.navbar-default {
+	background-color: #925be5;
+	border-color: #7a11af;
+}
+.navbar-default .navbar-brand {
+	color: #ffffff;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+	color: #ebe06f;
+}
+.navbar-default .navbar-text {
+	color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: #ebe06f;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #ebe06f;
+	background-color: #7a11af;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	color: #ebe06f;
+	background-color: #7a11af;
+}
+.navbar-default .navbar-toggle {
+	border-color: #7a11af;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #7a11af;
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #ffffff;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+	border-color: #ffffff;
+}
+.navbar-default .navbar-link {
+	color: #ffffff;
+}
+.navbar-default .navbar-link:hover {
+	color: #ebe06f;
+}
+
+@media (max-width: 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+		color: #ffffff;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+		color: #ebe06f;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		color: #ebe06f;
+		background-color: #7a11af;
+	}
+}
+
+/*Nav-tab-------------------*/
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+    background-color:#925be5;
+}
+.nav-pills>li.active>a:hover {
+    background-color:#925be5;
+}

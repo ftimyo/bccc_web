@@ -3,8 +3,17 @@ from django.contrib import admin
 # Register your models here.
 from .models import Event, Notice, Fellowship, FellowshipMessage
 from .models import About, YearlyTheme, Sermon, Contact
+from .models import EventAttachment, MessageAttachment
 from django.forms import TextInput, Textarea
 from django.db import models
+
+class EventAttachmentInline(admin.StackedInline):
+    model = EventAttachment
+    extra = 1
+
+class MessageAttachmentInline(admin.StackedInline):
+    model = MessageAttachment
+    extra = 1
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
@@ -72,6 +81,11 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('event_time', 'location', 'title', 'owner', 'pub_time', 'admin_image')
     list_filter = ['pub_time', 'event_time',]
     search_fields = ['desc', 'title']
+
+    inlines = [
+            EventAttachmentInline,
+            ]
+
     def save_model(self, request, obj, form, change):
         obj.owner = request.user
         obj.save()
@@ -124,6 +138,10 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
     list_display = ['fellowship', 'shortened_msg', 'is_biweekly_msg',]
     list_filter = ['pub_time', 'fellowship',]
     search_fields = ['msg',]
+
+    inlines = [
+            MessageAttachmentInline,
+            ]
 
     def save_model(self, request, obj, form, change):
         obj.owner = request.user
