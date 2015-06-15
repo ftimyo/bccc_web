@@ -187,13 +187,15 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								{% autoescape off %}
+								{{ event.show_flyer }}
+								{% endautoescape %}
 								<br/>
 							</div>
 							<div class="modal-body">
 								{% autoescape off %}
 								{{ event.desc }}
 								{% endautoescape %}
-								<img class='img-responsive' src="{{ event.flyer.url }}" alt="">
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>

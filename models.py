@@ -35,13 +35,22 @@ class Event(models.Model):
             help_text='活動詳細說明 支持 HTML Tags.',
             null=True, blank=True)
     owner = models.ForeignKey(User, verbose_name='Publisher', editable=False)
-    flyer = models.ImageField(verbose_name = 'Flyer File', upload_to=rename_flyer, null=True, blank=True)
+    flyer = models.ImageField(verbose_name = 'Flyer Image', upload_to=rename_flyer, null=True, blank=True)
 
     def admin_image(self):
-        return u'<img src="%s" alt="No Flyer" style="height:90px; width:175px;"/>' % self.flyer.url
+        if self.flyer:
+            return u'<img src="%s" style="height:90px; width:175px;"/>' % self.flyer.url
+        else:
+            return 'No Flyer'
+    def show_flyer(self):
+        if self.flyer:
+            return u'<img class="img-responsive" src="%s"/>' % self.flyer.url
+        else:
+            return '<em>No Flyer</em>'
 
     admin_image.short_description = 'Flyer Preview'
     admin_image.allow_tags = True
+    show_flyer.allow_tags = True
 
     def __unicode__(self):
         return str(self.owner) + ': ' + self.title[:10] + ' ...'
