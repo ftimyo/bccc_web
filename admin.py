@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 # Register your models here.
-from .models import Event, Notice, Fellowship, FellowshipMessage
-from .models import About, YearlyTheme, Sermon, Contact
-from .models import EventAttachment, MessageAttachment, SermonDocument
+from .models import Event, Notice, EventAttachment
+from .models import Fellowship, FellowshipMessage, MessageAttachment
+from .models import About, YearlyTheme, Contact
+from .models import Sermon, SermonDocument, SermonCatalog
 from .models import Photo, PhotoAlbum
 from django.forms import TextInput, Textarea
 from django.db import models
@@ -154,12 +155,15 @@ class SermonAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
     }
-    list_display = ('title', 'author', 'pub_time')
+    list_display = ('title', 'catalog', 'author', 'pub_time')
     list_filter = ['pub_time']
     search_fields = ['keywords', 'title']
     inlines = [
             SermonDocumentInline,
             ]
+@admin.register(SermonCatalog)
+class SermonCatalogAdmin(admin.ModelAdmin):
+    pass
 
 ########################################
 ######Photo Album Admin#################

@@ -74,8 +74,8 @@ class Event(models.Model):
     location = models.CharField('Location', max_length=50)
 
     title = models.CharField('Event Title', help_text='活動標題', max_length=50)
-    desc = models.TextField('Event Description', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
-    flyer = models.ImageField(verbose_name='Flyer Image', help_text='活動宣傳圖片',
+    desc = models.TextField('Event Description (Optional)', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
+    flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
 
     def attachments(self):
@@ -119,7 +119,7 @@ class EventAttachment(models.Model):
     attach = models.FileField(verbose_name='Attachment File', upload_to=rename_event_file)
 
     #Auto Generated Field
-    msg = models.ForeignKey(Event, verbose_name='Event', editable=False)
+    event = models.ForeignKey(Event, verbose_name='Event', editable=False)
 
     def __unicode__(self):
         return self.name
@@ -161,7 +161,7 @@ class FellowshipMessage(models.Model):
     fellowship = models.ForeignKey(Fellowship, verbose_name='Fellowship')
     effective_date = models.DateField('Effective Date')
     subject = models.CharField('Subject', max_length=50)
-    msg = models.TextField('Message', blank=True, null=True)
+    msg = models.TextField('Message (Optional)', blank=True, null=True)
 
     def attachments(self):
         return self.messageattachment_set.all()
@@ -206,10 +206,20 @@ class MessageAttachment(models.Model):
 
 ########################################
 ######Sermon Model######################
+class SermonCatalog(models.Model):
+    name = models.CharField("Catalog Name", max_length=50)
+
+    def __unicode__(self):
+        return self.name
+    def __str__(self):
+        return self.name
+
 class Sermon(models.Model):
     title = models.CharField('Title', max_length=100)
     author = models.CharField('Author', max_length=50)
     keywords = models.CharField('Keywords', max_length=50, help_text='Used for search')
+    text = models.TextField('Sermon Text (Optional)', null=True, blank=True)
+    catalog = models.ForeignKey(SermonCatalog, verbose_name='Catalog')
 
     def attachments(self):
         return self.sermondocument_set.all()

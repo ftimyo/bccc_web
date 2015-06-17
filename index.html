@@ -188,15 +188,16 @@
 								{% endautoescape %}
 								<br/>
 							</div>
+							{% if event.desc %}
 							<div class="modal-body">
 								{% autoescape off %}
 								{{ event.desc }}
 								{% endautoescape %}
 							</div>
+							{% endif %}
 							<div class="modal-footer">
 								{% for file in event.attachments %}
-								<a href={{ file.attach.url }}>{{ file.name }}</a>
-								<br/>
+								<a href={{ file.attach.url }}><p style="text-align:left;">{{ file.name }}</p></a>
 								{% endfor %}
 								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 							</div>
@@ -293,15 +294,16 @@
 									<button type="button" class="close" data-dismiss="modal">&times;</button>
 									<br/>
 								</div>
+								{% if msg.msg %}
 								<div class="modal-body">
 									{% autoescape off %}
 									{{ msg.msg }}
 									{% endautoescape %}
 								</div>
+								{% endif %}
 								<div class="modal-footer">
 									{% for file in msg.attachments %}
-									<a href={{ file.attach.url }}>{{ file.name }}</a>
-									<br/>
+									<a href={{ file.attach.url }}><a style="text-align:left;">{{file.name }}</p></a>
 									{% endfor %}
 									<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 								</div>
@@ -407,6 +409,32 @@
 		</div><!--panel body ends-->
 		</div><!--panel ends-->
 
+		{% for sermon in sermons %}
+		<div class="modal fade" id="sermontext{{ sermon.id }}" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<center>
+						<h3>{{ sermon.title }}</h3>
+						</center>
+					</div>
+					{% if sermon.text %}
+					<div class="modal-body">
+					</div>
+					{% endif %}
+					<div class="modal-footer">
+						{% for file in sermon.attachments %}
+						<a href={{ file.document.url }}><p style="text-align:left;">{{ file.name }}</p></a>
+						{% endfor %}
+						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+		{% if sermons.paginator.num_pages > 1 %}
 		<center>
 		<ul class="pagination">
 		{% for i in sermons.paginator.page_range %}
@@ -418,40 +446,7 @@
 		{% endfor %}
 		</ul>
 		</center>
-
-
-		{% for sermon in sermons %}
-		<div class="modal fade" id="sermontext{{ sermon.id }}" role="dialog">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<br/>
-					</div>
-					<div class="modal-body">
-						{#
-						{% if sermon.text %}
-						{% autoescape off %}
-						{{ sermon.text }}
-						{% endautoescape %}
-						{% endif %}
-						#}
-					</div>
-					<div class="modal-footer">
-						{% for file in sermon.attachments %}
-						<a href={{ file.attach.url }}>{{ file.attach.url }}</a>
-						<br/>
-						{% endfor %}
-						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-
-
-
-
+		{% endif %}
 
 	</div>
 	{% endif %}
@@ -459,7 +454,7 @@
 	{#####Contact#####}
 	{% if contacts %}
 		<div id='contact'>
-			<br/><br/>
+			<hr/><br/><br/>
 		</div>
 
 		<div class="container">
