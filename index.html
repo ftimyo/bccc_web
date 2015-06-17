@@ -16,6 +16,8 @@
 </head>
 
 <body>
+
+	{#####Menu Bar#####}
   <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -40,31 +42,21 @@
         <li><a href="#about">教會介紹</a></li>
 			{% endif %}
 
+			{% if sermons %}
+			<li><a href="#sermon">信息系列</a></li>
+			{% endif %}
+
 			{% if contacts %}
         <li><a href="#contact">聯絡我們</a></li>
 			{% endif %}
+
       </ul>
-			<!--Signup panel and search panel
-      <form action="" class="navbar-form navbar-right">
-        <div class="input-group">
-          <input type="Search" placeholder="Search..." class="form-control" />
-        <div class="input-group-btn">
-          <button class="btn btn-info">
-          <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </div>
-        </div>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-      </ul>
-			-->
     </div>
   </div>
   </nav>
 
+
+	{#####Carousel#####}
 	{% if photos %}
   <div class="container">
     <br/><br/><br/>
@@ -87,7 +79,7 @@
 				{% else %}
 				<div class="item">
 				{% endif %}
-				<img src="{{photo.image.url}}" width="{{photo.image.width_field}}" height="{{photo.image.height_field}}">
+				<img src="{{photo.image.url}}" width="{{photo.image.width}}" height="{{photo.image.height}"/>
 
 				<div class="carousel-caption">
 				<p>{{photo.name}}</p>
@@ -109,7 +101,7 @@
 	</div>
 	{% endif %}
 
-<!--Event-->
+	{#####Event and Notices#####}
 	{% if events or notices %}
 		<div id='event'>
 			<br/><br/>
@@ -149,7 +141,7 @@
 						</td>
 						<td>{{ event.location }}</td>
 						<td>
-							{% if event.desc %}
+							{% if event.desc or event.attachments%}
 								<a data-toggle="modal" href="#event{{ event.id }}">{{ event.title }}</a>
 							{% else %}
 								{{ event.title }}
@@ -202,7 +194,7 @@
 								{% endautoescape %}
 							</div>
 							<div class="modal-footer">
-								{% for file in event.eventattachment_set %}
+								{% for file in event.attachments %}
 								<a href={{ file.attach.url }}>{{ file.name }}</a>
 								<br/>
 								{% endfor %}
@@ -215,7 +207,7 @@
 		</div>
 	{% endif %}
 
-<!--Fellowship-->
+	{#####Fellowship#####}
 	{% if fellowships %}
   <div id='fellowship'>
 		<hr/><br/><br/>
@@ -279,10 +271,12 @@
 					<div class="panel-body">
 						<div class="list-group">
 							{% for msg in fellow.recent_msgs %}
-								{% if msg.msg %}
-								<a data-toggle="modal" href="#message{{ msg.id }}">{{ msg.subject }}</a>
+								{% if msg.msg or msg.attachments %}
+								<a class="list-group-item" data-toggle="modal" href="#message{{ msg.id }}">{{ msg.subject }}</a>
 								{% else %}
+								<div class="list-group-item">
 								{{ msg.subject }}
+								</div>
 								{% endif %}
 							{% endfor %}
 						</div>
@@ -291,7 +285,7 @@
 					</div>
 					</div>
 
-					{% for msg in fellow.recent_msg %}
+					{% for msg in fellow.recent_msgs %}
 					<div class="modal fade" id="message{{ msg.id }}" role="dialog">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
@@ -305,7 +299,7 @@
 									{% endautoescape %}
 								</div>
 								<div class="modal-footer">
-									{% for file in msg.messageattachment_set %}
+									{% for file in msg.attachments %}
 									<a href={{ file.attach.url }}>{{ file.name }}</a>
 									<br/>
 									{% endfor %}
@@ -326,7 +320,7 @@
   </div>
 	{% endif %}
 
-<!--About-->
+	{#####About#####}
 	{% if abouts and themes %}
   <div id='about'>
 		<hr/><br/><br/>
@@ -377,7 +371,92 @@
 	</div>
 	{% endif %}
 
-<!--Contact-->
+	{#####Sermon#####}
+	{% if sermons %}
+  <div id='sermon'>
+		<hr/><br/><br/>
+  </div>
+
+	<div class="container">
+		<h1>信息系列</h1>
+
+		<div class="panel panel-default" style="min-height:350px;">
+		<div class="panel-body">
+		<table class="table table-hover">
+		<thead>
+			<tr>
+				<th style="width:80%;">題目</th>
+				<th style="width:20%;">講員</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for sermon in sermons %}
+			<tr>
+				<td>
+					{% if sermon.attachments or sermon.text %}
+					<a data-toggle="modal" href="#sermontext{{ sermon.id }}">{{ sermon.title }}</a>
+					{% else %}
+					{{ sermon.title }}
+					{% endif %}
+				</td>
+				<td>{{ sermon.author }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		</table>
+		</div><!--panel body ends-->
+		</div><!--panel ends-->
+
+		<center>
+		<ul class="pagination">
+		{% for i in sermons.paginator.page_range %}
+		{% if i = sermons.number %}
+		<li class="active"><a href="?page={{ i }}#sermon">{{ i }}</a></li>
+		{% else %}
+		<li><a href="?page={{ i }}#sermon">{{ i }}</a></li>
+		{% endif %}
+		{% endfor %}
+		</ul>
+		</center>
+
+
+		{% for sermon in sermons %}
+		<div class="modal fade" id="sermontext{{ sermon.id }}" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<br/>
+					</div>
+					<div class="modal-body">
+						{#
+						{% if sermon.text %}
+						{% autoescape off %}
+						{{ sermon.text }}
+						{% endautoescape %}
+						{% endif %}
+						#}
+					</div>
+					<div class="modal-footer">
+						{% for file in sermon.attachments %}
+						<a href={{ file.attach.url }}>{{ file.attach.url }}</a>
+						<br/>
+						{% endfor %}
+						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+
+
+
+
+	</div>
+	{% endif %}
+
+	{#####Contact#####}
 	{% if contacts %}
 		<div id='contact'>
 			<br/><br/>
@@ -389,7 +468,9 @@
 			<div class="list-group">
 			{% for contact in contacts %}
 				<div class="list-group-item"><b>{{ contact.title }}</b></div>
+				{% autoescape off %}
 				<div class="list-group-item"><b>地址：</b>{{ contact.address }}</div>
+				{% endautoescape %}
 				<div class="list-group-item"><b>電話：</b>{{ contact.phone }}</div>
 				<div class="list-group-item"><b>郵件：</b>{{ contact.email }}</div>
 			{% endfor %}
@@ -397,5 +478,6 @@
 		</div>
 		</div>
 	{% endif %}
+
 </body>
 </html>

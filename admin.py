@@ -166,8 +166,8 @@ class SermonAdmin(admin.ModelAdmin):
 class PhotoInline(admin.TabularInline):
     model = Photo
     #show Thumbnail in admin page
-    fields = ('carousel', 'name', 'image', 'thumbnail')
-    readonly_fields = ['thumbnail',]
+    fields = ('carousel', 'thumbnail', 'photo_size', 'name', 'image',)
+    readonly_fields = ['thumbnail', 'photo_size']
     extra = 1
 
 @admin.register(PhotoAlbum)

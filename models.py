@@ -78,6 +78,9 @@ class Event(models.Model):
     flyer = models.ImageField(verbose_name='Flyer Image', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
 
+    def attachments(self):
+        return self.eventattachment_set.all()
+
     #Auto Generated Fields
     owner = models.ForeignKey(User, verbose_name='Publisher', editable=False)
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
@@ -94,7 +97,7 @@ class Event(models.Model):
         if self.flyer:
             return u'<img class="img-responsive" src="%s"/>' % self.flyer.url
         else:
-            return '<em>No Flyer</em>'
+            return ''
 
     admin_image.short_description = 'Flyer Preview'
     admin_image.allow_tags = True
@@ -158,7 +161,10 @@ class FellowshipMessage(models.Model):
     fellowship = models.ForeignKey(Fellowship, verbose_name='Fellowship')
     effective_date = models.DateField('Effective Date')
     subject = models.CharField('Subject', max_length=50)
-    msg = models.TextField('Message')
+    msg = models.TextField('Message', blank=True, null=True)
+
+    def attachments(self):
+        return self.messageattachment_set.all()
 
     #Auto Generated Fields
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
@@ -204,6 +210,9 @@ class Sermon(models.Model):
     title = models.CharField('Title', max_length=100)
     author = models.CharField('Author', max_length=50)
     keywords = models.CharField('Keywords', max_length=50, help_text='Used for search')
+
+    def attachments(self):
+        return self.sermondocument_set.all()
 
     #Auto Generated Field
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
@@ -269,9 +278,17 @@ class Photo(models.Model):
             return u'<img src="%s" style="height:90px; width:175px;"/>' % self.image.url
         else:
             return 'No Photo'
+    def photo_size(self):
+        if self.image:
+            return u'%dx%d' % (self.image.width, self.image.height)
+        else:
+            return '---'
 
     thumbnail.short_description = 'Photo Thumbnail'
     thumbnail.allow_tags = True
+
+    photo_size.short_description = "Photo Size"
+    photo_size.allow_tags = True
 
     def __unicode__(self):
         return self.name

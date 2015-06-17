@@ -6,6 +6,7 @@ from .models import Photo
 from django.utils import timezone
 from django.http import FileResponse
 import os, datetime
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 @gzip_page
@@ -16,8 +17,19 @@ def index(request):
     themes = YearlyTheme.objects.all()[:1]
     abouts = About.objects.all()[:1]
     fellowships = Fellowship.objects.all()
-    sermons = Sermon.objects.all()[:25]
+    sermon_list = Sermon.objects.all()[:100]
     photos = Photo.objects.filter(carousel=True)[:8]
+
+    paginator = Paginator(sermon_list, 7)
+    page = request.GET.get('page')
+    try:
+        sermons = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        sermons = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        sermons = paginator.page(paginator.num_pages)
 
     context = {
             'events' : events,
