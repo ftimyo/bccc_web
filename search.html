@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <title>濱城華人基督教會 | Binghamton Chinese Christian Church</title>
+  <style>
+  </style>
+</head>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container-fluid">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#">濱城華人基督教會</a>
+	</div>
+<form action="search" method="GET" class="navbar-form navbar-right">
+<div class="input-group">
+<input type="Search" placeholder="Search..." class="form-control"/>
+<div class="input-group-btn">
+<button class="btn btn-info">
+<span class="glyphicon glyphicon-search"></span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</nav>

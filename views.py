@@ -9,6 +9,10 @@ import os, datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
+
+@gzip_page
+def search(request):
+
 @gzip_page
 def index(request):
     events = Event.objects.filter(event_date__gte = timezone.now().date() - datetime.timedelta(days=1))
