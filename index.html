@@ -64,35 +64,38 @@
     </div>
   </div>
   </nav>
+
+	{% if photos %}
   <div class="container">
     <br/><br/><br/>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-      </ol>
-
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<!-- Indicator-->
+			<ol class="carousel-indicators">
+				{% for photo in photos %}
+				{% if forloop.first %}
+				<li data-target="#myCarousel" data-slide-to="{{forloop.counter0}}" class="active"></li>
+				{% else %}
+				<li data-target="#myCarousel" data-slide-to="{{forloop.counter0}}"></li>
+				{% endif %}
+				{% endfor %}
+			</ol>
       <!-- Wrapper for slides -->
       <div class="carousel-inner" role="listbox">
+				{% for photo in photos %}
+				{% if forloop.first %}
+				<div class="item active">
+				{% else %}
+				<div class="item">
+				{% endif %}
+				<img src="{{photo.image.url}}" width="{{photo.image.width_field}}" height="{{photo.image.height_field}}">
 
-        <div class="item active">
-          <img src="http://www.jmas.info/xSites/Appraisers/JimMurrayAppraisalService/Content/UploadedFiles/3.jpg" alt="Binghamton1" width="7133" height="2363">
-          <div class="carousel-caption">
-            <h3>Binghamton</h3>
-            <p>Birdview of Binghamton Downtown.</p>
-          </div>
-        </div>
-        <div class="item">
-          <img src="http://www.jmas.info/xSites/Appraisers/JimMurrayAppraisalService/Content/UploadedFiles/3.jpg" alt="Binghamton2" width="7133" height="2363">
-          <div class="carousel-caption">
-            <h3>Binghamton</h3>
-            <p>Birdview of Binghamton Downtown.</p>
-          </div>
-        </div>
+				<div class="carousel-caption">
+				<p>{{photo.name}}</p>
+				</div>
 
+				</div>
+				{% endfor %}
       </div>
-
       <!-- Left and right controls -->
       <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -103,7 +106,8 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-  </div>
+	</div>
+	{% endif %}
 
 <!--Event-->
 	{% if events or notices %}
@@ -129,16 +133,20 @@
 				<table class="table table-hover">
 				<thead>
 					<tr>
-						<th style="width:15%;">時間</th>
-						<th style="width:15%;">地點</th>
-						<th style="width:60%;">活動</th>
-						<th style="width:10%;">單張</th>
+						<th>時間</th>
+						<th>地點</th>
+						<th>活動</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for event in events %}
 					<tr>
-						<td>{{ event.event_time|date:"m/d l P" }}</td>
+						<td>
+							{{ event.event_date|date:"m/d" }}
+							{% if event.event_time %}
+							{{ event.event_time|date:"P" }}
+							{% endif %}
+						</td>
 						<td>{{ event.location }}</td>
 						<td>
 							{% if event.desc %}
@@ -147,7 +155,6 @@
 								{{ event.title }}
 							{% endif %}
 						</td>
-						<td>---</td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -195,6 +202,10 @@
 								{% endautoescape %}
 							</div>
 							<div class="modal-footer">
+								{% for file in event.eventattachment_set %}
+								<a href={{ file.attach.url }}>{{ file.name }}</a>
+								<br/>
+								{% endfor %}
 								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 							</div>
 						</div>
@@ -266,16 +277,46 @@
 
 					<div class="panel-heading">{{ fellow.name }}最新消息</div>
 					<div class="panel-body">
-						{% for fm in fellow.recent_msgs %}
-							{{ fm.msg }}
-							{% if not forloop.last %}
-							<hr/>
-							{% endif %}
-						{% endfor %}
+						<div class="list-group">
+							{% for msg in fellow.recent_msgs %}
+								{% if msg.msg %}
+								<a data-toggle="modal" href="#message{{ msg.id }}">{{ msg.subject }}</a>
+								{% else %}
+								{{ msg.subject }}
+								{% endif %}
+							{% endfor %}
+						</div>
 					</div>
 
 					</div>
 					</div>
+
+					{% for msg in fellow.recent_msg %}
+					<div class="modal fade" id="message{{ msg.id }}" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<br/>
+								</div>
+								<div class="modal-body">
+									{% autoescape off %}
+									{{ msg.msg }}
+									{% endautoescape %}
+								</div>
+								<div class="modal-footer">
+									{% for file in msg.messageattachment_set %}
+									<a href={{ file.attach.url }}>{{ file.name }}</a>
+									<br/>
+									{% endfor %}
+									<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+
+
 					{% endif %}
 
 					</div>
