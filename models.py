@@ -74,7 +74,7 @@ class Event(models.Model):
     location = models.CharField('Location', max_length=50)
 
     title = models.CharField('Event Title', help_text='活動標題', max_length=50)
-    desc = models.TextField('Event Description (Optional)', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
+    text = models.TextField('Event Description (Optional)', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
     flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
 
@@ -160,8 +160,8 @@ class FellowshipMessage(models.Model):
 
     fellowship = models.ForeignKey(Fellowship, verbose_name='Fellowship')
     effective_date = models.DateField('Effective Date')
-    subject = models.CharField('Subject', max_length=50)
-    msg = models.TextField('Message (Optional)', blank=True, null=True)
+    title = models.CharField('Subject', max_length=50)
+    text = models.TextField('Message (Optional)', blank=True, null=True)
 
     def attachments(self):
         return self.messageattachment_set.all()
@@ -243,7 +243,7 @@ def rename_sermon_file(instance, filename):
 
 class SermonDocument(models.Model):
     name = models.CharField('Document Name', max_length=255)
-    document = models.FileField(verbose_name='Document File', upload_to=rename_sermon_file)
+    attach = models.FileField(verbose_name='Document File', upload_to=rename_sermon_file)
     sermon = models.ForeignKey(Sermon, verbose_name='Sermon', editable=False)
 
     def __unicode__(self):

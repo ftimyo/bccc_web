@@ -1,38 +1,165 @@
-<!DOCTYPE html>
 {% load staticfiles %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-  <title>濱城華人基督教會 | Binghamton Chinese Christian Church</title>
+  <title>Search | Binghamton Chinese Christian Church</title>
   <style>
   </style>
 </head>
-
+{#####Menu Bar#####}
 <nav class="navbar navbar-default navbar-fixed-top">
 <div class="container-fluid">
+
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="#">濱城華人基督教會</a>
+		<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
 	</div>
-<form action="search" method="GET" class="navbar-form navbar-right">
-<div class="input-group">
-<input type="Search" placeholder="Search..." class="form-control"/>
-<div class="input-group-btn">
-<button class="btn btn-info">
-<span class="glyphicon glyphicon-search"></span>
-</button>
-</div>
-</div>
-</form>
+
+
+	<form action="{% url 'church:search' %}" method="GET" class="navbar-form">
+
+	<div class="input-group">
+		<input style='width:420px;' name="query_string" type="Search" placeholder="搜尋..." class="form-control"/>
+		<div class="input-group-btn">
+			<button class="btn btn-warn" type="submit">
+				<span class="glyphicon glyphicon-search"></span>
+			</button>
+		</div>
+	</div>
+
+	<div class="input-group">
+	{% for i in search_domains %}
+	<label class="radio-inline"><input type="radio" name="search_domain" value="{{ i.0 }}"{%if search_domain = i.0 %}checked{%endif%}>{{ i.1 }}</label>
+	{% endfor %}
+	</div>
+
+
+	</form>
+
+
 </div>
 </nav>
+<br/><br/><br/><br/><br/><br/><br/><br/>
+<body>
+
+	{% if search_results %}
+
+	<div class="container">
+
+	<div class="btn-group">
+	{% for i in sort_results %}
+		{% if i.0 = orderby %}
+		<a role="button" class="btn btn-danger active">{{ i.1 }}</a>
+		{% else %}
+		<a role="button" class="btn btn-danger" href="{% url "church:search" %}?page={{ search_results.number }}&orderby={{ i.0 }}&query_string={{ query_string }}&search_domain={{ search_domain }}">{{ i.1 }}</a>
+		{% endif %}
+	{% endfor %}
+	</div>
+
+	{% if search_results.paginator.num_pages > 1 %}
+	<center>
+	<ul class="pagination">
+	{% for i in search_results.paginator.page_range %}
+	{% if i = search_results.number %}
+	<li class="active"><a href="{% url "church:search" %}?page={{ i }}&orderby={{ orderby }}&query_string={{ query_string }}&search_domain={{ search_domain }}">{{ i }}</a></li>
+	{% else %}
+	<li><a href="{% url "church:search" %}?page={{ i }}&orderby={{ orderby }}&query_string={{ query_string }}&search_domain={{ search_domain }}">{{ i }}</a></li>
+	{% endif %}
+	{% endfor %}
+	</ul>
+	</center>
+	{% endif %}
+
+
+	<table class="table table-hover">
+	<thead>
+		<tr>
+			<th style="width:75%;">條目</th>
+			<th style="width:25%;">發布時間</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for entry in search_results %}
+		<tr>
+			<td>
+				{% if entry.attachments or entry.text %}
+				<a data-toggle="modal" href="#entrytext{{ entry.id }}">{{ entry.title }}</a>
+				{% else %}
+				{{ entry.title }}
+				{% endif %}
+			</td>
+			<td>{{ entry.pub_time }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+	</table>
+
+
+	{% for entry in search_results %}
+	<div class="modal fade" id="entrytext{{ entry.id }}" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3>{{ entry.title }}</h3>
+					{% if entry.keywords %}
+					<b>關鍵字:</b> <em>{{ entry.keywords }}</em>
+					{% endif %}
+					{% if entry.catalog and entry.author %}
+					<br/>
+					<b>分類:</b> <em>{{ entry.catalog }}</em>
+					<b>講員:</b> <em>{{ entry.author }}</em>
+					{% endif %}
+					<br/>
+					{% if entry.fellowship %}
+					<b>分類:</b> <em>{{ entry.fellowship }}</em>
+					{% endif %}
+				</div>
+				{% if entry.text %}
+				<div class="modal-body">
+					{% autoescape off %}
+					{{ entry.text }}
+					{% endautoescape %}
+				</div>
+				{% endif %}
+				<div class="modal-footer">
+					{% for file in entry.attachments %}
+					<a href={{ file.attach.url }}><p style="text-align:left;">{{ file.name }}</p></a>
+					{% endfor %}
+					<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+	{% endif %}
+
+</body>
+

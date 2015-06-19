@@ -78,7 +78,7 @@ class EventAttachmentInline(admin.StackedInline):
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {'fields' : ('event_date', 'event_time', 'location',)}),
-            (None, {'fields' : ('title', 'desc',),}),
+            (None, {'fields' : ('title', 'text',),}),
             (None, {'fields' : ('flyer',)}),
             ]
 
@@ -89,7 +89,7 @@ class EventAdmin(admin.ModelAdmin):
 
     list_display = ('event_date', 'location', 'title', 'owner', 'pub_time', 'admin_image')
     list_filter = ['pub_time', 'event_date',]
-    search_fields = ['desc', 'title']
+    search_fields = ['text', 'title']
 
     inlines = [
             EventAttachmentInline,
@@ -124,7 +124,7 @@ class FellowshipAdmin(admin.ModelAdmin):
 class FellowshipMessageAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {'fields' : ('fellowship', 'effective_date')}),
-            (None, {'fields' : ('subject', 'msg',)}),
+            (None, {'fields' : ('title', 'text',)}),
             ]
 
     formfield_overrides = {
@@ -132,9 +132,9 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_display = ['fellowship', 'subject', 'is_effective_msg',]
+    list_display = ['fellowship', 'title', 'is_effective_msg',]
     list_filter = ['pub_time', 'effective_date', 'fellowship',]
-    search_fields = ['msg',]
+    search_fields = ['text', 'title']
 
     inlines = [
             MessageAttachmentInline,

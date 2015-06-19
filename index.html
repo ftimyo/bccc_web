@@ -26,7 +26,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">濱城華人基督教會</a>
+			<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -51,8 +51,24 @@
 			{% endif %}
 
       </ul>
+			<form action="{% url 'church:search' %}" method="GET" class="navbar-form">
+			<div class="input-group">
+			<input name="query_string" type="Search" placeholder="搜尋..." class="form-control"/>
+			<div class="input-group-btn">
+			<button class="btn btn-warn" type="submit">
+			<span class="glyphicon glyphicon-search"></span>
+			</button>
+			</div>
+			</div>
+			<div class="input-group">
+			{% for i in search_domains %}
+			<label class="radio-inline"><input type="radio" name="search_domain" value="{{ i.0 }}"{%if search_domain = i.0 %}checked{%endif%}>{{ i.1 }}</label>
+			{% endfor %}
+			</div>
+			</form>
     </div>
   </div>
+
   </nav>
 
 
@@ -104,7 +120,7 @@
 	{#####Event and Notices#####}
 	{% if events or notices %}
 		<div id='event'>
-			<br/><br/>
+			<hr/><br/><br/>
 		</div>
 
 		<div class="container">
@@ -125,9 +141,9 @@
 				<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>時間</th>
-						<th>地點</th>
-						<th>活動</th>
+						<th style='width:15%;'>時間</th>
+						<th style='width:15%;'>地點</th>
+						<th style='width:70%;'>活動</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -141,7 +157,7 @@
 						</td>
 						<td>{{ event.location }}</td>
 						<td>
-							{% if event.desc or event.attachments%}
+							{% if event.title or event.attachments%}
 								<a data-toggle="modal" href="#event{{ event.id }}">{{ event.title }}</a>
 							{% else %}
 								{{ event.title }}
@@ -166,7 +182,9 @@
 				<div class="panel-heading"><h3>重要通啟</h3></div>
 				<div class="panel-body" style="height:350px; overflow-y: scroll;">
 				{% for notice in notices %}
+					{% autoescape off %}
 					{{ notice.desc }}
+					{% endautoescape %}
 					{% if not forloop.last %}
 						<hr/>
 					{% endif %}
@@ -183,15 +201,15 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4>{{ event.title }}</h4>
 								{% autoescape off %}
 								{{ event.show_flyer }}
 								{% endautoescape %}
-								<br/>
 							</div>
-							{% if event.desc %}
+							{% if event.text %}
 							<div class="modal-body">
 								{% autoescape off %}
-								{{ event.desc }}
+								{{ event.text }}
 								{% endautoescape %}
 							</div>
 							{% endif %}
@@ -268,15 +286,15 @@
 					<div class='col-md-6'>
 					<div class="panel panel-warning" style="height : 320px; overflow-y : scroll;">
 
-					<div class="panel-heading">{{ fellow.name }}最新消息</div>
+					<div class="panel-heading">{{ fellow.name }}最新訊息</div>
 					<div class="panel-body">
 						<div class="list-group">
 							{% for msg in fellow.recent_msgs %}
-								{% if msg.msg or msg.attachments %}
-								<a class="list-group-item" data-toggle="modal" href="#message{{ msg.id }}">{{ msg.subject }}</a>
+								{% if msg.text or msg.attachments %}
+								<a class="list-group-item" data-toggle="modal" href="#message{{ msg.id }}">{{ msg.title }}</a>
 								{% else %}
 								<div class="list-group-item">
-								{{ msg.subject }}
+								{{ msg.title }}
 								</div>
 								{% endif %}
 							{% endfor %}
@@ -292,12 +310,12 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<br/>
+									<h4>{{ msg.title }}</h4>
 								</div>
-								{% if msg.msg %}
+								{% if msg.text %}
 								<div class="modal-body">
 									{% autoescape off %}
-									{{ msg.msg }}
+									{{ msg.text }}
 									{% endautoescape %}
 								</div>
 								{% endif %}
@@ -420,14 +438,20 @@
 						<center>
 						<h3>{{ sermon.title }}</h3>
 						</center>
+						{% if sermon.keywords %}
+						關鍵字: <em>{{ sermon.keywords }}</em>
+						{% endif %}
 					</div>
 					{% if sermon.text %}
 					<div class="modal-body">
+						{% autoescape off %}
+						{{ sermon.text }}
+						{% endautoescape %}
 					</div>
 					{% endif %}
 					<div class="modal-footer">
 						{% for file in sermon.attachments %}
-						<a href={{ file.document.url }}><p style="text-align:left;">{{ file.name }}</p></a>
+						<a href={{ file.attach.url }}><p style="text-align:left;">{{ file.name }}</p></a>
 						{% endfor %}
 						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 					</div>
