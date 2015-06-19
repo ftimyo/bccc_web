@@ -1,19 +1,40 @@
+/*page background*/
+/*
+body {
+	background-color:ivory;
+}
+*/
 /*Carousel-------------------*/
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
-		width: device-width;
-		margin: auto;
+	width: device-width;
+	margin: auto;
+}
+
+.carousel-caption .tt {
+	background-color: #ffffff;
+	width:auto;
+	opacity: 0.6;
+	color:firebrick;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+
+h1 {
+	color:maroon;
+	font-weight: bold;
 }
 /*Default Navbar-------------------*/
 .navbar-default {
-  background-color: red;
+  background-color: maroon;
   border-color: brown;
 }
 .navbar-default .navbar-brand {
-  color: white;
+  color: linen;
 }
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-  color: mediumspringgreen;
+  color: lightsalmon;
 }
 .navbar-default .navbar-text {
   color: white;
@@ -22,21 +43,21 @@
   color: white;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: mediumspringgreen;
+  color: lightsalmon;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  color: mediumspringgreen;
-  background-color: red;
+  color: lightsalmon;
+  background-color: maroon;
 }
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-  color: mediumspringgreen;
-  background-color: red;
+  color: lightsalmon;
+  background-color: maroon;
 }
 .navbar-default .navbar-toggle {
-  border-color: red;
+  border-color: maroon;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-  background-color: red;
+  background-color: maroon;
 }
 .navbar-default .navbar-toggle .icon-bar {
   background-color: white;
@@ -49,7 +70,7 @@
   color: white;
 }
 .navbar-default .navbar-link:hover {
-  color: mediumspringgreen;
+  color: lightsalmon;
 }
 
 @media (max-width: 767px) {
@@ -57,11 +78,11 @@
     color: white;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: mediumspringgreen;
+    color: lightsalmon;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: mediumspringgreen;
-    background-color: red;
+    color: lightsalmon;
+    background-color: maroon;
   }
 }
 
@@ -89,14 +110,14 @@ ul.attachments  a{
 }
 
 button.btn-search:hover {
-	background-color: mediumvioletred;
+	background-color: tomato;
 }
 
 button.btn-search:focus {
-	background-color: mediumvioletred;
+	background-color: tomato;
 }
 button.btn-search{
-	background-color: palevioletred;
+	background-color: linen;
 }
 
 /*Nav Pills*/
@@ -107,85 +128,160 @@ button.btn-search{
 	margin-bottom: 7px;
 }
 .red-pills > li.active > a {
-	color:mediumspringgreen;
-	background-color:darkred;
+	color:white;
+	background-color:maroon;
 }
 .red-pills>li.active>a:focus {
-	color:mediumspringgreen;
-	background-color:darkred;
+	color:white;
+	background-color:maroon;
 }
 
 .red-pills>li.active>a:hover {
-	color:mediumspringgreen;
-	background-color:darkred;
+	color:white;
+	background-color:maroon;
 }
 
 .red-pills>li>a {
-	background-color:red;
-	color:white;
+	background-color:peachpuff;
+	color:tomato;
 }
 
 .red-pills>li>a:hover {
-	background-color:red;
-	color:mediumspringgreen;
+	background-color:lightsalmon;
+	color:firebrick;
 }
 
 /*Event Panel*/
 .panel-event > .panel-heading{
-	background-color: red;
-	color: mediumspringgreen;
+	background-color: lightgray;
+	color: firebrick;
+}
+.panel-event {
+	border-color: silver;
+	background-color:seashell;
+}
+
+.panel-event div {
+	color:gray;
+}
+
+.panel-event a {
+	color:darkred;
+}
+/*Event model*/
+.event-modal h4 {
+	color:maroon;
+}
+.event-modal .modal-body .tt {
+	color:gray;
 }
 /*Notice Panel*/
-.panel-notice > .panel-heading{
-	background-color: mediumspringgreen;
-	color: red;
+.panel-notice {
+	border-color: silver;
+	background-color:seashell;
 }
-.panel-notice div {
-	color:red;
+.panel-notice > .panel-heading{
+	background-color: maroon;
+	color: white;
+}
+.panel-notice .tt {
+	color:gray;
+	font-size: 18px;
 }
 
 /*red-page-btn*/
-.red-page-btn {
-	margin-bottom: 0px;
-}
-.red-page-btn > li, .red-page-btn > li.active {
-	border-color=red;
-}
 .red-page-btn > li.active > a {
-	color:mediumspringgreen;
-	background-color:darkred;
-	border-color=red;
+	color:white;
+	background-color:maroon;
 }
 .red-page-btn>li.active>a:focus {
-	color:mediumspringgreen;
-	background-color:darkred;
-	border-color=red;
+	color:white;
+	background-color:maroon;
 }
 
 .red-page-btn>li.active>a:hover {
-	color:mediumspringgreen;
-	background-color:darkred;
-	border-color=red;
+	color:white;
+	background-color:maroon;
 }
 
 .red-page-btn>li>a {
-	background-color:red;
-	color:white;
-	border-color=red;
+	background-color:peachpuff;
+	color:tomato;
 }
 
 .red-page-btn>li>a:hover {
-	background-color:red;
-	color:mediumspringgreen;
-	border-color=red;
+	background-color:lightsalmon;
+	color:firebrick;
 }
 
 /*panel-sermon*/
 .panel-sermon {
-	min-height: 420px;
-	border: thin solid pink;
+	min-height: 370px;
+	border: thin solid darkgray;
 	padding: 0px;
+	background-color: seashell;
 }
 .panel-sermon table {
 	margin-top: 0px;
+}
+.panel-sermon table a {
+	color:firebrick;
+}
+/*sermon model*/
+.sermon-modal h3 {
+	color:maroon;
+	font-weight:bold;
+}
+.sermon-modal .modal-body .tt {
+	color:gray;
+}
+
+/*fellow-tab-content*/
+.fellow-tab-content .tt {
+	color:gray;
+}
+.fellow-tab-content .tt b {
+	color:gray;
+}
+.fellow-tab-content>.tab-pane>.row h3 {
+	color:tomato;
+}
+
+/*message-panel*/
+.message-panel .panel-heading {
+	background-color: lightgray;
+}
+.message-panel .tt a{
+	color:gray;
+}
+.message-panel {
+	background-color:seashell;
+}
+
+/*message-modal*/
+.message-modal h4 {
+	color:maroon;
+}
+.message-modal .modal-body .tt {
+	color:gray;
+}
+
+/*about-tab-content*/
+.about-tab-content h4, .about-tab-content h3 {
+	color:tomato;
+}
+.about-tab-content .tt {
+	color:gray;
+}
+
+/*contact-well*/
+.contact-well {
+	background-color: lightgray;
+}
+
+.contact-well .tt b {
+	color: black;
+}
+.contact-well .tt {
+	color: gray;
 }

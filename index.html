@@ -98,7 +98,7 @@
 				<img src="{{photo.image.url}}" width="{{photo.image.width}}" height="{{photo.image.height}"/>
 
 				<div class="carousel-caption">
-				<p>{{photo.name}}</p>
+					<div class="tt">{{photo.name}}</div>
 				</div>
 
 				</div>
@@ -182,11 +182,13 @@
 				<div class="panel-heading"><h3>重要通啟</h3></div>
 				<div class="panel-body" style="height:350px; overflow-y: scroll;">
 				{% for notice in notices %}
+					<div class="tt">
 					{% autoescape off %}
 					{{ notice.desc }}
 					{% endautoescape %}
+					</div>
 					{% if not forloop.last %}
-						<hr/>
+					<hr/>
 					{% endif %}
 				{% endfor %}
 				</div>
@@ -196,21 +198,23 @@
 
 			</div>
 			{% for event in events %}
-				<div class="modal fade" id="event{{ event.id }}" role="dialog">
+				<div class="modal fade event-modal" id="event{{ event.id }}" role="dialog">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 								<h4>{{ event.title }}</h4>
-								{% autoescape off %}
+								{% autoescape on %}
 								{{ event.show_flyer }}
 								{% endautoescape %}
 							</div>
 							{% if event.text %}
 							<div class="modal-body">
+								<div class="tt">
 								{% autoescape off %}
 								{{ event.text }}
 								{% endautoescape %}
+								</div>
 							</div>
 							{% endif %}
 							<div class="modal-footer">
@@ -245,7 +249,7 @@
 				{% endif %}
 			{% endfor %}
     </ul>
-		<div class="tab-content">
+		<div class="tab-content fellow-tab-content">
 			{% for fellow in fellowships %}
 				{% if forloop.first %}
 					<div id="fellowship{{ fellow.id }}" class="tab-pane fade in active">
@@ -260,40 +264,40 @@
 					{% endif %}
 					<h3>{{ fellow.name }}</h3>
 					{% if fellow.schedule %}
-					<b>時間：</b>{{ fellow.schedule }}
+					<div class="tt"><b>時間：</b>{{ fellow.schedule }}</div>
 					{% endif %}
 					{% if fellow.location %}
-					<br/>
-					<b>地點：</b>{{ fellow.location }}
+					<div class="tt"><b>地點：</b>{{ fellow.location }}</div>
 					{% endif %}
 					{% if fellow.admin %}
-					<br/>
-					<b>負責人：</b>{{ fellow.admin }}
+					<div class="tt"><b>負責人：</b>{{ fellow.admin }}</div>
 					{% endif %}
 					{% if fellow.admin_phone %}
-					<br/>
-					<b>電話：</b>{{ fellow.admin_phone }}
+					<div class="tt"><b>電話：</b>{{ fellow.admin_phone }}</div>
 					{% endif %}
 					{% if fellow.admin_email %}
-					<br/>
-					<b>郵件：</b>{{ fellow.admin_email }}
+					<div class="tt"><b>郵件：</b>{{ fellow.admin_email }}</div>
 					{% endif %}
-					<br/>
+					<div class="tt">
 					{% autoescape off %}
 						{{ fellow.desc }}
 					{% endautoescape %}
 					</div>
 
+					</div>
+
 					{% if fellow.recent_msgs %}
 					<div class='col-md-6'>
-					<div class="panel panel-warning" style="height : 320px; overflow-y : scroll;">
+					<div class="panel panel-warning message-panel" style="height : 320px; overflow-y : scroll;">
 
 					<div class="panel-heading">{{ fellow.name }}最新訊息</div>
 					<div class="panel-body">
 						<div class="list-group">
 							{% for msg in fellow.recent_msgs %}
 								{% if msg.text or msg.attachments %}
+								<div class="tt">
 								<a class="list-group-item" data-toggle="modal" href="#message{{ msg.id }}">{{ msg.title }}</a>
+								</div>
 								{% else %}
 								<div class="list-group-item">
 								{{ msg.title }}
@@ -307,7 +311,7 @@
 					</div>
 
 					{% for msg in fellow.recent_msgs %}
-					<div class="modal fade" id="message{{ msg.id }}" role="dialog">
+					<div class="modal fade message-modal" id="message{{ msg.id }}" role="dialog">
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -316,9 +320,11 @@
 								</div>
 								{% if msg.text %}
 								<div class="modal-body">
+									<div class="tt">
 									{% autoescape off %}
 									{{ msg.text }}
 									{% endautoescape %}
+									</div>
 								</div>
 								{% endif %}
 								<div class="modal-footer">
@@ -358,37 +364,45 @@
       <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
       <li><a data-toggle="tab" href="#theme">年度主題</a></li>
     </ul>
-    <div class="tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
+    <div class="tab-content about-tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
     <div id="AboutChurch" class="tab-pane fade in active">
 			<h3>教會簡介</h3>
 			{% for about in abouts %}
+				<div class="tt">
 				{% autoescape off %}
 				{{ about.desc }}
 				{% endautoescape %}
+				</div>
 			{% endfor %}
     </div>
     <div id="pastor" class="tab-pane fade">
 			{% for about in abouts %}
 				<h4>{{ about.pastor }}</h4>
+				<div class="tt">
 				{% autoescape off %}
 				{{ about.pastor_profile }}
 				{% endautoescape %}
+				</div>
 			{% endfor %}
     </div>
     <div id="faith" class="tab-pane fade">
 			<h3>信仰告白</h3>
 			{% for about in abouts %}
+				<div class="tt">
 				{% autoescape off %}
 				{{ about.faith }}
 				{% endautoescape %}
+				</div>
 			{% endfor %}
     </div>
     <div id="theme" class="tab-pane fade">
 			{% for theme in themes %}
 				<h3>{{ theme.theme }}</h3>
+				<div class="tt">
 				{% autoescape off %}
 				{{ theme.desc }}
 				{% endautoescape %}
+				</div>
 			{% endfor %}
     </div>
     </div>
@@ -407,20 +421,6 @@
 		<div class="panel panel-default panel-sermon"> 
 		<div class="panel-body">
 
-		<!--page buttons-->
-		{% if sermons.paginator.num_pages > 1 %}
-		<center>
-		<ul class="pagination red-page-btn">
-		{% for i in sermons.paginator.page_range %}
-		{% if i = sermons.number %}
-		<li class="active"><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
-		{% else %}
-		<li><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
-		{% endif %}
-		{% endfor %}
-		</ul>
-		</center>
-		{% endif %}
 
 		<table class="table table-hover">
 		<thead>
@@ -451,8 +451,24 @@
 		</div><!--panel body ends-->
 		</div><!--panel ends-->
 
+		<!--page buttons-->
+		{% if sermons.paginator.num_pages > 1 %}
+		<center>
+		<ul class="pagination red-page-btn">
+		{% for i in sermons.paginator.page_range %}
+		{% if i = sermons.number %}
+		<li class="active"><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
+		{% else %}
+		<li><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
+		{% endif %}
+		{% endfor %}
+		</ul>
+		</center>
+		{% endif %}
+
+		<!--sermon modals-->
 		{% for sermon in sermons %}
-		<div class="modal fade" id="sermontext{{ sermon.id }}" role="dialog">
+		<div class="modal fade sermon-modal" id="sermontext{{ sermon.id }}" role="dialog">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -461,14 +477,16 @@
 						<h3>{{ sermon.title }}</h3>
 						</center>
 						{% if sermon.keywords %}
-						關鍵字: <em>{{ sermon.keywords }}</em>
+						<div class="tt"><b>關鍵字:</b> <em>{{ sermon.keywords }}</em></div>
 						{% endif %}
 					</div>
 					{% if sermon.text %}
 					<div class="modal-body">
+						<div class="tt">
 						{% autoescape off %}
 						{{ sermon.text }}
 						{% endautoescape %}
+						</div>
 					</div>
 					{% endif %}
 					<div class="modal-footer">
@@ -495,16 +513,18 @@
 		</div>
 
 		<div class="container">
-		<div class="well">
+		<div class="well contact-well">
 			<h1>聯絡我們</h1>
 			<div class="list-group">
 			{% for contact in contacts %}
+				<div class="tt">
 				<div class="list-group-item"><b>{{ contact.title }}</b></div>
 				{% autoescape off %}
 				<div class="list-group-item"><b>地址：</b>{{ contact.address }}</div>
 				{% endautoescape %}
 				<div class="list-group-item"><b>電話：</b>{{ contact.phone }}</div>
 				<div class="list-group-item"><b>郵件：</b>{{ contact.email }}</div>
+				</div>
 			{% endfor %}
 			</div>
 		</div>

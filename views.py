@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.views.decorators.gzip import gzip_page
 from .models import Event, Notice, Fellowship, FellowshipMessage
@@ -16,10 +15,10 @@ from .search import get_query
 def search(request):
     found_entries = None
     query_string = ''
-    search_domains = [['Sermon',u'講道'], ['Event',u'活動'], ['Message',u'訊息']]
+    search_domains = [['Sermon','講道'], ['Event','活動'], ['Message','訊息']]
     search_domain = search_domains[0][0]
     search_results = None
-    sort_results = [['Newest', u'由新到舊排列'], ['Oldest', u'由舊到新排列']]
+    sort_results = [['Newest', '由新到舊排列'], ['Oldest', '由舊到新排列']]
     orderby = sort_results[0][0]
 
     if 'search_domain' in request.GET:
@@ -73,7 +72,7 @@ def search(request):
 
 @gzip_page
 def index(request):
-    search_domains = [['Sermon',u'講道'], ['Event',u'活動'], ['Message',u'訊息']]
+    search_domains = [['Sermon','講道'], ['Event','活動'], ['Message','訊息']]
     search_domain = search_domains[0][0]
     if 'search_domain' in request.GET:
         search_domain = request.GET['search_domain']

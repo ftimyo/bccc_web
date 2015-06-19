@@ -38,7 +38,7 @@
 		</div>
 	</div>
 
-	<div class="input-group">
+	<div class="input-group navbar-radio">
 	{% for i in search_domains %}
 	<label class="radio-inline"><input type="radio" name="search_domain" value="{{ i.0 }}"{%if search_domain = i.0 %}checked{%endif%}>{{ i.1 }}</label>
 	{% endfor %}

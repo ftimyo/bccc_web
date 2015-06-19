@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -6,10 +5,10 @@ import datetime
 import os
 
 class About(models.Model):
-    desc = models.TextField('Church Description', help_text=u'教會簡介 (support HTML Tags.')
+    desc = models.TextField('Church Description', help_text='教會簡介 (support HTML Tags.')
     pastor = models.CharField('Pastor Names', max_length=50)
-    pastor_profile = models.TextField('Pastor Profile', help_text=u'牧者簡介 (support HTML Tags)')
-    faith = models.TextField('Faith Statement', help_text=u'信仰告白 (support HTML Tags)')
+    pastor_profile = models.TextField('Pastor Profile', help_text='牧者簡介 (support HTML Tags)')
+    faith = models.TextField('Faith Statement', help_text='信仰告白 (support HTML Tags)')
 
     update_time = models.DateTimeField('Time Modified', auto_now=True)
 
@@ -19,8 +18,8 @@ class About(models.Model):
         return self.pastor
 
 class YearlyTheme(models.Model):
-    theme = models.CharField('Theme', max_length=100, help_text=u'教會年度主題 (字數限制, 50 字)')
-    desc = models.TextField('Description', help_text = u'教會年度主題詳盡說明 (support HTML Tags)')
+    theme = models.CharField('Theme', max_length=100, help_text='教會年度主題 (字數限制, 50 字)')
+    desc = models.TextField('Description', help_text = '教會年度主題詳盡說明 (support HTML Tags)')
 
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
 
@@ -49,7 +48,7 @@ class Contact(models.Model):
 ######Notice############################
 class Notice(models.Model):
     effective_date = models.DateField('Effective Date')
-    desc = models.TextField('Notice Content', help_text=u'通啟 (支持HTML Tags)')
+    desc = models.TextField('Notice Content', help_text='通啟 (支持HTML Tags)')
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
     owner = models.ForeignKey(User, editable=False, verbose_name='Publisher')
 
@@ -70,13 +69,13 @@ def rename_flyer(instance, filename):
     return os.path.join('flyer', filename)
 
 class Event(models.Model):
-    event_date = models.DateField('Event Date', help_text=u'活動日期')
-    event_time = models.TimeField('Event Time (Optional)', help_text=u'活動時間', null=True, blank=True)
+    event_date = models.DateField('Event Date', help_text='活動日期')
+    event_time = models.TimeField('Event Time (Optional)', help_text='活動時間', null=True, blank=True)
     location = models.CharField('Location', max_length=50)
 
-    title = models.CharField('Event Title', help_text=u'活動標題', max_length=50)
-    text = models.TextField('Event Description (Optional)', help_text=u'活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
-    flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text=u'活動宣傳圖片',
+    title = models.CharField('Event Title', help_text='活動標題', max_length=50)
+    text = models.TextField('Event Description (Optional)', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
+    flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
 
     def attachments(self):
@@ -132,14 +131,14 @@ class EventAttachment(models.Model):
 ######Fellowship Model##################
 class Fellowship(models.Model):
 
-    name = models.CharField('Fellowship Name', max_length=50, help_text=u'團契名稱')
-    desc = models.TextField('Fellowship Description', help_text=u'團契說明 (支持HTML Tags.)')
-    location = models.CharField('Location', max_length=50, help_text=u'地點')
+    name = models.CharField('Fellowship Name', max_length=50, help_text='團契名稱')
+    desc = models.TextField('Fellowship Description', help_text='團契說明 (支持HTML Tags.)')
+    location = models.CharField('Location', max_length=50, help_text='地點')
     schedule = models.CharField('Time', max_length=50,
             help_text='The time schedule of activities, for example 每週五 晚上7:30.')
 
     #contact info
-    admin = models.CharField('Person in Charge', max_length=20, help_text=u'負責人')
+    admin = models.CharField('Person in Charge', max_length=20, help_text='負責人')
     admin_email = models.EmailField('Email')
     admin_phone = models.CharField('Phone', max_length=16, help_text='Format: <em>XXX-XXX-XXXX</em>')
 
