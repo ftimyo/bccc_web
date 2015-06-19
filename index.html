@@ -321,7 +321,7 @@
 								{% endif %}
 								<div class="modal-footer">
 									{% for file in msg.attachments %}
-									<a href={{ file.attach.url }}><a style="text-align:left;">{{file.name }}</p></a>
+									<a href="{{ file.attach.url }}"><p style="text-align:left;">{{file.name }}</p></a>
 									{% endfor %}
 									<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 								</div>
