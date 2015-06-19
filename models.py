@@ -183,9 +183,9 @@ class FellowshipMessage(models.Model):
     is_effective_msg.allow_tags = True
 
     def __unicode__(self):
-        return self.fellowship.name + ': ' + self.subject
+        return self.fellowship.name + ': ' + self.title
     def __str__(self):
-        return self.fellowship.name + ': ' + self.subject
+        return self.fellowship.name + ': ' + self.title
 
 def rename_message_file(instance, filename):
     ext = filename.split('.')[-1]

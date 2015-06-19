@@ -21,7 +21,6 @@ def search(request):
     sort_results = [['Newest', '由新到舊排列'], ['Oldest', '由舊到新排列']]
     orderby = sort_results[0][0]
 
-
     if 'search_domain' in request.GET:
         search_domain = request.GET['search_domain']
     if 'orderby' in request.GET:
@@ -75,6 +74,8 @@ def search(request):
 def index(request):
     search_domains = [['Sermon','講道'], ['Event','活動'], ['Message','訊息']]
     search_domain = search_domains[0][0]
+    if 'search_domain' in request.GET:
+        search_domain = request.GET['search_domain']
 
     events = Event.objects.filter(event_date__gte = timezone.now().date() - datetime.timedelta(days=1))
     notices = Notice.objects.filter(effective_date__gte = timezone.now().date() - datetime.timedelta(days=1))

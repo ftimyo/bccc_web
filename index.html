@@ -465,9 +465,9 @@
 		<ul class="pagination">
 		{% for i in sermons.paginator.page_range %}
 		{% if i = sermons.number %}
-		<li class="active"><a href="?page={{ i }}#sermon">{{ i }}</a></li>
+		<li class="active"><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
 		{% else %}
-		<li><a href="?page={{ i }}#sermon">{{ i }}</a></li>
+		<li><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
 		{% endif %}
 		{% endfor %}
 		</ul>

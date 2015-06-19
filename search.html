@@ -23,7 +23,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
+		<a class="navbar-brand" href="{% url 'church:index' %}?search_domain={{ search_domain }}">濱城華人基督教會</a>
 	</div>
 
 
@@ -50,12 +50,13 @@
 
 </div>
 </nav>
-<br/><br/><br/><br/><br/><br/><br/><br/>
 <body>
 
 	{% if search_results %}
 
 	<div class="container">
+	<br/><br/><br/><br/><br/><br/><br/>
+	<h2>符合搜尋字詞<em> 「{{ query_string }}」 </em>的條目:</h2>
 
 	<div class="btn-group">
 	{% for i in sort_results %}
@@ -144,21 +145,26 @@
 	</div>
 	{% endfor %}
 
+	</div>
+	{% elif query_string != '' %}
+	<br/><br/><br/><br/><br/><br/><br/><br/>
+	<div class="container">
+		<h2>找不到符合搜尋字詞<em> 「{{ query_string }}」 </em>的條目。</h2>
 
-
-
-
-
-
-
-
-
-
-
-
+		<h4>建議：</h4>
+		<ol>
+			<li>請檢查有無錯別字</li>
+			<li>請換用不同的查詢字詞</li>
+			<li>請改試較常用的字詞</li>
+		</ol>
 
 
 	</div>
+	{% else %}
+	<br/><br/><br/><br/><br/><br/><br/>
+		<center>
+		<h1>說明： 搜尋站內資源標題，內容及關鍵字中的字詞。</h1>
+		</center>
 	{% endif %}
 
 </body>
