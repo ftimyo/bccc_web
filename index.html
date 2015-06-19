@@ -55,12 +55,12 @@
 			<div class="input-group">
 			<input name="query_string" type="Search" placeholder="搜尋..." class="form-control"/>
 			<div class="input-group-btn">
-			<button class="btn btn-warn" type="submit">
+			<button class="btn btn-search" type="submit">
 			<span class="glyphicon glyphicon-search"></span>
 			</button>
 			</div>
 			</div>
-			<div class="input-group">
+			<div class="input-group navbar-radio">
 			{% for i in search_domains %}
 			<label class="radio-inline"><input type="radio" name="search_domain" value="{{ i.0 }}"{%if search_domain = i.0 %}checked{%endif%}>{{ i.1 }}</label>
 			{% endfor %}
@@ -134,7 +134,7 @@
 				{% else %}
 					<div class="col-md-12">
 				{% endif %}
-				<div class="panel panel-info">
+				<div class="panel panel-info panel-event">
 				<div class="panel-heading"><h3>活動列表</h3></div>
 				<div class="panel-body" style="height:350px; overflow-y: scroll;">
 
@@ -178,7 +178,7 @@
 				{% else %}
 					<div class="col-md-12">
 				{% endif %}
-				<div class="panel panel-warning">
+				<div class="panel panel-warning panel-notice">
 				<div class="panel-heading"><h3>重要通啟</h3></div>
 				<div class="panel-body" style="height:350px; overflow-y: scroll;">
 				{% for notice in notices %}
@@ -214,9 +214,11 @@
 							</div>
 							{% endif %}
 							<div class="modal-footer">
+								<ul class="attachments">
 								{% for file in event.attachments %}
-								<a href={{ file.attach.url }}><p style="text-align:left;">{{ file.name }}</p></a>
+								<li><a href={{ file.attach.url }}>{{ file.name }}</a></li>
 								{% endfor %}
+								</ul>
 								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 							</div>
 						</div>
@@ -234,7 +236,7 @@
 
   <div class="container">
     <h1>各種聚會</h1>
-    <ul class="nav nav-pills nav-justified">
+    <ul class="nav nav-pills red-pills nav-justified">
 			{% for fellow in fellowships %}
 				{% if forloop.first %}
 				<li class='active'><a data-toggle="tab" href="#fellowship{{ fellow.id }}">{{ fellow.name }}</a></li>
@@ -320,9 +322,11 @@
 								</div>
 								{% endif %}
 								<div class="modal-footer">
+									<ul class="attachments">
 									{% for file in msg.attachments %}
-									<a href="{{ file.attach.url }}"><p style="text-align:left;">{{file.name }}</p></a>
+									<li><a href={{ file.attach.url }}>{{ file.name }}</a></li>
 									{% endfor %}
+									</ul>
 									<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 								</div>
 							</div>
@@ -348,7 +352,7 @@
 
   <div class="container">
     <h1>教會介紹</h1>
-    <ul class="nav nav-pills nav-justified">
+    <ul class="nav nav-pills red-pills nav-justified">
       <li class="active"><a data-toggle="tab" href="#AboutChurch">教會簡介</a></li>
       <li><a data-toggle="tab" href="#pastor">牧者簡介</a></li>
       <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
@@ -400,8 +404,24 @@
 	<div class="container">
 		<h1>信息系列</h1>
 
-		<div class="panel panel-default" style="min-height:350px;">
+		<div class="panel panel-default panel-sermon"> 
 		<div class="panel-body">
+
+		<!--page buttons-->
+		{% if sermons.paginator.num_pages > 1 %}
+		<center>
+		<ul class="pagination red-page-btn">
+		{% for i in sermons.paginator.page_range %}
+		{% if i = sermons.number %}
+		<li class="active"><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
+		{% else %}
+		<li><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
+		{% endif %}
+		{% endfor %}
+		</ul>
+		</center>
+		{% endif %}
+
 		<table class="table table-hover">
 		<thead>
 			<tr>
@@ -426,6 +446,8 @@
 			{% endfor %}
 		</tbody>
 		</table>
+
+
 		</div><!--panel body ends-->
 		</div><!--panel ends-->
 
@@ -450,9 +472,11 @@
 					</div>
 					{% endif %}
 					<div class="modal-footer">
+						<ul class="attachments">
 						{% for file in sermon.attachments %}
-						<a href={{ file.attach.url }}><p style="text-align:left;">{{ file.name }}</p></a>
+						<li><a href={{ file.attach.url }}>{{ file.name }}</a></li>
 						{% endfor %}
+						</ul>
 						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
 					</div>
 				</div>
@@ -460,19 +484,6 @@
 		</div>
 		{% endfor %}
 
-		{% if sermons.paginator.num_pages > 1 %}
-		<center>
-		<ul class="pagination">
-		{% for i in sermons.paginator.page_range %}
-		{% if i = sermons.number %}
-		<li class="active"><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
-		{% else %}
-		<li><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
-		{% endif %}
-		{% endfor %}
-		</ul>
-		</center>
-		{% endif %}
 
 	</div>
 	{% endif %}

@@ -32,7 +32,7 @@
 	<div class="input-group">
 		<input style='width:420px;' name="query_string" type="Search" placeholder="搜尋..." class="form-control"/>
 		<div class="input-group-btn">
-			<button class="btn btn-warn" type="submit">
+			<button class="btn btn-search" type="submit">
 				<span class="glyphicon glyphicon-search"></span>
 			</button>
 		</div>
@@ -70,7 +70,7 @@
 
 	{% if search_results.paginator.num_pages > 1 %}
 	<center>
-	<ul class="pagination">
+	<ul class="pagination red-page-btn">
 	{% for i in search_results.paginator.page_range %}
 	{% if i = search_results.number %}
 	<li class="active"><a href="{% url "church:search" %}?page={{ i }}&orderby={{ orderby }}&query_string={{ query_string }}&search_domain={{ search_domain }}">{{ i }}</a></li>

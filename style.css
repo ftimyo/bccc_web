@@ -6,68 +6,186 @@
 }
 /*Default Navbar-------------------*/
 .navbar-default {
-  background-color: #ea1903;
-  border-color: #650a00;
+  background-color: red;
+  border-color: brown;
 }
 .navbar-default .navbar-brand {
-  color: #ffffff;
+  color: white;
 }
 .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-  color: #fdfe8b;
+  color: mediumspringgreen;
 }
 .navbar-default .navbar-text {
-  color: #ffffff;
+  color: white;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #ffffff;
+  color: white;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-  color: #fdfe8b;
+  color: mediumspringgreen;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-  color: #fdfe8b;
-  background-color: #650a00;
+  color: mediumspringgreen;
+  background-color: red;
 }
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-  color: #fdfe8b;
-  background-color: #650a00;
+  color: mediumspringgreen;
+  background-color: red;
 }
 .navbar-default .navbar-toggle {
-  border-color: #650a00;
+  border-color: red;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-  background-color: #650a00;
+  background-color: red;
 }
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: #ffffff;
+  background-color: white;
 }
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-  border-color: #ffffff;
+  border-color: white;
 }
 .navbar-default .navbar-link {
-  color: #ffffff;
+  color: white;
 }
 .navbar-default .navbar-link:hover {
-  color: #fdfe8b;
+  color: mediumspringgreen;
 }
 
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-    color: #ffffff;
+    color: white;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-    color: #fdfe8b;
+    color: mediumspringgreen;
   }
   .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-    color: #fdfe8b;
-    background-color: #650a00;
+    color: mediumspringgreen;
+    background-color: red;
   }
 }
-/*Nav-tab-------------------*/
-.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
-		background-color: #ea1903;
+
+/*Attachments Link in Pop-up Model*/
+ul.attachments {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
 }
-.nav-pills>li.active>a:hover {
-		background-color: #ea1903;
+
+ul.attachments  li{
+	float: left;
+	display: inline;
+}
+
+ul.attachments  a{
+	display: inline;
+	padding-right: 15px;
+	text-align: left;
+}
+/*navbar-search*/
+.navbar-radio label{
+	color: white;
+}
+
+button.btn-search:hover {
+	background-color: mediumvioletred;
+}
+
+button.btn-search:focus {
+	background-color: mediumvioletred;
+}
+button.btn-search{
+	background-color: palevioletred;
+}
+
+/*Nav Pills*/
+.red-pills > li > a {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	font-size: 20px;
+	margin-bottom: 7px;
+}
+.red-pills > li.active > a {
+	color:mediumspringgreen;
+	background-color:darkred;
+}
+.red-pills>li.active>a:focus {
+	color:mediumspringgreen;
+	background-color:darkred;
+}
+
+.red-pills>li.active>a:hover {
+	color:mediumspringgreen;
+	background-color:darkred;
+}
+
+.red-pills>li>a {
+	background-color:red;
+	color:white;
+}
+
+.red-pills>li>a:hover {
+	background-color:red;
+	color:mediumspringgreen;
+}
+
+/*Event Panel*/
+.panel-event > .panel-heading{
+	background-color: red;
+	color: mediumspringgreen;
+}
+/*Notice Panel*/
+.panel-notice > .panel-heading{
+	background-color: mediumspringgreen;
+	color: red;
+}
+.panel-notice div {
+	color:red;
+}
+
+/*red-page-btn*/
+.red-page-btn {
+	margin-bottom: 0px;
+}
+.red-page-btn > li, .red-page-btn > li.active {
+	border-color=red;
+}
+.red-page-btn > li.active > a {
+	color:mediumspringgreen;
+	background-color:darkred;
+	border-color=red;
+}
+.red-page-btn>li.active>a:focus {
+	color:mediumspringgreen;
+	background-color:darkred;
+	border-color=red;
+}
+
+.red-page-btn>li.active>a:hover {
+	color:mediumspringgreen;
+	background-color:darkred;
+	border-color=red;
+}
+
+.red-page-btn>li>a {
+	background-color:red;
+	color:white;
+	border-color=red;
+}
+
+.red-page-btn>li>a:hover {
+	background-color:red;
+	color:mediumspringgreen;
+	border-color=red;
+}
+
+/*panel-sermon*/
+.panel-sermon {
+	min-height: 420px;
+	border: thin solid pink;
+	padding: 0px;
+}
+.panel-sermon table {
+	margin-top: 0px;
 }
