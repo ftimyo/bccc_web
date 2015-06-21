@@ -1,0 +1,132 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="{% static 'church/script.js' %}"/></script>
+  <title>Browse | Binghamton Chinese Christian Church</title>
+  <style>
+  </style>
+</head>
+{#####Menu Bar#####}
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container-fluid">
+
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
+	</div>
+
+	<div class="collapse navbar-collapse" id="myNavbar">
+	<ul class="nav navbar-nav">
+	<li><a href="{% url 'church:browse' %}" title="Search">瀏覽資源</a></li>
+	</ul>
+	</div>
+
+</div>
+</nav>
+<br/><br/><br/>
+
+<body>
+
+
+<!--Event Detail Page-->
+{% if event_entry %}
+<div class="container">
+<div class="panel panel-info detail">
+
+<div class="panel-heading">
+	<h2>
+		{{ event_entry.title }}
+	</h2>
+	{% autoescape off %}
+	{{ event_entry.show_flyer }}
+	{% endautoescape %}
+</div>
+
+<div class="panel-body" style="font-size:25px;">
+{% autoescape off %}
+{{ event_entry.text }}
+{% endautoescape %}
+</div>
+
+<div class="list-group">
+	{% for file in event_entry.attachments %}
+	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
+	{% endfor %}
+</div>
+
+</div>
+</div>
+{% endif %}
+
+<!--Sermon Detail Page-->
+{% if sermon_entry %}
+<div class="container">
+<div class="panel panel-info detail">
+<div class="panel-heading">
+<h2>{{ sermon_entry.title }}</h2>
+</div>
+
+<div class="panel-body" style="font-size:25px;">
+{% autoescape off %}
+{{ sermon_entry.text }}
+{% endautoescape %}
+</div>
+
+<div class="list-group">
+	{% for file in sermon_entry.attachments %}
+	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
+	{% endfor %}
+</div>
+
+{% endif %}
+
+<!--Message Detail Page-->
+{% if message_entry %}
+<div class="container">
+<div class="panel panel-info detail">
+<div class="panel-heading">
+<h2>{{ message_entry.title }}</h2>
+</div>
+
+<div class="panel-body" style="font-size:25px;">
+{% autoescape off %}
+{{ message_entry.text }}
+{% endautoescape %}
+</div>
+
+<div class="list-group">
+	{% for file in message_entry.attachments %}
+	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
+	{% endfor %}
+</div>
+
+{% endif %}
+
+<!--Theme Detail Page-->
+{% if theme_entry %}
+<div class="container">
+<div class="panel panel-info detail">
+<div class="panel-heading">
+<h2>{{ theme_entry.theme }}</h2>
+</div>
+
+<div class="panel-body" style="font-size:25px;">
+{% autoescape off %}
+{{ theme_entry.desc }}
+{% endautoescape %}
+</div>
+{% endif %}
+
+</body>

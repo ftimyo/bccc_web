@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound
 from django.views.decorators.gzip import gzip_page
 from .models import Event, Notice, Fellowship, FellowshipMessage
 from .models import About, YearlyTheme, Sermon, Contact
@@ -9,12 +10,14 @@ import os, datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .search import get_query
 from .browse import level1, level2
+from .detail import detail_page
 
 # Create your views here.
 
 @gzip_page
-def browse(request, domain):
+def browse(request):
     context = dict()
+    domain = request.GET.get('domain')
     catalog = request.GET.get('catalog')
     if not domain:
         context.update(level1())
@@ -28,8 +31,17 @@ def search(request):
     return render(request, "church/search.html", {})
 
 @gzip_page
-def detail(request, domain):
-    pass
+def detail(request):
+    context = dict()
+    domain = request.GET.get('domain')
+    catalog = request.GET.get('catalog')
+    entry_id = request.GET.get('entry_id')
+    context.update(detail_page(request, domain, catalog, entry_id))
+
+    if not context:
+        return HttpResponseNotFound('<h1>Page not found</h1>')
+
+    return render(request, "church/detail.html", context)
 
 @gzip_page
 def index(request):

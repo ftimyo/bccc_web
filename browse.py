@@ -12,7 +12,7 @@ def message_all(catalog):
 def sermon_all(catalog):
     sermons = None
     try:
-        sermons = Sermon.objects.get(pk=catalog)
+        sermons = SermonCatalog.objects.get(pk=catalog)
     except:
         sermons = None
     return sermons
@@ -60,10 +60,10 @@ def event():
 
 def level2(domain, catalog):
 
-    if domain == 'message' and catalog:
+    if domain == 'message': 
         return message(catalog)
 
-    elif domain == 'sermon' and catalog:
+    elif domain == 'sermon':
         return sermon(catalog)
 
     elif domain == 'theme':

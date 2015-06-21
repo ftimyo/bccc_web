@@ -47,40 +47,67 @@
 <h2>聚會資訊</h2>
 <div class="list-group">
 {% for message_catalog in message_catalogs %}
-<a href="{% url 'church:browse' %}message?catalog={{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
+<a href="{% url 'church:browse' %}?domain=message&catalog={{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
 {% endfor %}
 </div>
 
 <h2>證道信息</h2>
 <div class="list-group">
 {% for sermon_catalog in sermon_catalogs %}
-<a href="{% url 'church:browse' %}sermon?catalog={{ sermon_catalog.id }}" class="list-group-item">{{ sermon_catalog }}檔案</a>
+<a href="{% url 'church:browse' %}?domain=sermon&catalog={{ sermon_catalog.id }}" class="list-group-item">{{ sermon_catalog }}檔案</a>
 {% endfor %}
 </div>
 
 <h2>年度主題</h2>
 <div class="list-group">
-<a href="{% url 'church:browse' %}theme" class="list-group-item">年度主題檔案</a>
+<a href="{% url 'church:browse' %}?domain=theme" class="list-group-item">年度主題檔案</a>
 </div>
 
 <h2>活動資訊</h2>
 <div class="list-group">
-<a href="{% url 'church:browse' %}event" class="list-group-item">活動資訊檔案</a>
+<a href="{% url 'church:browse' %}?domain=event" class="list-group-item">活動資訊檔案</a>
 </div>
 </div>
 {% endif %}
 
 {% if level2_message %}
 <div class="container">
-
 <h2>{{catalog}}資訊檔案</h2>
-
 <div class="list-group">
 {% for message in messages %}
-<a href="{% url 'church:browse' %}sermon?catalog={{ sermon_catalog.id }}&id={{message.id}}" class="list-group-item">{{ message.title }}</a>
+<a href="{% url 'church:detail' %}?domain=message&catalog={{ catalog.id }}&entry_id={{message.id}}" class="list-group-item">{{ message.title }}</a>
 {% endfor %}
+</div>
+{% endif %}
 
+
+{% if level2_sermon %}
+<div class="container">
+<h2>{{catalog}}信息檔案</h2>
+<div class="list-group">
+{% for sermon in sermons %}
+<a href="{% url 'church:detail' %}?domain=sermon&catalog={{ catalog.id }}&entry_id={{sermon.id}}" class="list-group-item">{{ sermon.title }}</a>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if level2_theme %}
+<div class="container">
+<h2>年度主題檔案</h2>
+<div class="list-group">
+{% for theme in themes %}
+<a href="{% url 'church:detail' %}?domain=theme&entry_id={{theme.id}}" class="list-group-item">{{ theme.theme }}</a>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if level2_event %}
+<div class="container">
+<h2>活動資訊檔案</h2>
+<div class="list-group">
+{% for event in events %}
+<a href="{% url 'church:detail' %}?domain=event&entry_id={{event.id}}" class="list-group-item">{{ event.title }}</a>
+{% endfor %}
 </div>
 {% endif %}
 </body>
-

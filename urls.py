@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^search/$', views.search, name='search'),
-    url(r'^browse/(?P<domain>[a-zA-Z_]*)$', views.browse, name='browse'),
-    url(r'^browse/$', views.browse, name='browse'),
+    url(r'^browse', views.browse, name='browse'),
+    url(r'^detail', views.detail, name='detail'),
     url(r'^$', views.index, name='index'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
