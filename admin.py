@@ -135,7 +135,7 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_display = ['fellowship', 'title', 'is_effective_msg',]
+    list_display = ['effective_date', 'fellowship', 'title', 'is_effective_msg',]
     list_filter = ['pub_time', 'effective_date', 'fellowship',]
     search_fields = ['text', 'title']
 
