@@ -26,10 +26,48 @@
 		<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
 	</div>
 
+	<div class="collapse navbar-collapse" id="myNavbar">
+	<ul class="nav navbar-nav">
+	<li><a href="{% url 'church:browse' %}" title="Search">瀏覽資源</a></li>
+	<li><a href="{% url 'church:search' %}" title="Search">搜尋資源</a></li>
+	</ul>
+	</div>
+
 </div>
 </nav>
-<br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/>
+<center>
+<h1>瀏覽資源</h1>
+</center>
 
 <body>
+<div class="container">
 
+{% if level1 %}
+<h2>聚會資訊</h2>
+<div class="list-group">
+{% for message_catalog in message_catalogs %}
+<a href="{% url 'church:browse' %}message?catalog={{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
+{% endfor %}
+</div>
+
+<h2>證道信息</h2>
+<div class="list-group">
+{% for sermon_catalog in sermon_catalogs %}
+<a href="{% url 'church:browse' %}sermon?catalog={{ sermon_catalog.id }}" class="list-group-item">{{ sermon_catalog }}檔案</a>
+{% endfor %}
+</div>
+
+<h2>年度主題</h2>
+<div class="list-group">
+<a href="{% url 'church:browse' %}theme" class="list-group-item">年度主題檔案</a>
+</div>
+
+<h2>活動資訊</h2>
+<div class="list-group">
+<a href="{% url 'church:browse' %}event" class="list-group-item">活動資訊檔案</a>
+</div>
+{% endif %}
+
+</div>
 </body>

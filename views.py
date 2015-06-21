@@ -13,8 +13,7 @@ from .browse import level1
 # Create your views here.
 
 @gzip_page
-def browse(request):
-    domain = request.GET.get('domain')
+def browse(request, domain):
     context = dict()
     if not domain:
         context.update(level1())
