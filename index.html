@@ -9,6 +9,7 @@
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="{% static 'church/script.js' %}"/></script>
   <title>濱城華人基督教會 | Binghamton Chinese Christian Church</title>
   <style>
   </style>
@@ -148,7 +149,7 @@
 				</thead>
 				<tbody>
 					{% for event in events %}
-					<tr>
+					<tr class="event-table-content">
 						<td>
 							{{ event.event_date|date:"m/d" }}
 							{% if event.event_time %}
@@ -220,7 +221,7 @@
 							<div class="modal-footer">
 								<ul class="attachments">
 								{% for file in event.attachments %}
-								<li><a href={{ file.attach.url }}>{{ file.name }}</a></li>
+								<li><a href={{ file.attach.url }} target="_blank">{{ file.name }}</a></li>
 								{% endfor %}
 								</ul>
 								<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
@@ -330,7 +331,7 @@
 								<div class="modal-footer">
 									<ul class="attachments">
 									{% for file in msg.attachments %}
-									<li><a href={{ file.attach.url }}>{{ file.name }}</a></li>
+									<li><a href={{ file.attach.url }} target="_blank">{{ file.name }}</a></li>
 									{% endfor %}
 									</ul>
 									<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
@@ -432,7 +433,7 @@
 		</thead>
 		<tbody>
 			{% for sermon in sermons %}
-			<tr>
+			<tr class="sermon-table-content">
 				<td>
 					{% if sermon.attachments or sermon.text %}
 					<a data-toggle="modal" href="#sermontext{{ sermon.id }}">{{ sermon.title }}</a>
@@ -492,7 +493,7 @@
 					<div class="modal-footer">
 						<ul class="attachments">
 						{% for file in sermon.attachments %}
-						<li><a href={{ file.attach.url }}>{{ file.name }}</a></li>
+						<li><a href={{ file.attach.url }} target="_blank">{{ file.name }}</a></li>
 						{% endfor %}
 						</ul>
 						<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
