@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maps.googleapis.com/maps/api/js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="{% static 'church/script.js' %}"/></script>
   <title>濱城華人基督教會 | Binghamton Chinese Christian Church</title>
@@ -27,46 +28,33 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-			<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
+			<a class="navbar-brand" href="{% url 'church:index' %}" style="font-size:20px;" title="Binghamton Chinese Christian Church">濱城華人基督教會</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" style="font-size:20px;">
+			{% if abouts and themes %}
+        <li><a href="#about" title="About">教會介紹</a></li>
+			{% endif %}
+
 			{% if events %}
-				<li><a href="#event">近期活動</a></li>
+				<li><a href="#event" title="Events">近期活動</a></li>
 			{% endif %}
 
 			{% if fellowships %}
-				<li><a href="#fellowship">各種聚會</a></li>
-			{% endif %}
-
-			{% if abouts and themes %}
-        <li><a href="#about">教會介紹</a></li>
+				<li><a href="#fellowship" title="Fellowship">各種聚會</a></li>
 			{% endif %}
 
 			{% if sermons %}
-			<li><a href="#sermon">信息系列</a></li>
+			<li><a href="#sermon" title="Sermons">信息系列</a></li>
 			{% endif %}
 
 			{% if contacts %}
-        <li><a href="#contact">聯絡我們</a></li>
+        <li><a href="#contact" title="Contact">聯絡我們</a></li>
 			{% endif %}
 
+				<li><a href="{% url 'church:search' %}" title="Search">信息搜尋</a></li>
+
       </ul>
-			<form action="{% url 'church:search' %}" method="GET" class="navbar-form">
-			<div class="input-group">
-			<input name="query_string" type="Search" placeholder="搜尋..." class="form-control"/>
-			<div class="input-group-btn">
-			<button class="btn btn-search" type="submit">
-			<span class="glyphicon glyphicon-search"></span>
-			</button>
-			</div>
-			</div>
-			<div class="input-group navbar-radio">
-			{% for i in search_domains %}
-			<label class="radio-inline"><input type="radio" name="search_domain" value="{{ i.0 }}"{%if search_domain = i.0 %}checked{%endif%}>{{ i.1 }}</label>
-			{% endfor %}
-			</div>
-			</form>
     </div>
   </div>
 
@@ -114,6 +102,65 @@
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
+    </div>
+	</div>
+	{% endif %}
+
+	{#####About#####}
+	{% if abouts and themes %}
+  <div id='about'>
+		<hr/><br/><br/>
+  </div>
+
+  <div class="container">
+    <h1>教會介紹</h1>
+    <ul class="nav nav-pills red-pills nav-justified">
+      <li class="active"><a data-toggle="tab" href="#AboutChurch">教會簡介</a></li>
+      <li><a data-toggle="tab" href="#pastor">牧者簡介</a></li>
+      <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
+      <li><a data-toggle="tab" href="#theme">年度主題</a></li>
+    </ul>
+    <div class="tab-content about-tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
+    <div id="AboutChurch" class="tab-pane fade in active">
+			<h3>教會簡介</h3>
+			{% for about in abouts %}
+				<div class="tt">
+				{% autoescape off %}
+				{{ about.desc }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    <div id="pastor" class="tab-pane fade">
+			{% for about in abouts %}
+				<h4>{{ about.pastor }}</h4>
+				<div class="tt">
+				{% autoescape off %}
+				{{ about.pastor_profile }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    <div id="faith" class="tab-pane fade">
+			<h3>信仰告白</h3>
+			{% for about in abouts %}
+				<div class="tt">
+				{% autoescape off %}
+				{{ about.faith }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    <div id="theme" class="tab-pane fade">
+			{% for theme in themes %}
+				<h3>{{ theme.theme }}</h3>
+				<div class="tt">
+				{% autoescape off %}
+				{{ theme.desc }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
     </div>
 	</div>
 	{% endif %}
@@ -351,64 +398,6 @@
   </div>
 	{% endif %}
 
-	{#####About#####}
-	{% if abouts and themes %}
-  <div id='about'>
-		<hr/><br/><br/>
-  </div>
-
-  <div class="container">
-    <h1>教會介紹</h1>
-    <ul class="nav nav-pills red-pills nav-justified">
-      <li class="active"><a data-toggle="tab" href="#AboutChurch">教會簡介</a></li>
-      <li><a data-toggle="tab" href="#pastor">牧者簡介</a></li>
-      <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
-      <li><a data-toggle="tab" href="#theme">年度主題</a></li>
-    </ul>
-    <div class="tab-content about-tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
-    <div id="AboutChurch" class="tab-pane fade in active">
-			<h3>教會簡介</h3>
-			{% for about in abouts %}
-				<div class="tt">
-				{% autoescape off %}
-				{{ about.desc }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    <div id="pastor" class="tab-pane fade">
-			{% for about in abouts %}
-				<h4>{{ about.pastor }}</h4>
-				<div class="tt">
-				{% autoescape off %}
-				{{ about.pastor_profile }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    <div id="faith" class="tab-pane fade">
-			<h3>信仰告白</h3>
-			{% for about in abouts %}
-				<div class="tt">
-				{% autoescape off %}
-				{{ about.faith }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    <div id="theme" class="tab-pane fade">
-			{% for theme in themes %}
-				<h3>{{ theme.theme }}</h3>
-				<div class="tt">
-				{% autoescape off %}
-				{{ theme.desc }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    </div>
-	</div>
-	{% endif %}
 
 	{#####Sermon#####}
 	{% if sermons %}
@@ -419,7 +408,7 @@
 	<div class="container">
 		<h1>信息系列</h1>
 
-		<div class="panel panel-default panel-sermon"> 
+		<div class="panel panel-default panel-sermon">
 		<div class="panel-body">
 
 
@@ -458,9 +447,9 @@
 		<ul class="pagination red-page-btn">
 		{% for i in sermons.paginator.page_range %}
 		{% if i = sermons.number %}
-		<li class="active"><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
+		<li class="active"><a href="?page={{ i }}#sermon">{{ i }}</a></li>
 		{% else %}
-		<li><a href="?page={{ i }}&search_domain={{ search_domain }}#sermon">{{ i }}</a></li>
+		<li><a href="?page={{ i }}#sermon">{{ i }}</a></li>
 		{% endif %}
 		{% endfor %}
 		</ul>
@@ -514,7 +503,7 @@
 		</div>
 
 		<div class="container">
-		<div class="well contact-well">
+		<div class="well contact-well" style="padding:10px;">
 			<h1>聯絡我們</h1>
 			<div class="list-group">
 			{% for contact in contacts %}
@@ -525,6 +514,43 @@
 				{% endautoescape %}
 				<div class="list-group-item"><b>電話：</b>{{ contact.phone }}</div>
 				<div class="list-group-item"><b>郵件：</b>{{ contact.email }}</div>
+
+				{% if contact.latitude and contact.longitude %}
+					<script>
+					var myCenter=new google.maps.LatLng({{ contact.latitude }},{{ contact.longitude }});
+
+					function initialize()
+					{
+						var mapProp = {
+							center: myCenter,
+							zoom:20,
+							mapTypeId: google.maps.MapTypeId.HYBRID
+							};
+
+						var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+						map.setTilt(0);
+
+						var marker = new google.maps.Marker({
+							position: myCenter,
+							title:'Click to zoom'
+							});
+
+						marker.setMap(map);
+
+						google.maps.event.addListener(map,'center_changed',function() {
+						// 3 seconds after the center of the map has changed, pan back to the marker
+							window.setTimeout(function() {
+								map.panTo(marker.getPosition());
+							},3000);
+						});
+
+						var infowindow = new google.maps.InfoWindow({ content:"{{ contact.title }}<br/>{{ contact.address }}" });
+						infowindow.open(map,marker);
+					}
+					google.maps.event.addDomListener(window, 'load', initialize);
+					</script>
+					<div id="googleMap" style="margin-bottom: 0px; margin-top: 15px; width:100%;height:460px;"></div>
+				{% endif %}
 				</div>
 			{% endfor %}
 			</div>

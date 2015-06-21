@@ -41,6 +41,8 @@ class ContactAdmin(admin.ModelAdmin):
     fieldsets = [
             ('Church Contact Information',
                 {'fields' : ('title', 'address', 'phone', 'email')}),
+            ('Location Information',
+                {'fields' : ('latitude', 'longitude')}),
             ]
     list_display = ('update_time', 'address', 'phone', 'email')
     formfield_overrides = {
@@ -108,6 +110,7 @@ class MessageAttachmentInline(admin.StackedInline):
 @admin.register(Fellowship)
 class FellowshipAdmin(admin.ModelAdmin):
     fieldsets = [
+            (None, {'fields' : ('display',)}),
             (None, {'fields' : ('name', 'schedule', 'location',
                 'admin','admin_phone','admin_email')}),
             (None, {'fields' : ('desc',)}),

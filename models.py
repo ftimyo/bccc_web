@@ -37,6 +37,10 @@ class Contact(models.Model):
     address = models.CharField('Address', max_length=200)
     phone = models.CharField('Phone', max_length=16, help_text='Format: <em>XXX-XXX-XXXX</em>')
     email = models.EmailField('Email')
+    latitude = models.DecimalField('Latitude', help_text='Use http://www.mapcoordinates.net to get Latitude',
+            max_digits=20, decimal_places=10, null=True, blank=True)
+    longitude = models.DecimalField('Longitude', help_text='Use http://www.mapcoordinates.net to get Longitude',
+            max_digits=20, decimal_places=10, null=True, blank=True)
 
     update_time = models.DateTimeField('Time Modified', auto_now=True)
 
@@ -141,6 +145,9 @@ class Fellowship(models.Model):
     admin = models.CharField('Person in Charge', max_length=20, help_text='負責人')
     admin_email = models.EmailField('Email')
     admin_phone = models.CharField('Phone', max_length=16, help_text='Format: <em>XXX-XXX-XXXX</em>')
+
+    #display option
+    display = models.BooleanField('Show on Website', default=True)
 
     #Ordered by update time
     update_time = models.DateTimeField('Update Time', auto_now=True)

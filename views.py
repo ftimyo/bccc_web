@@ -72,17 +72,12 @@ def search(request):
 
 @gzip_page
 def index(request):
-    search_domains = [['Sermon','講道'], ['Event','活動'], ['Message','訊息']]
-    search_domain = search_domains[0][0]
-    if 'search_domain' in request.GET:
-        search_domain = request.GET['search_domain']
-
     events = Event.objects.filter(event_date__gte = timezone.now().date() - datetime.timedelta(days=1))
     notices = Notice.objects.filter(effective_date__gte = timezone.now().date() - datetime.timedelta(days=1))
     contacts = Contact.objects.all()[:1]
     themes = YearlyTheme.objects.all()[:1]
     abouts = About.objects.all()[:1]
-    fellowships = Fellowship.objects.all()
+    fellowships = Fellowship.objects.filter(display=True)
     sermon_list = Sermon.objects.all()[:100]
     photos = Photo.objects.filter(carousel=True)[:8]
 
@@ -106,8 +101,6 @@ def index(request):
             'fellowships': fellowships,
             'sermons': sermons,
             'photos': photos,
-            'search_domains': search_domains,
-            'search_domain': search_domain,
             }
 
     return render(request, 'church/index.html', context)
