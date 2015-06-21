@@ -8,20 +8,28 @@ from django.http import FileResponse
 import os, datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .search import get_query
-from .browse import level1
+from .browse import level1, level2
 
 # Create your views here.
 
 @gzip_page
 def browse(request, domain):
     context = dict()
+    catalog = request.GET.get('catalog')
     if not domain:
         context.update(level1())
+    else:
+        context.update(level2(domain, catalog))
+
     return render(request, "church/browse.html", context)
 
 @gzip_page
 def search(request):
     return render(request, "church/search.html", {})
+
+@gzip_page
+def detail(request, domain):
+    pass
 
 @gzip_page
 def index(request):

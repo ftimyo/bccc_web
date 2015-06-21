@@ -41,9 +41,9 @@
 </center>
 
 <body>
+{% if level1 %}
 <div class="container">
 
-{% if level1 %}
 <h2>聚會資訊</h2>
 <div class="list-group">
 {% for message_catalog in message_catalogs %}
@@ -67,7 +67,20 @@
 <div class="list-group">
 <a href="{% url 'church:browse' %}event" class="list-group-item">活動資訊檔案</a>
 </div>
+</div>
 {% endif %}
 
+{% if level2_message %}
+<div class="container">
+
+<h2>{{catalog}}資訊檔案</h2>
+
+<div class="list-group">
+{% for message in messages %}
+<a href="{% url 'church:browse' %}sermon?catalog={{ sermon_catalog.id }}&id={{message.id}}" class="list-group-item">{{ message.title }}</a>
+{% endfor %}
+
 </div>
+{% endif %}
 </body>
+
