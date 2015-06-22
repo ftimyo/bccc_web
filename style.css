@@ -297,3 +297,6 @@ button.btn-search{
 	position:relative;
 	top:64px;
 }
+select {
+	width: 100%;
+}

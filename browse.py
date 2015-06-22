@@ -28,34 +28,38 @@ def level1():
 
 def message(catalog):
     catalog = message_all(catalog)
+    domain = "message"
 
     if catalog == None:
         return level1()
     messages = catalog.fellowshipmessage_set.all()
 
-    context = {'level2_message': 2, 'catalog': catalog, 'messages': messages}
+    context = {'domain': domain, 'level2_message': 2, 'catalog': catalog, 'messages': messages}
 
     return context
 
 def sermon(catalog):
     catalog = sermon_all(catalog)
+    domain = "sermon"
 
     if catalog == None:
         return level1()
     sermons = catalog.sermon_set.all()
 
-    context = {'level2_sermon': 2, 'catalog': catalog, 'sermons': sermons}
+    context = {'domain': domain, 'level2_sermon': 2, 'catalog': catalog, 'sermons': sermons}
 
     return context
 
 def theme():
     themes = YearlyTheme.objects.all()
-    context = {'level2_theme': 2, 'themes': themes}
+    domain = "theme"
+    context = {'domain': domain, 'level2_theme': 2, 'themes': themes}
     return context
 
 def event():
     events = Event.objects.all()
-    context = {'level2_event': 2, 'events': events}
+    domain = "event"
+    context = {'domain': domain, 'level2_event': 2, 'events': events}
     return context
 
 def level2(domain, catalog):

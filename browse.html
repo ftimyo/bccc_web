@@ -6,12 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"/>
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+	<script src="{% static 'church/script.js' %}"></script>
   <title>Browse | Binghamton Chinese Christian Church</title>
-  <style>
-  </style>
+
+
 </head>
 {#####Menu Bar#####}
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -42,24 +45,51 @@
 
 <div class="row">
 
-<div class="col-md-2"><!--Left Control Panel-->
+<div class="col-md-2">
 
+<!--Left Control Panel-->
+{% if domain %}
 <div class="panel panel-info left-control-panel">
 <div class="panel-body">
 
 <center>
 <div class="btn-group-vertical" style="width:100%;">
-<button type="button" class="btn btn-primary">Apple</button>
-<button type="button" class="btn btn-primary">Apple</button>
-<button type="button" class="btn btn-primary">Apple</button>
+
+<form role="form" action="{% url 'church:browse' %}" method="post">
+{% csrf_token %}
+<!--Time Picker-->
+<div class="form-group">
+<label for="refine_time">選擇時間段</label><table class="table table-condensed" id="refine_time">
+<tr><td><center>從</center></td>
+<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定開始時間!" class="form-control DateField" style="width:100%;" id="sdate"/></center></td></tr>
+<tr><td><center>至</center></td>
+<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定截止時間!" class="form-control DateField" style="width:100%;" id="edate"/></center></td></tr>
+</table>
+</div>
+<!--Search Box-->
+<div class="form-group">
+<label for="search">搜尋字詞</label>
+<input data-toggle="tooltip" title="若此項為空，則不限定搜索字詞!" type="text" class="form-control SearchBox" style="width:100%;" id="search"/>
+</div>
+
+<!--Store Current domain and catalog-->
+<input type="hidden" value="{{ catalog.id }}" id="catalog"/>
+<input type="hidden" value="{{ domain }}" id="domain"/>
+
+<button type="Submit" class="btn btn-primary">搜尋</button>
+</form>
+
+
+
 </div>
 </center>
 
 </div>
 </div>
+{% endif %}
+<!--END of Left Control Panel-->
 
-
-</div><!--END of Left Control Panel-->
+</div>
 
 <div class="col-md-8">
 {% if level1 %}
@@ -94,7 +124,7 @@
 <h2>{{catalog}}資訊檔案</h2>
 <div class="list-group">
 {% for message in messages %}
-<a target="_blank" href="{% url 'church:detail' %}?domain=message&catalog={{ catalog.id }}&entry_id={{message.id}}" class="list-group-item">[ {{message.pub_time|date:"y/m/d"}} ] {{ message.title }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{message.id}}" class="list-group-item">[ {{message.pub_time|date:"y/m/d"}} ] {{ message.title }}</a>
 {% endfor %}
 </div>
 {% endif %}
@@ -104,7 +134,7 @@
 <h2>{{catalog}}信息檔案</h2>
 <div class="list-group">
 {% for sermon in sermons %}
-<a target="_blank" href="{% url 'church:detail' %}?domain=sermon&catalog={{ catalog.id }}&entry_id={{sermon.id}}" class="list-group-item">[ {{sermon.pub_time|date:"y/m/d"}} ] {{ sermon.title }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{sermon.id}}" class="list-group-item">[ {{sermon.pub_time|date:"y/m/d"}} ] {{ sermon.title }}</a>
 {% endfor %}
 </div>
 {% endif %}
@@ -113,7 +143,7 @@
 <h2>年度主題檔案</h2>
 <div class="list-group">
 {% for theme in themes %}
-<a target="_blank" href="{% url 'church:detail' %}?domain=theme&entry_id={{theme.id}}" class="list-group-item">[ {{theme.pub_time|date:"y/m/d"}} ] {{ theme.theme }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&entry_id={{theme.id}}" class="list-group-item">[ {{theme.pub_time|date:"y/m/d"}} ] {{ theme.theme }}</a>
 {% endfor %}
 </div>
 {% endif %}
@@ -122,30 +152,43 @@
 <h2>活動資訊檔案</h2>
 <div class="list-group">
 {% for event in events %}
-<a target="_blank" href="{% url 'church:detail' %}?domain=event&entry_id={{event.id}}" class="list-group-item">[ {{event.pub_time|date:"y/m/d"}} ] {{ event.title }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&entry_id={{event.id}}" class="list-group-item">[ {{event.pub_time|date:"y/m/d"}} ] {{ event.title }}</a>
 {% endfor %}
 </div>
 {% endif %}
 
 </div>
 
-<div class="col-md-2"><!--right panel-->
+<div class="col-md-2">
 
+<!--right panel-->
+{% if domain %}
 <div class="panel panel-info right-control-panel">
 <div class="panel-body">
 
-<center>
-<div class="btn-group-vertical" style="width:100%;">
-<button type="button" class="btn btn-primary">Apple</button>
-<button type="button" class="btn btn-primary">Apple</button>
-<button type="button" class="btn btn-primary">Apple</button>
+<form role="form" action="{% url 'church:browse' %}" method="post">
+{% csrf_token %}
+<!--Sorting Selection Menu-->
+<div class="form-group">
+<label for="sort">排列</label>
+<select name="sort" id="sort">
+	<option selected="selected" value="newest">Newest First</option>
+	<option value="oldest">Oldest First</option>
+</select>
 </div>
-</center>
+
+<!--Store Current domain and catalog-->
+<input type="hidden" value="{{ catalog.id }}" id="catalog"/>
+<input type="hidden" value="{{ domain }}" id="domain"/>
+
+</form>
 
 </div>
 </div>
+{% endif %}
+<!--End of Right Panel-->
 
-</div><!--End of Right Panel-->
+</div>
 
 </div>
 

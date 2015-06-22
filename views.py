@@ -16,9 +16,9 @@ from .detail import detail_page
 
 @gzip_page
 def browse(request):
-    context = dict()
     domain = request.GET.get('domain')
     catalog = request.GET.get('catalog')
+    context = {}
     if not domain:
         context.update(level1())
     else:

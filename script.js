@@ -10,9 +10,19 @@ function beautifultable() {
 	$("tr.event-table-content:odd").mouseleave(function(){$(this).css("background-color", "seashell");});
 	$("tr.event-table-content:even").mouseleave(function(){$(this).css("background-color", "cornsilk");});
 }
-
 function morestyles(){
 	beautifultable();
+	$(function() {
+		$( ".DateField" ).datepicker({
+			changeDay: true,
+			changeMonth: true,
+			changeYear: true,
+			yearRange: "2014:c+0",
+		});
+	});
+	$(function() {
+    $( "#sort" ).selectmenu();
+  });
 }
 
 $("document").ready(morestyles);
