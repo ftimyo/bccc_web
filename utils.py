@@ -1,6 +1,7 @@
 import re
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import datetime
 
 #search Utilities
 def normalize_query(query_string,
@@ -51,6 +52,30 @@ def pager(entries, page, default_page_size=7):
     return result
 
 #Data Filter
+
+def date_range_filter(entries, sdate, edate):
+    fmt = "%m/%d/%Y"
+    try:
+        sdate = datetime.datetime.strptime(sdate, fmt)
+    except:
+        sdate = ''
+
+    if sdate:
+        entries = entries.filter(pub_time__gte=sdate)
+        sdate = sdate.strftime(fmt)
+
+    try:
+        edate = datetime.datetime.strptime(edate, fmt)
+        edate = edate + datetime.timedelta(days=1)
+    except:
+        edate = ''
+    
+    if edate:
+        entries = entries.filter(pub_time__lte=edate)
+        edate = edate.strftime(fmt)
+
+    return entries
+
 def control_filter(request, domain, entries):
     sort_field={'newest': '-pub_time', 'oldest': 'pub_time'}
     sort=request.GET.get('sort')
@@ -58,6 +83,9 @@ def control_filter(request, domain, entries):
     page=request.GET.get('page')
     sdate=request.GET.get('sdate')
     edate=request.GET.get('edate')
+
+    if entries and (sdate or edate):
+        entries = date_range_filter(entries, sdate, edate)
 
     if entries and search:
         search_fields = ['title', 'text']

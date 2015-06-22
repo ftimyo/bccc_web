@@ -59,11 +59,11 @@
 <table class="table table-condensed" id="refine_time">
 <tr>
 	<td><center>從</center></td>
-	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定開始時間!" class="form-control DateField" style="width:100%;" id="sdate"/></center></td>
+	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定開始時間!" class="form-control DateField" style="width:100%;" name="sdate" id="sdate" value="{{ sdate }}"/></center></td>
 </tr>
 <tr>
 	<td><center>至</center></td>
-	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定截止時間!" class="form-control DateField" style="width:100%;" id="edate"/></center></td>
+	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定截止時間!" class="form-control DateField" style="width:100%;" name="edate" id="edate" value="{{ edate }}"/></center></td>
 </tr>
 </table>
 </div>
@@ -145,7 +145,7 @@
 <div class="list-group">
 {% for entry in entries %}
 <a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{entry.id}}" class="list-group-item">
-	[ {{entry.pub_time|date:"y/m/d"}} ] {{ entry.title }}
+	[ {{entry.pub_time|date:"m/d/y"}} ] {{ entry.title }}
 </a>
 {% endfor %}
 </div>
