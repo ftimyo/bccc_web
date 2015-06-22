@@ -24,12 +24,12 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
+		<a class="navbar-brand" href="{% url 'church:index' %}" title="Binghamton Chinese Christian Church">濱城華人基督教會</a>
 	</div>
 
 	<div class="collapse navbar-collapse" id="myNavbar">
 	<ul class="nav navbar-nav">
-	<li><a href="{% url 'church:browse' %}" title="Search">瀏覽資源</a></li>
+	<li><a href="{% url 'church:browse' %}" title="Browse">瀏覽資源</a></li>
 	</ul>
 	</div>
 
@@ -47,111 +47,43 @@
 
 <div class="col-md-10">
 
-<!--Event Detail Page-->
-{% if event_entry %}
+<!--Open Detail Column-->
 <div class="panel panel-info detail-panel">
 
+<!--Open Panel Heading-->
 <div class="panel-heading detail-heading">
 	<h2>
-		{{ event_entry.title }}
+		{{ entry.title }}
 	</h2>
 	{% autoescape off %}
-	{{ event_entry.show_flyer }}
+	{{ entry.show_flyer }}
 	{% endautoescape %}
 </div>
+<!--Close Panel Heading-->
 
+<!--Open Panel Body-->
 <div class="panel-body detail-body" style="font-size:25px;">
 {% autoescape off %}
-{{ event_entry.text }}
+{{ entry.text }}
 {% endautoescape %}
 </div>
+<!--Close Panel Body-->
 
+<!--Open Panel Footer-->
 <div class="panel-footer detail-footer">
-	{% if event_entry.attachments %}
+	{% if entry.attachments %}
 	<b>附件:</b>
 	{% endif %}
-<div class="list-group">
-	{% for file in event_entry.attachments %}
-	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
-	{% endfor %}
+	<div class="list-group">
+		{% for file in entry.attachments %}
+		<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
+		{% endfor %}
+	</div>
 </div>
-</div>
+<!--Close Panel Footer-->
 
 </div>
-{% endif %}
-
-<!--Sermon Detail Page-->
-{% if sermon_entry %}
-<div class="panel panel-info detail-panel">
-
-<div class="panel-heading">
-<h2>{{ sermon_entry.title }}</h2>
-</div>
-
-<div class="panel-body" style="font-size:25px;">
-{% autoescape off %}
-{{ sermon_entry.text }}
-{% endautoescape %}
-</div>
-
-<div class="panel-footer detail-footer">
-	{% if sermon_entry.attachments %}
-	<b>附件:</b>
-	{% endif %}
-<div class="list-group">
-	{% for file in sermon_entry.attachments %}
-	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
-	{% endfor %}
-</div>
-</div>
-
-</div>
-{% endif %}
-
-<!--Message Detail Page-->
-{% if message_entry %}
-<div class="panel panel-info detail">
-
-<div class="panel-heading">
-<h2>{{ message_entry.title }}</h2>
-</div>
-
-<div class="panel-body" style="font-size:25px;">
-{% autoescape off %}
-{{ message_entry.text }}
-{% endautoescape %}
-</div>
-
-<div class="panel-footer detail-footer">
-	{% if message_entry.attachments %}
-	<b>附件:</b>
-	{% endif %}
-<div class="list-group">
-	{% for file in message_entry.attachments %}
-	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
-	{% endfor %}
-</div>
-</div>
-
-</div>
-{% endif %}
-
-<!--Theme Detail Page-->
-{% if theme_entry %}
-<div class="panel panel-info detail">
-
-<div class="panel-heading">
-<h2>{{ theme_entry.title }}</h2>
-</div>
-
-<div class="panel-body" style="font-size:25px;">
-{% autoescape off %}
-{{ theme_entry.text }}
-{% endautoescape %}
-</div>
-
-</div>
-{% endif %}
+<!--Close Panel Column-->
 
 </div>
 

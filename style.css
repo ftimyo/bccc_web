@@ -307,8 +307,31 @@ select {
 }
 
 .red-button:hover,
-.red-button:focus,
-.red-button:active {
-	background-color:maroon;
-	color:white;
+.red-button:focus {
+  background-color: lightsalmon;
+	color: firebrick;
+}
+.red-button:active,
+.red-button.active {
+  background-color: maroon;
+	color: white;
+}
+
+/*Event Panel*/
+.detail-panel > .panel-heading,
+.detail-panel > .panel-footer {
+	background-color: lightgray;
+	color: firebrick;
+}
+.detail-panel {
+	border-color: silver;
+	background-color:seashell;
+}
+
+.detail-panel div {
+	color:gray;
+}
+
+.detail-panel a {
+	color:darkred;
 }

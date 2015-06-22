@@ -72,7 +72,7 @@
 <!--Open Search Box-->
 <div class="form-group">
 <label for="search">搜尋字詞</label>
-<input data-toggle="tooltip" title="若此項為空，則不限定搜索字詞!" type="text" class="form-control SearchBox" style="width:100%;" id="search"/>
+<input data-toggle="tooltip" title="若此項為空，則不限定搜索字詞!" value="{% if search %}{{ search }} {% endif %}"type="text" class="form-control SearchBox" style="width:100%;" name="search" id="search"/>
 </div>
 <!--Close Search Box-->
 
@@ -177,8 +177,8 @@
 <!--Hidden Fields-->
 
 <div class="btn-group-vertical">
-<button type="Submit" value="newest" id="sort" name="sort" class="btn btn-primary red-button">時間升序排列</button>
-<button type="Submit" value="oldest" id="sort" name="sort" class="btn btn-primary red-button">時間降序排列</button>
+<button type="Submit" value="newest" id="sort" name="sort" class="btn btn-primary red-button {% if sort|stringformat:"s" == "newest" %}active{% endif %}">時間升序排列</button>
+<button type="Submit" value="oldest" id="sort" name="sort" class="btn btn-primary red-button {% if sort|stringformat:"s" == "oldest" %}active{% endif %}">時間降序排列</button>
 </div>
 
 </form>
@@ -206,7 +206,7 @@
 {% else %}
 <li>
 {% endif %}
-	<a href="?page={{ i }}&domain={{ domain }}&catalog={{ catalog }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}">
+	<a href="?page={{ i }}&domain={{ domain }}&catalog={{ catalog.id }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}">
 		{{ i }}
 	</a>
 </li>

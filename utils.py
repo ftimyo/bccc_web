@@ -38,8 +38,8 @@ def get_query(query_string, search_fields):
     return query
 
 #paging Utilities
-def pager(entries, page):
-    paginator = Paginator(entries, 7)
+def pager(entries, page, default_page_size=7):
+    paginator = Paginator(entries, default_page_size)
     try:
         result = paginator.page(page)
     except PageNotAnInteger:
@@ -51,5 +51,33 @@ def pager(entries, page):
     return result
 
 #Data Filter
-def filter(request, entries):
-    pass
+def control_filter(request, domain, entries):
+    sort_field={'newest': '-pub_time', 'oldest': 'pub_time'}
+    sort=request.GET.get('sort')
+    search=request.GET.get('search')
+    page=request.GET.get('page')
+    sdate=request.GET.get('sdate')
+    edate=request.GET.get('edate')
+
+    if entries and search:
+        search_fields = ['title', 'text']
+        if domain == 'sermon':
+            search_fields += ['keywords']
+        entries = entries.filter(get_query(search, search_fields))
+
+    if entries:
+        entries = entries.order_by(sort_field.get(sort, '-pub_time'))
+        sort = {'newest': 'newest', 'oldest': 'oldest'}.get(sort, 'newest')
+
+    if entries:
+        entries = pager(entries, page, 25)
+
+    if not search:
+        search=''
+    if not edate:
+        edate=''
+    if not sdate:
+        sdate=''
+
+    return {'entries': entries, 'sort': sort, 'search': search, 'sdate': sdate, 'edate': edate}
+

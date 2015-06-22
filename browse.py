@@ -1,5 +1,6 @@
 from .models import Fellowship, Sermon, Event, YearlyTheme, SermonCatalog
 from django.core.exceptions import ObjectDoesNotExist
+from .utils import control_filter
 
 def level1():
     sermon_catalogs = SermonCatalog.objects.all()
@@ -18,7 +19,10 @@ def message(request, domain, catalog):
 
     entries = catalog.fellowshipmessage_set.all()
 
-    return {'domain': domain, 'catalog': catalog, 'entries': entries,}
+    context = {'domain': domain, 'catalog': catalog,}
+    context.update(control_filter(request, domain, entries))
+
+    return context
 
 def sermon(request, domain, catalog):
     try:
@@ -28,15 +32,24 @@ def sermon(request, domain, catalog):
 
     entries = catalog.sermon_set.all()
 
-    return {'domain': domain, 'catalog': catalog, 'entries': entries,}
+    context = {'domain': domain, 'catalog': catalog,}
+    context.update(control_filter(request, domain, entries))
+
+    return context
 
 def theme(request, domain):
     entries = YearlyTheme.objects.all()
-    return {'domain': domain, 'entries': entries,}
+    context =  {'domain': domain,}
+    context.update(control_filter(request, domain, entries))
+
+    return context
 
 def event(request, domain):
     entries = Event.objects.all()
-    return {'domain': domain, 'entries': entries,}
+    context = {'domain': domain,}
+    context.update(control_filter(request, domain, entries))
+
+    return context
 
 
 def level2(request, domain):

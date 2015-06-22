@@ -9,11 +9,11 @@ def detail_page(request, domain, catalog, entry_id):
             return {}
 
         try:
-            message = catalog.fellowshipmessage_set.get(pk=entry_id)
+            entry = catalog.fellowshipmessage_set.get(pk=entry_id)
         except:
             return {}
 
-        return {'message_entry': message}
+        return {'entry': entry, 'domain': domain, 'catalog': catalog,}
 
     elif domain == 'sermon':
         try:
@@ -22,27 +22,27 @@ def detail_page(request, domain, catalog, entry_id):
             return {}
 
         try:
-            sermon = catalog.sermon_set.get(pk=entry_id)
+            entry = catalog.sermon_set.get(pk=entry_id)
         except:
             return {}
 
-        return {'sermon_entry': sermon}
+        return {'entry': entry, 'domain': domain, 'catalog': catalog,}
 
     elif domain == 'theme':
         try:
-            theme = YearlyTheme.objects.get(pk=entry_id)
+            entry = YearlyTheme.objects.get(pk=entry_id)
         except:
             return {}
 
-        return {'theme_entry': theme}
+        return {'entry': entry, 'domain': domain, 'catalog': catalog,}
 
     elif domain == 'event':
         try:
-            event = Event.objects.get(pk=entry_id)
+            entry = Event.objects.get(pk=entry_id)
         except:
             return {}
 
-        return {'event_entry': event}
+        return {'entry': entry, 'domain': domain, 'catalog': catalog,}
 
     else:
         return {}

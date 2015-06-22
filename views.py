@@ -28,10 +28,6 @@ def browse(request):
     return render(request, "church/browse.html", context)
 
 @gzip_page
-def search(request):
-    return render(request, "church/search.html", {})
-
-@gzip_page
 def detail(request):
     context = dict()
     domain = request.GET.get('domain')
