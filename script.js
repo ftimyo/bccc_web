@@ -20,9 +20,11 @@ function morestyles(){
 			yearRange: "2014:c+0",
 		});
 	});
+	/*
 	$(function() {
     $( "#sort" ).selectmenu();
   });
+	*/
 }
 
 $("document").ready(morestyles);

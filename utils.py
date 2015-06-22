@@ -1,7 +1,8 @@
 import re
-
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+#search Utilities
 def normalize_query(query_string,
                     findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
                     normspace=re.compile(r'\s{2,}').sub):
@@ -35,3 +36,20 @@ def get_query(query_string, search_fields):
         else:
             query = query & or_query
     return query
+
+#paging Utilities
+def pager(entries, page):
+    paginator = Paginator(entries, 7)
+    try:
+        result = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        result = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        result = paginator.page(paginator.num_pages)
+    return result
+
+#Data Filter
+def filter(request, entries):
+    pass

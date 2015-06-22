@@ -26,13 +26,12 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="{% url 'church:index' %}">濱城華人基督教會</a>
+		<a class="navbar-brand" href="{% url 'church:index' %}" title="Binghamton Chinese Christian Church">濱城華人基督教會</a>
 	</div>
 
 	<div class="collapse navbar-collapse" id="myNavbar">
 	<ul class="nav navbar-nav">
-	<li><a href="{% url 'church:browse' %}" title="Search">瀏覽資源</a></li>
-	<li><a href="{% url 'church:search' %}" title="Search">搜尋資源</a></li>
+	<li><a href="{% url 'church:browse' %}" title="Browse">瀏覽資源</a></li>
 	</ul>
 	</div>
 
@@ -41,58 +40,64 @@
 <br/><br/><br/>
 
 <body>
-<div class="container">
+<div class="container"><!--Open Container-->
+<div class="row"><!--Open Row-->
 
-<div class="row">
-
-<div class="col-md-2">
-
-<!--Left Control Panel-->
+<div class="col-md-2"><!--Open Left Panel-->
 {% if domain %}
-<div class="panel panel-info left-control-panel">
+
+<div class="panel panel-info left-control-panel"><!--Open Panel Pane-->
 <div class="panel-body">
 
+<!--Open Form-->
 <center>
-<div class="btn-group-vertical" style="width:100%;">
+<form role="form" action="{% url 'church:browse' %}" method="GET">
 
-<form role="form" action="{% url 'church:browse' %}" method="post">
-{% csrf_token %}
-<!--Time Picker-->
+<!--Open Time Picker-->
 <div class="form-group">
-<label for="refine_time">選擇時間段</label><table class="table table-condensed" id="refine_time">
-<tr><td><center>從</center></td>
-<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定開始時間!" class="form-control DateField" style="width:100%;" id="sdate"/></center></td></tr>
-<tr><td><center>至</center></td>
-<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定截止時間!" class="form-control DateField" style="width:100%;" id="edate"/></center></td></tr>
+<label for="refine_time">選擇時間段</label>
+<table class="table table-condensed" id="refine_time">
+<tr>
+	<td><center>從</center></td>
+	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定開始時間!" class="form-control DateField" style="width:100%;" id="sdate"/></center></td>
+</tr>
+<tr>
+	<td><center>至</center></td>
+	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定截止時間!" class="form-control DateField" style="width:100%;" id="edate"/></center></td>
+</tr>
 </table>
 </div>
-<!--Search Box-->
+<!--Close Time Picker-->
+
+<!--Open Search Box-->
 <div class="form-group">
 <label for="search">搜尋字詞</label>
 <input data-toggle="tooltip" title="若此項為空，則不限定搜索字詞!" type="text" class="form-control SearchBox" style="width:100%;" id="search"/>
 </div>
+<!--Close Search Box-->
 
-<!--Store Current domain and catalog-->
-<input type="hidden" value="{{ catalog.id }}" id="catalog"/>
-<input type="hidden" value="{{ domain }}" id="domain"/>
+<!--Hidden Fields-->
+<input type="hidden" value="{{ catalog.id }}" name="catalog" id="catalog"/>
+<input type="hidden" value="{{ domain }}" name="domain" id="domain"/>
+<input type="hidden" value="{{ sort }}" name="sort" id="sort"/>
+<!--Hidden Fields-->
 
-<button type="Submit" class="btn btn-primary">搜尋</button>
+<button type="Submit" class="btn btn-primary red-button">搜尋</button>
+
 </form>
-
-
-
-</div>
 </center>
+<!--Close Form-->
 
 </div>
-</div>
+</div><!--Close Panel Pane-->
+
 {% endif %}
-<!--END of Left Control Panel-->
+</div><!--Close Left Panel-->
 
-</div>
 
-<div class="col-md-8">
-{% if level1 %}
+<div class="col-md-8"><!--Open Middle Panel-->
+
+{% if not domain %}<!--Open Level1 List-->
 
 <h2>聚會資訊</h2>
 <div class="list-group">
@@ -118,79 +123,102 @@
 <a href="{% url 'church:browse' %}?domain=event" class="list-group-item">活動資訊檔案</a>
 </div>
 
-{% endif %}
+{% endif %}<!--Close Level1 List-->
 
-{% if level2_message %}
+{########################################}
+
+{% if domain %}<!--Open Level2 List Panel-->
+
+<!--Open Level2 Heading-->
+{% if domain|stringformat:"s" == "message"  %}
 <h2>{{catalog}}資訊檔案</h2>
-<div class="list-group">
-{% for message in messages %}
-<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{message.id}}" class="list-group-item">[ {{message.pub_time|date:"y/m/d"}} ] {{ message.title }}</a>
-{% endfor %}
-</div>
-{% endif %}
-
-
-{% if level2_sermon %}
+{% elif domain|stringformat:"s" == "sermon" %}
 <h2>{{catalog}}信息檔案</h2>
-<div class="list-group">
-{% for sermon in sermons %}
-<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{sermon.id}}" class="list-group-item">[ {{sermon.pub_time|date:"y/m/d"}} ] {{ sermon.title }}</a>
-{% endfor %}
-</div>
-{% endif %}
-
-{% if level2_theme %}
+{% elif domain|stringformat:"s" == "theme" %}
 <h2>年度主題檔案</h2>
-<div class="list-group">
-{% for theme in themes %}
-<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&entry_id={{theme.id}}" class="list-group-item">[ {{theme.pub_time|date:"y/m/d"}} ] {{ theme.theme }}</a>
-{% endfor %}
-</div>
-{% endif %}
-
-{% if level2_event %}
+{% elif domain|stringformat:"s" == "event" %}
 <h2>活動資訊檔案</h2>
+{% endif %}
+<!--Close Level2 Heading-->
+
+<!--Open Level2 List-->
 <div class="list-group">
-{% for event in events %}
-<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&entry_id={{event.id}}" class="list-group-item">[ {{event.pub_time|date:"y/m/d"}} ] {{ event.title }}</a>
+{% for entry in entries %}
+<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{entry.id}}" class="list-group-item">
+	[ {{entry.pub_time|date:"y/m/d"}} ] {{ entry.title }}
+</a>
 {% endfor %}
 </div>
-{% endif %}
+<!--Close Level2 List-->
 
-</div>
 
-<div class="col-md-2">
+{% endif %}<!--Close Level2 List Panel-->
 
-<!--right panel-->
+</div><!--Close Middle Panel-->
+
+{########################################}
+
+<div class="col-md-2"><!--Open Right Panel-->
 {% if domain %}
-<div class="panel panel-info right-control-panel">
+
+<div class="panel panel-info left-control-panel"><!--Open Panel Pane-->
 <div class="panel-body">
 
-<form role="form" action="{% url 'church:browse' %}" method="post">
-{% csrf_token %}
-<!--Sorting Selection Menu-->
-<div class="form-group">
-<label for="sort">排列</label>
-<select name="sort" id="sort">
-	<option selected="selected" value="newest">Newest First</option>
-	<option value="oldest">Oldest First</option>
-</select>
-</div>
+<center><!--Open Form-->
+<form role="form" action="{% url 'church:browse' %}" method="GET">
 
-<!--Store Current domain and catalog-->
-<input type="hidden" value="{{ catalog.id }}" id="catalog"/>
-<input type="hidden" value="{{ domain }}" id="domain"/>
+<!--Hidden Fields-->
+<input type="hidden" value="{{ catalog.id }}" name="catalog" id="catalog"/>
+<input type="hidden" value="{{ domain }}" name="domain" id="domain"/>
+<input type="hidden" value="{{ search }}" name="search" id="search"/>
+<input type="hidden" value="{{ sdate }}" name="sdate" id="sdate"/>
+<input type="hidden" value="{{ edate }}" name="edate" id="edate"/>
+<input type="hidden" value="{{ entries.number }}" name="page" id="page"/>
+<!--Hidden Fields-->
+
+<div class="btn-group-vertical">
+<button type="Submit" value="newest" id="sort" name="sort" class="btn btn-primary red-button">時間升序排列</button>
+<button type="Submit" value="oldest" id="sort" name="sort" class="btn btn-primary red-button">時間降序排列</button>
+</div>
 
 </form>
+</center><!--Close Form-->
 
 </div>
-</div>
+</div><!--Close Panel Pane-->
+
 {% endif %}
-<!--End of Right Panel-->
+</div><!--Close Right Panel-->
 
-</div>
+</div><!--Close Row-->
+</div><!--Close Container-->
 
-</div>
+<!--Open Page Buttons-->
+<div class="container">
+{% if domain %}
+<center>
+<ul class="pagination red-page-btn">
 
-</div>
+{% for i in entries.paginator.page_range %}
+
+{% if i == entries.number %}
+<li class="active">
+{% else %}
+<li>
+{% endif %}
+	<a href="?page={{ i }}&domain={{ domain }}&catalog={{ catalog }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}">
+		{{ i }}
+	</a>
+</li>
+
+{% endfor %}
+
+</ul>
+</center>
+{% endif %}
+<div class="container">
+<!--Close Page Buttons-->
+
+
+
 </body>

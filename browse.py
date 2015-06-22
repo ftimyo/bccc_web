@@ -1,80 +1,58 @@
 from .models import Fellowship, Sermon, Event, YearlyTheme, SermonCatalog
 from django.core.exceptions import ObjectDoesNotExist
 
-def message_all(catalog):
-    messages = None
-    try:
-        messages = Fellowship.objects.get(pk=catalog)
-    except:
-        messages = None
-    return messages
-
-def sermon_all(catalog):
-    sermons = None
-    try:
-        sermons = SermonCatalog.objects.get(pk=catalog)
-    except:
-        sermons = None
-    return sermons
-
-
 def level1():
     sermon_catalogs = SermonCatalog.objects.all()
     message_catalogs = Fellowship.objects.all()
-    return {
-            'level1': 1,
-            'sermon_catalogs': sermon_catalogs,
-            'message_catalogs': message_catalogs}
+    return {'sermon_catalogs': sermon_catalogs,
+            'message_catalogs': message_catalogs,
+            }
 
-def message(catalog):
-    catalog = message_all(catalog)
-    domain = "message"
+########################################
 
-    if catalog == None:
+def message(request, domain, catalog):
+    try:
+        catalog = Fellowship.objects.get(pk=catalog)
+    except:
         return level1()
-    messages = catalog.fellowshipmessage_set.all()
 
-    context = {'domain': domain, 'level2_message': 2, 'catalog': catalog, 'messages': messages}
+    entries = catalog.fellowshipmessage_set.all()
 
-    return context
+    return {'domain': domain, 'catalog': catalog, 'entries': entries,}
 
-def sermon(catalog):
-    catalog = sermon_all(catalog)
-    domain = "sermon"
-
-    if catalog == None:
+def sermon(request, domain, catalog):
+    try:
+        catalog = SermonCatalog.objects.get(pk=catalog)
+    except:
         return level1()
-    sermons = catalog.sermon_set.all()
 
-    context = {'domain': domain, 'level2_sermon': 2, 'catalog': catalog, 'sermons': sermons}
+    entries = catalog.sermon_set.all()
 
-    return context
+    return {'domain': domain, 'catalog': catalog, 'entries': entries,}
 
-def theme():
-    themes = YearlyTheme.objects.all()
-    domain = "theme"
-    context = {'domain': domain, 'level2_theme': 2, 'themes': themes}
-    return context
+def theme(request, domain):
+    entries = YearlyTheme.objects.all()
+    return {'domain': domain, 'entries': entries,}
 
-def event():
-    events = Event.objects.all()
-    domain = "event"
-    context = {'domain': domain, 'level2_event': 2, 'events': events}
-    return context
+def event(request, domain):
+    entries = Event.objects.all()
+    return {'domain': domain, 'entries': entries,}
 
-def level2(domain, catalog):
 
-    if domain == 'message': 
-        return message(catalog)
+def level2(request, domain):
+    catalog = request.GET.get('catalog')
+
+    if domain == 'message':
+        return message(request, domain, catalog)
 
     elif domain == 'sermon':
-        return sermon(catalog)
+        return sermon(request, domain, catalog)
 
     elif domain == 'theme':
-        return theme()
+        return theme(request, domain)
 
     elif domain == 'event':
-        return event()
+        return event(request, domain)
 
     else:
         return level1()

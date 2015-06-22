@@ -27,9 +27,9 @@ class AboutAdmin(admin.ModelAdmin):
 
 @admin.register(YearlyTheme)
 class YearlyThemeAdmin(admin.ModelAdmin):
-    list_display = ('theme', 'pub_time')
+    list_display = ('title', 'pub_time')
     list_filter = ['pub_time']
-    search_fields = ['desc', 'theme']
+    search_fields = ['text', 'title']
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},

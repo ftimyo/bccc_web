@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'^search/$', views.search, name='search'),
     url(r'^browse', views.browse, name='browse'),
     url(r'^detail', views.detail, name='detail'),
     url(r'^$', views.index, name='index'),

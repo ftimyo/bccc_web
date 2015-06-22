@@ -300,3 +300,15 @@ button.btn-search{
 select {
 	width: 100%;
 }
+
+.red-button {
+	background-color:peachpuff;
+	color:tomato;
+}
+
+.red-button:hover,
+.red-button:focus,
+.red-button:active {
+	background-color:maroon;
+	color:white;
+}

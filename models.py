@@ -18,8 +18,8 @@ class About(models.Model):
         return self.pastor
 
 class YearlyTheme(models.Model):
-    theme = models.CharField('Theme', max_length=100, help_text='教會年度主題 (字數限制, 50 字)')
-    desc = models.TextField('Description', help_text = '教會年度主題詳盡說明 (support HTML Tags)')
+    title = models.CharField('Theme', max_length=100, help_text='教會年度主題 (字數限制, 50 字)')
+    text = models.TextField('Description', help_text = '教會年度主題詳盡說明 (support HTML Tags)')
 
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
 
@@ -27,9 +27,9 @@ class YearlyTheme(models.Model):
         ordering = ['-pub_time']
 
     def __unicode__(self):
-        return self.theme
+        return self.title
     def __str__(self):
-        return self.theme
+        return self.title
 
 
 class Contact(models.Model):

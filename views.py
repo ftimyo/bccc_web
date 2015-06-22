@@ -7,8 +7,7 @@ from .models import Photo
 from django.utils import timezone
 from django.http import FileResponse
 import os, datetime
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .search import get_query
+from .utils import pager, get_query
 from .browse import level1, level2
 from .detail import detail_page
 
@@ -16,13 +15,15 @@ from .detail import detail_page
 
 @gzip_page
 def browse(request):
+    domain = None
     domain = request.GET.get('domain')
-    catalog = request.GET.get('catalog')
+
     context = {}
+
     if not domain:
         context.update(level1())
     else:
-        context.update(level2(domain, catalog))
+        context.update(level2(request, domain))
 
     return render(request, "church/browse.html", context)
 
@@ -54,16 +55,8 @@ def index(request):
     sermon_list = Sermon.objects.all()[:100]
     photos = Photo.objects.filter(carousel=True)[:8]
 
-    paginator = Paginator(sermon_list, 7)
     page = request.GET.get('page')
-    try:
-        sermons = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        sermons = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        sermons = paginator.page(paginator.num_pages)
+    sermons = pager(sermon_list, page)
 
     context = {
             'events': events,
