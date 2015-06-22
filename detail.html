@@ -39,13 +39,19 @@
 
 <body>
 
+<div class="container">
+<div class="row">
+
+<div class="col-md-1">
+</div>
+
+<div class="col-md-10">
 
 <!--Event Detail Page-->
 {% if event_entry %}
-<div class="container">
-<div class="panel panel-info detail">
+<div class="panel panel-info detail-panel">
 
-<div class="panel-heading">
+<div class="panel-heading detail-heading">
 	<h2>
 		{{ event_entry.title }}
 	</h2>
@@ -54,26 +60,30 @@
 	{% endautoescape %}
 </div>
 
-<div class="panel-body" style="font-size:25px;">
+<div class="panel-body detail-body" style="font-size:25px;">
 {% autoescape off %}
 {{ event_entry.text }}
 {% endautoescape %}
 </div>
 
+<div class="panel-footer detail-footer">
+	{% if event_entry.attachments %}
+	<b>附件:</b>
+	{% endif %}
 <div class="list-group">
 	{% for file in event_entry.attachments %}
 	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
 	{% endfor %}
 </div>
-
 </div>
+
 </div>
 {% endif %}
 
 <!--Sermon Detail Page-->
 {% if sermon_entry %}
-<div class="container">
-<div class="panel panel-info detail">
+<div class="panel panel-info detail-panel">
+
 <div class="panel-heading">
 <h2>{{ sermon_entry.title }}</h2>
 </div>
@@ -84,18 +94,24 @@
 {% endautoescape %}
 </div>
 
+<div class="panel-footer detail-footer">
+	{% if sermon_entry.attachments %}
+	<b>附件:</b>
+	{% endif %}
 <div class="list-group">
 	{% for file in sermon_entry.attachments %}
 	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
 	{% endfor %}
 </div>
+</div>
 
+</div>
 {% endif %}
 
 <!--Message Detail Page-->
 {% if message_entry %}
-<div class="container">
 <div class="panel panel-info detail">
+
 <div class="panel-heading">
 <h2>{{ message_entry.title }}</h2>
 </div>
@@ -106,18 +122,24 @@
 {% endautoescape %}
 </div>
 
+<div class="panel-footer detail-footer">
+	{% if message_entry.attachments %}
+	<b>附件:</b>
+	{% endif %}
 <div class="list-group">
 	{% for file in message_entry.attachments %}
 	<a class="list-group-item" href={{ file.attach.url }} target="_blank">{{ file.name }}</a>
 	{% endfor %}
 </div>
+</div>
 
+</div>
 {% endif %}
 
 <!--Theme Detail Page-->
 {% if theme_entry %}
-<div class="container">
 <div class="panel panel-info detail">
+
 <div class="panel-heading">
 <h2>{{ theme_entry.theme }}</h2>
 </div>
@@ -127,6 +149,15 @@
 {{ theme_entry.desc }}
 {% endautoescape %}
 </div>
+
+</div>
 {% endif %}
 
+</div>
+
+<div class="col-md-1">
+</div>
+
+</div>
+</div>
 </body>

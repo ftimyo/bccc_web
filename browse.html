@@ -36,13 +36,33 @@
 </div>
 </nav>
 <br/><br/><br/>
-<center>
-<h1>瀏覽資源</h1>
-</center>
 
 <body>
-{% if level1 %}
 <div class="container">
+
+<div class="row">
+
+<div class="col-md-2"><!--Left Control Panel-->
+
+<div class="panel panel-info left-control-panel">
+<div class="panel-body">
+
+<center>
+<div class="btn-group-vertical" style="width:100%;">
+<button type="button" class="btn btn-primary">Apple</button>
+<button type="button" class="btn btn-primary">Apple</button>
+<button type="button" class="btn btn-primary">Apple</button>
+</div>
+</center>
+
+</div>
+</div>
+
+
+</div><!--END of Left Control Panel-->
+
+<div class="col-md-8">
+{% if level1 %}
 
 <h2>聚會資訊</h2>
 <div class="list-group">
@@ -67,47 +87,67 @@
 <div class="list-group">
 <a href="{% url 'church:browse' %}?domain=event" class="list-group-item">活動資訊檔案</a>
 </div>
-</div>
+
 {% endif %}
 
 {% if level2_message %}
-<div class="container">
 <h2>{{catalog}}資訊檔案</h2>
 <div class="list-group">
 {% for message in messages %}
-<a href="{% url 'church:detail' %}?domain=message&catalog={{ catalog.id }}&entry_id={{message.id}}" class="list-group-item">{{ message.title }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain=message&catalog={{ catalog.id }}&entry_id={{message.id}}" class="list-group-item">[ {{message.pub_time|date:"y/m/d"}} ] {{ message.title }}</a>
 {% endfor %}
 </div>
 {% endif %}
 
 
 {% if level2_sermon %}
-<div class="container">
 <h2>{{catalog}}信息檔案</h2>
 <div class="list-group">
 {% for sermon in sermons %}
-<a href="{% url 'church:detail' %}?domain=sermon&catalog={{ catalog.id }}&entry_id={{sermon.id}}" class="list-group-item">{{ sermon.title }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain=sermon&catalog={{ catalog.id }}&entry_id={{sermon.id}}" class="list-group-item">[ {{sermon.pub_time|date:"y/m/d"}} ] {{ sermon.title }}</a>
 {% endfor %}
 </div>
 {% endif %}
 
 {% if level2_theme %}
-<div class="container">
 <h2>年度主題檔案</h2>
 <div class="list-group">
 {% for theme in themes %}
-<a href="{% url 'church:detail' %}?domain=theme&entry_id={{theme.id}}" class="list-group-item">{{ theme.theme }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain=theme&entry_id={{theme.id}}" class="list-group-item">[ {{theme.pub_time|date:"y/m/d"}} ] {{ theme.theme }}</a>
 {% endfor %}
 </div>
 {% endif %}
 
 {% if level2_event %}
-<div class="container">
 <h2>活動資訊檔案</h2>
 <div class="list-group">
 {% for event in events %}
-<a href="{% url 'church:detail' %}?domain=event&entry_id={{event.id}}" class="list-group-item">{{ event.title }}</a>
+<a target="_blank" href="{% url 'church:detail' %}?domain=event&entry_id={{event.id}}" class="list-group-item">[ {{event.pub_time|date:"y/m/d"}} ] {{ event.title }}</a>
 {% endfor %}
 </div>
 {% endif %}
+
+</div>
+
+<div class="col-md-2"><!--right panel-->
+
+<div class="panel panel-info right-control-panel">
+<div class="panel-body">
+
+<center>
+<div class="btn-group-vertical" style="width:100%;">
+<button type="button" class="btn btn-primary">Apple</button>
+<button type="button" class="btn btn-primary">Apple</button>
+<button type="button" class="btn btn-primary">Apple</button>
+</div>
+</center>
+
+</div>
+</div>
+
+</div><!--End of Right Panel-->
+
+</div>
+
+</div>
 </body>
