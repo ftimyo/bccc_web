@@ -190,6 +190,10 @@ button.btn-search{
 }
 
 /*red-page-btn*/
+.red-page-btn {
+	margin-top:0px;
+}
+
 .red-page-btn > li.active > a {
 	color:white;
 	background-color:maroon;
@@ -289,13 +293,11 @@ button.btn-search{
 }
 
 .right-control-panel {
-	position:relative;
-	top:64px;
+	border: 0px;
 }
 
 .left-control-panel {
-	position:relative;
-	top:64px;
+	border: 0px;
 }
 select {
 	width: 100%;
@@ -334,4 +336,13 @@ select {
 
 .detail-panel a {
 	color:darkred;
+}
+
+.middle-panel h2 {
+	color: maroon;
+	margin-bottom: 0px;
+}
+
+.level1 h2 {
+	margin-bottom: 5px;
 }

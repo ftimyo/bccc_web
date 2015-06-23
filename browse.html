@@ -11,9 +11,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+	<script src="{% static 'church/pages.js' %}"></script>
 	<script src="{% static 'church/script.js' %}"></script>
   <title>Browse | Binghamton Chinese Christian Church</title>
-
 
 </head>
 {#####Menu Bar#####}
@@ -40,7 +40,7 @@
 <br/><br/><br/>
 
 <body>
-<div class="container"><!--Open Container-->
+<div class="container-fluid"><!--Open Container-->
 <div class="row"><!--Open Row-->
 
 <div class="col-md-2"><!--Open Left Panel-->
@@ -51,18 +51,18 @@
 
 <!--Open Form-->
 <center>
-<form role="form" action="{% url 'church:browse' %}" method="GET">
+<form class="filter-form" role="form" action="{% url 'church:browse' %}" method="GET">
 
 <!--Open Time Picker-->
 <div class="form-group">
 <label for="refine_time">選擇時間段</label>
 <table class="table table-condensed" id="refine_time">
 <tr>
-	<td><center>從</center></td>
+	<td><center>起始日期</center></td>
 	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定開始時間!" class="form-control DateField" style="width:100%;" name="sdate" id="sdate" value="{{ sdate }}"/></center></td>
 </tr>
 <tr>
-	<td><center>至</center></td>
+	<td><center>截止日期</center></td>
 	<td><center><input type="text" data-toggle="tooltip" title="若此項為空，則不限定截止時間!" class="form-control DateField" style="width:100%;" name="edate" id="edate" value="{{ edate }}"/></center></td>
 </tr>
 </table>
@@ -95,11 +95,12 @@
 </div><!--Close Left Panel-->
 
 
-<div class="col-md-8"><!--Open Middle Panel-->
+<div class="col-md-8 middle-panel"><!--Open Middle Panel-->
 
 {% if not domain %}<!--Open Level1 List-->
+<div class="level1">
 
-<h2>聚會資訊</h2>
+<h2>事工資訊</h2>
 <div class="list-group">
 {% for message_catalog in message_catalogs %}
 <a href="{% url 'church:browse' %}?domain=message&catalog={{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
@@ -123,23 +124,31 @@
 <a href="{% url 'church:browse' %}?domain=event" class="list-group-item">活動資訊檔案</a>
 </div>
 
+</div>
 {% endif %}<!--Close Level1 List-->
 
 {########################################}
-
 {% if domain %}<!--Open Level2 List Panel-->
 
 <!--Open Level2 Heading-->
 {% if domain|stringformat:"s" == "message"  %}
 <h2>{{catalog}}資訊檔案</h2>
 {% elif domain|stringformat:"s" == "sermon" %}
-<h2>{{catalog}}信息檔案</h2>
+<h2>{{catalog}}檔案</h2>
 {% elif domain|stringformat:"s" == "theme" %}
 <h2>年度主題檔案</h2>
 {% elif domain|stringformat:"s" == "event" %}
 <h2>活動資訊檔案</h2>
 {% endif %}
 <!--Close Level2 Heading-->
+
+<!--Open Page Buttons-->
+{% if domain %}
+<center>
+<ul class="pagination red-page-btn" id="page-btn-group-top"></ul>
+</center>
+{% endif %}
+<!--Close Page Buttons-->
 
 <!--Open Level2 List-->
 <div class="list-group">
@@ -151,8 +160,15 @@
 </div>
 <!--Close Level2 List-->
 
-
 {% endif %}<!--Close Level2 List Panel-->
+
+<!--Open Page Buttons-->
+{% if domain %}
+<center>
+<ul class="pagination red-page-btn" id="page-btn-group-bottom"></ul>
+</center>
+{% endif %}
+<!--Close Page Buttons-->
 
 </div><!--Close Middle Panel-->
 
@@ -161,11 +177,11 @@
 <div class="col-md-2"><!--Open Right Panel-->
 {% if domain %}
 
-<div class="panel panel-info left-control-panel"><!--Open Panel Pane-->
+<div class="panel panel-info right-control-panel"><!--Open Panel Pane-->
 <div class="panel-body">
 
 <center><!--Open Form-->
-<form role="form" action="{% url 'church:browse' %}" method="GET">
+<form class="sort-form" role="form" action="{% url 'church:browse' %}" method="GET">
 
 <!--Hidden Fields-->
 <input type="hidden" value="{{ catalog.id }}" name="catalog" id="catalog"/>
@@ -177,8 +193,8 @@
 <!--Hidden Fields-->
 
 <div class="btn-group-vertical">
-<button type="Submit" value="newest" id="sort" name="sort" class="btn btn-primary red-button {% if sort|stringformat:"s" == "newest" %}active{% endif %}">時間升序排列</button>
-<button type="Submit" value="oldest" id="sort" name="sort" class="btn btn-primary red-button {% if sort|stringformat:"s" == "oldest" %}active{% endif %}">時間降序排列</button>
+<button type="Submit" value="newest" id="sort" name="sort" class="btn btn-primary red-button {% if sort|stringformat:"s" == "newest" %}active{% endif %}">時間⬆</button>
+<button type="Submit" value="oldest" id="sort" name="sort" class="btn btn-primary red-button {% if sort|stringformat:"s" == "oldest" %}active{% endif %}">時間⬇</button>
 </div>
 
 </form>
@@ -193,32 +209,25 @@
 </div><!--Close Row-->
 </div><!--Close Container-->
 
-<!--Open Page Buttons-->
-<div class="container">
-{% if domain %}
-<center>
-<ul class="pagination red-page-btn">
+<!--Open Dynamic Page Btn-->
+{% if entries %}
+<script>
+$(function() {
+	$('#page-btn-group-top').twbsPagination({
+		totalPages:{{ entries.paginator.num_pages }},
+		visiblePages: 7,
+		href:"?page={% verbatim %}{{number}}{% endverbatim %}&domain={{ domain }}&catalog={{ catalog.id }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}"
 
-{% for i in entries.paginator.page_range %}
+	});
+	$('#page-btn-group-bottom').twbsPagination({
+		totalPages:{{ entries.paginator.num_pages }},
+		visiblePages: 7,
+		href:"?page={% verbatim %}{{number}}{% endverbatim %}&domain={{ domain }}&catalog={{ catalog.id }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}"
 
-{% if i == entries.number %}
-<li class="active">
-{% else %}
-<li>
+	});
+});
+</script>
 {% endif %}
-	<a href="?page={{ i }}&domain={{ domain }}&catalog={{ catalog.id }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}">
-		{{ i }}
-	</a>
-</li>
-
-{% endfor %}
-
-</ul>
-</center>
-{% endif %}
-<div class="container">
-<!--Close Page Buttons-->
-
-
+<!--Close Dynamic Page Btn-->
 
 </body>

@@ -69,7 +69,7 @@ def date_range_filter(entries, sdate, edate):
         edate = edate + datetime.timedelta(days=1)
     except:
         edate = ''
-    
+
     if edate:
         entries = entries.filter(pub_time__lte=edate)
         edate = edate.strftime(fmt)

@@ -41,18 +41,18 @@
 			{% endif %}
 
 			{% if fellowships %}
-				<li><a href="#fellowship" title="Fellowship">各種聚會</a></li>
+				<li><a href="#fellowship" title="Fellowship">教會事工</a></li>
 			{% endif %}
 
 			{% if sermons %}
-			<li><a href="#sermon" title="Sermons">信息系列</a></li>
+			<li><a href="#sermon" title="Sermons">證道信息</a></li>
 			{% endif %}
 
 			{% if contacts %}
         <li><a href="#contact" title="Contact">聯絡我們</a></li>
 			{% endif %}
 
-				<li><a href="{% url 'church:browse' %}" title="Browse">瀏覽資源</a></li>
+				<li><a href="{% url 'church:browse' %}" title="Browse">資源瀏覽</a></li>
 
       </ul>
     </div>
@@ -227,7 +227,7 @@
 					<div class="col-md-12">
 				{% endif %}
 				<div class="panel panel-warning panel-notice">
-				<div class="panel-heading"><h3>重要通啟</h3></div>
+				<div class="panel-heading"><h3>重要通知</h3></div>
 				<div class="panel-body" style="height:350px; overflow-y: scroll;">
 				{% for notice in notices %}
 					<div class="tt">
@@ -287,7 +287,7 @@
   </div>
 
   <div class="container">
-    <h1>各種聚會</h1>
+    <h1>教會事工</h1>
     <ul class="nav nav-pills red-pills nav-justified">
 			{% for fellow in fellowships %}
 				{% if forloop.first %}
@@ -338,7 +338,7 @@
 					<div class='col-md-6'>
 					<div class="panel panel-warning message-panel" style="height : 320px; overflow-y : scroll;">
 
-					<div class="panel-heading">{{ fellow.name }}最新訊息</div>
+					<div class="panel-heading">{{ fellow.name }}最新資訊</div>
 					<div class="panel-body">
 						<div class="list-group">
 							{% for msg in fellow.recent_msgs %}
@@ -406,7 +406,7 @@
   </div>
 
 	<div class="container">
-		<h1>信息系列</h1>
+		<h1>證道信息</h1>
 
 		<div class="panel panel-default panel-sermon">
 		<div class="panel-body">
