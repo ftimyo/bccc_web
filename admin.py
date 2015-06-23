@@ -110,7 +110,7 @@ class MessageAttachmentInline(admin.StackedInline):
 @admin.register(Fellowship)
 class FellowshipAdmin(admin.ModelAdmin):
     fieldsets = [
-            (None, {'fields' : ('display',)}),
+            (None, {'fields' : ('display', 'priority')}),
             (None, {'fields' : ('name', 'schedule', 'location',
                 'admin','admin_phone','admin_email')}),
             (None, {'fields' : ('desc',)}),
@@ -121,7 +121,7 @@ class FellowshipAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_display = ('name', 'admin', 'admin_email', 'admin_phone', 'location',)
+    list_display = ('name', 'priority', 'admin', 'admin_email', 'admin_phone', 'location', 'display',)
 
 @admin.register(FellowshipMessage)
 class FellowshipMessageAdmin(admin.ModelAdmin):

@@ -148,11 +148,13 @@ class Fellowship(models.Model):
 
     #display option
     display = models.BooleanField('Show on Website', default=True)
+    priorities = zip(range(0,5), range(0, 5))
+    priority = models.IntegerField('Displaying Priority', default = 2, choices=priorities)
 
     #Ordered by update time
     update_time = models.DateTimeField('Update Time', auto_now=True)
     class Meta:
-        ordering = ['-update_time']
+        ordering = ['priority', '-update_time']
 
     #Recent Messages
     def recent_msgs(self):
