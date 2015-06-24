@@ -57,7 +57,7 @@ class NoticeAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {'fields' : ('effective_date','desc',)}),
             ]
-    list_display = ('effective_date', 'owner', 'pub_time', 'desc',)
+    list_display = ('effective_date', 'owner', 'pub_time', 'desc', 'is_effective_notice',)
     list_filter = ['pub_time', 'effective_date',]
     search_fields = ['desc']
 
@@ -89,7 +89,7 @@ class EventAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_display = ('event_date', 'location', 'title', 'owner', 'pub_time', 'admin_image')
+    list_display = ('event_date', 'location', 'title', 'owner', 'pub_time', 'admin_image', 'is_effective_event',)
     list_filter = ['pub_time', 'event_date',]
     search_fields = ['text', 'title']
 
@@ -135,7 +135,7 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
         models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
-    list_display = ['effective_date', 'fellowship', 'title', 'is_effective_msg',]
+    list_display = ['effective_date', 'fellowship', 'title', 'owner', 'pub_time', 'is_effective_msg',]
     list_filter = ['pub_time', 'effective_date', 'fellowship',]
     search_fields = ['text', 'title']
 
@@ -183,3 +183,6 @@ class PhotoAlbumAdmin(admin.ModelAdmin):
     inlines = [
             PhotoInline,
             ]
+@admin.register(Photo)
+class PhotoAdmin(admin.ModelAdmin):
+    list_display = ('name', 'carousel', 'thumbnail', 'photo_size', 'pub_time',)

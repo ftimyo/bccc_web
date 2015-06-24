@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from .utils import MediaFileSystemStorage
+import hashlib
 import datetime
 import os
 
@@ -59,6 +61,14 @@ class Notice(models.Model):
     class Meta:
         ordering = ['-effective_date']
 
+    def is_effective_notice(self):
+        return self.effective_date >= timezone.now().date() - datetime.timedelta(days=1)
+
+    is_effective_notice.admin_order_field = 'effective_date'
+    is_effective_notice.boolean = True
+    is_effective_notice.short_description = 'Still Shown?'
+    is_effective_notice.allow_tags = True
+
     def __unicode__(self):
         return str(self.owner) + ': ' + self.desc[:15] + ' ...'
     def __str__(self):
@@ -67,10 +77,9 @@ class Notice(models.Model):
 ########################################
 ######Event Model#######################
 def rename_flyer(instance, filename):
-    ext = filename.split('.')[-1]
-    stamp = timezone.now()
-    filename = "f%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
-    return os.path.join('flyer', filename)
+    h = instance.md5sum
+    basename, ext = os.path.splitext(filename)
+    return os.path.join('flyer', h[0:1], h[1:2], h + ext.lower())
 
 class Event(models.Model):
     event_date = models.DateField('Event Date', help_text='活動日期')
@@ -81,6 +90,8 @@ class Event(models.Model):
     text = models.TextField('Event Description (Optional)', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
     flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
+
+    md5sum = models.CharField(max_length=36, editable=False)
 
     def attachments(self):
         return self.eventattachment_set.all()
@@ -107,23 +118,48 @@ class Event(models.Model):
     admin_image.allow_tags = True
     show_flyer.allow_tags = True
 
+    def is_effective_event(self):
+        return self.event_date >= timezone.now().date() - datetime.timedelta(days=1)
+
+    is_effective_event.admin_order_field = 'effective_date'
+    is_effective_event.boolean = True
+    is_effective_event.short_description = 'Still Shown?'
+    is_effective_event.allow_tags = True
+
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # file is new
+            md5 = hashlib.md5()
+            for chunk in self.flyer.chunks():
+                md5.update(chunk)
+            self.md5sum = md5.hexdigest()
+        super().save(*args, **kwargs)
+
     def __unicode__(self):
         return str(self.owner) + ': ' + self.title[:10] + ' ...'
     def __str__(self):
         return str(self.owner) + ': ' + self.title[:10] + ' ...'
 
 def rename_event_file(instance, filename):
-    ext = filename.split('.')[-1]
-    stamp = timezone.now()
-    filename = "e%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
-    return os.path.join('event', filename)
+    h = instance.md5sum
+    basename, ext = os.path.splitext(filename)
+    return os.path.join('event', h[0:1], h[1:2], h + ext.lower())
 
 class EventAttachment(models.Model):
     name = models.CharField('Attachment Name', max_length=255)
     attach = models.FileField(verbose_name='Attachment File', upload_to=rename_event_file)
+    md5sum = models.CharField(max_length=36, editable=False)
 
     #Auto Generated Field
     event = models.ForeignKey(Event, verbose_name='Event', editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # file is new
+            md5 = hashlib.md5()
+            for chunk in self.attach.chunks():
+                md5.update(chunk)
+            self.md5sum = md5.hexdigest()
+        super().save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
@@ -188,7 +224,7 @@ class FellowshipMessage(models.Model):
 
     is_effective_msg.admin_order_field = 'effective_date'
     is_effective_msg.boolean = True
-    is_effective_msg.short_description = 'Still Shown? (Effective Message)'
+    is_effective_msg.short_description = 'Still Shown?'
     is_effective_msg.allow_tags = True
 
     def __unicode__(self):
@@ -197,15 +233,23 @@ class FellowshipMessage(models.Model):
         return self.fellowship.name + ': ' + self.title
 
 def rename_message_file(instance, filename):
-    ext = filename.split('.')[-1]
-    stamp = timezone.now()
-    filename = "m%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
-    return os.path.join('message', filename)
+    h = instance.md5sum
+    basename, ext = os.path.splitext(filename)
+    return os.path.join('message', h[0:1], h[1:2], h + ext.lower())
 
 class MessageAttachment(models.Model):
     name = models.CharField('Attachment Name', max_length=255)
     attach = models.FileField(verbose_name = 'Attachment File', upload_to=rename_message_file)
     msg = models.ForeignKey(FellowshipMessage, verbose_name='Fellowship Message', editable=False)
+    md5sum = models.CharField(max_length=36, editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # file is new
+            md5 = hashlib.md5()
+            for chunk in self.attach.chunks():
+                md5.update(chunk)
+            self.md5sum = md5.hexdigest()
+        super().save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
@@ -245,15 +289,23 @@ class Sermon(models.Model):
         return self.title
 
 def rename_sermon_file(instance, filename):
-    ext = filename.split('.')[-1]
-    stamp = timezone.now()
-    filename = "s%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
-    return os.path.join('sermon', filename)
+    h = instance.md5sum
+    basename, ext = os.path.splitext(filename)
+    return os.path.join('event', h[0:1], h[1:2], h + ext.lower())
 
 class SermonDocument(models.Model):
     name = models.CharField('Document Name', max_length=255)
     attach = models.FileField(verbose_name='Document File', upload_to=rename_sermon_file)
     sermon = models.ForeignKey(Sermon, verbose_name='Sermon', editable=False)
+    md5sum = models.CharField(max_length=36, editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # file is new
+            md5 = hashlib.md5()
+            for chunk in self.attach.chunks():
+                md5.update(chunk)
+            self.md5sum = md5.hexdigest()
+        super().save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
@@ -266,6 +318,7 @@ class SermonDocument(models.Model):
 class PhotoAlbum(models.Model):
     name = models.CharField("Album Title", max_length=255)
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
+    album = models.BooleanField('Show on PhotoAlbum', help_text='在相冊中顯示', default=False)
 
     class Meta:
         ordering = ['-pub_time']
@@ -276,17 +329,18 @@ class PhotoAlbum(models.Model):
         return self.name
 
 def rename_photo(instance, filename):
-    ext = filename.split('.')[-1]
-    stamp = timezone.now()
-    filename = "s%s.%s" % (stamp.strftime("%y%m%d%H%M%S"), ext)
-    return os.path.join('photo', filename)
+    h = instance.md5sum
+    basename, ext = os.path.splitext(filename)
+    return os.path.join('photo', h[0:1], h[1:2], h + ext.lower())
 
 class Photo(models.Model):
     carousel = models.BooleanField('Show in Carousel', default=False)
     name = models.CharField('Photo Title', max_length=255)
     image = models.ImageField(verbose_name = 'Photo', upload_to=rename_photo)
-    album = models.ForeignKey(PhotoAlbum, verbose_name='Photo Album', editable=False)
+    album = models.ForeignKey(PhotoAlbum, verbose_name='Photo Album', editable=True)
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
+
+    md5sum = models.CharField(max_length=36, editable=False)
 
     class Meta:
         ordering = ['pub_time']
@@ -308,6 +362,14 @@ class Photo(models.Model):
 
     photo_size.short_description = "Photo Size"
     photo_size.allow_tags = True
+
+    def save(self, *args, **kwargs):
+        if not self.pk:  # file is new
+            md5 = hashlib.md5()
+            for chunk in self.image.chunks():
+                md5.update(chunk)
+            self.md5sum = md5.hexdigest()
+        super().save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
