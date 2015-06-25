@@ -6,5 +6,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^browse', views.browse, name='browse'),
     url(r'^detail', views.detail, name='detail'),
+    url(r'^albums?', views.album, name='album'),
     url(r'^$', views.index, name='index'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -10,8 +10,23 @@ import os, datetime
 from .utils import pager, get_query
 from .browse import level1, level2
 from .detail import detail_page
+from .album import show_albums, show_photos
 
 # Create your views here.
+
+@gzip_page
+def album(request):
+    album = None
+    album = request.GET.get('album')
+    context = {}
+
+    if not album:
+        context.update(show_albums())
+    else:
+        context.update(show_photos(album))
+
+    return render(request, "church/album.html", context)
+
 
 @gzip_page
 def browse(request):

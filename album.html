@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'church/photo.css' %}"/>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"/>
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+	<script src="{% static 'church/pages.js' %}"></script>
+	<script src="{% static 'church/script.js' %}"></script>
+  <title>Browse | Binghamton Chinese Christian Church</title>
+
+</head>
+{#####Menu Bar#####}
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container-fluid">
+
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="{% url 'church:index' %}" title="Binghamton Chinese Christian Church">濱城華人基督教會</a>
+	</div>
+
+	<div class="collapse navbar-collapse" id="myNavbar">
+	<ul class="nav navbar-nav">
+	<li><a href="{% url 'church:album' %}" title="Album">相簿</a></li>
+	</ul>
+	</div>
+
+</div>
+</nav>
+<br/><br/><br/>
+
+<body>
+
+{% if albums %}
+
+<!--Open Albums -->
+<div class="w3-row-margin photoalbum">
+	<h2>相簿</h2>
+	{% for album in albums %}
+	{% if album.photo_set.all %}
+	<a href="{% url 'church:album' %}?album={{ album.id }}">
+	<div class="w3-third">
+	<div class="w3-card-4">
+	<img src="{{ album.photo_set.all.0.image.url }}" style="width:100%;height:100%;">
+	<div class="w3-padding">
+	<h5>{{ album.name }}</h5>
+	</div>
+	</div>
+	</div>
+	</a>
+	{% endif %}
+	{% endfor %}
+
+</div>
+<!--Close Albums-->
+
+{% elif album %}
+
+<!--Open Photos-->
+<div class="w3-row-margin photoalbum">
+	<h2>相簿: {{ album.name }}</h2>
+	{% for photo in album.photo_set.all %}
+	<a href="{{ photo.image.url }}">
+	<div class="w3-third">
+	<div class="w3-card-4">
+	<img src="{{ photo.image.url }}" style="width:100%">
+	<div class="w3-padding">
+	<h5>{{ photo.name }}</h5>
+	</div>
+	</div>
+	</div>
+	</a>
+	{% endfor %}
+</div>
+<!--Close Photos-->
+{% else %}
+<div class="photoalbum">
+<h1 style="text-align:center;">相簿內暫無相片</h1>
+</div>
+{% endif %}
+
+
+</body>
+</html>

@@ -346,3 +346,18 @@ select {
 .level1 h2 {
 	margin-bottom: 5px;
 }
+
+.photoalbum h2 {
+	color:maroon;
+}
+.photoalbum h5 {
+	color:gray;
+}
+
+.photoalbum a:hover {
+	color:firebrick;
+}
+
+.photoalbum a {
+	color:gray;
+}

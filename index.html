@@ -52,7 +52,10 @@
         <li><a href="#contact" title="Contact">聯絡我們</a></li>
 			{% endif %}
 
+			{% if sermons or fellowship.fellowshipmessage_set.all or events or themes %}
 				<li><a href="{% url 'church:browse' %}" title="Browse">資源瀏覽</a></li>
+			{% endif %}
+				<li><a href="{% url 'church:album' %}" title="Photo Album">相簿</a></li>
 
       </ul>
     </div>
@@ -84,7 +87,7 @@
 				{% else %}
 				<div class="item">
 				{% endif %}
-				<img src="{{photo.image.url}}" width="{{photo.image.width}}" height="{{photo.image.height}"/>
+				<img src="{{photo.image.url}}" width="{{photo.image.width}}" height="{{ photo.image.height }}"/>
 
 				<div class="carousel-caption">
 					<div class="tt">{{photo.name}}</div>

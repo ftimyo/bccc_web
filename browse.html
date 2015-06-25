@@ -124,19 +124,27 @@
 {% if not domain %}<!--Open Level1 List-->
 <div class="level1">
 
+{% if message_catalogs %}
 <h2>事工資訊</h2>
 <div class="list-group">
 {% for message_catalog in message_catalogs %}
 <a href="{% url 'church:browse' %}?domain=message&catalog={{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
 {% endfor %}
 </div>
+{% else %}
+<h2>暫無事工資訊</h2>
+{% endif %}
 
+{% if sermon_catalogs %}
 <h2>證道信息</h2>
 <div class="list-group">
 {% for sermon_catalog in sermon_catalogs %}
 <a href="{% url 'church:browse' %}?domain=sermon&catalog={{ sermon_catalog.id }}" class="list-group-item">{{ sermon_catalog }}檔案</a>
 {% endfor %}
 </div>
+{% else %}
+<h2>暫無證道信息</h2>
+{% endif %}
 
 <h2>年度主題</h2>
 <div class="list-group">
@@ -263,3 +271,4 @@ $(function() {
 <!--Close Dynamic Page Btn-->
 
 </body>
+</html>
