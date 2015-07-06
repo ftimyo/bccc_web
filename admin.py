@@ -21,7 +21,6 @@ class AboutAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
 
@@ -33,7 +32,6 @@ class YearlyThemeAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
 @admin.register(Contact)
@@ -63,7 +61,6 @@ class NoticeAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
     def save_model(self, request, obj, form, change):
@@ -86,7 +83,6 @@ class EventAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
     list_display = ('event_date', 'location', 'title', 'owner', 'pub_time', 'admin_image', 'is_effective_event',)
@@ -118,7 +114,6 @@ class FellowshipAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
     list_display = ('name', 'priority', 'admin', 'admin_email', 'admin_phone', 'location', 'display',)
@@ -132,7 +127,6 @@ class FellowshipMessageAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         models.CharField: {'widget': TextInput(attrs={'size':'80'})},
-        models.TextField: {'widget': Textarea(attrs={'rows':10, 'cols':80})},
     }
 
     list_display = ['effective_date', 'fellowship', 'title', 'owner', 'pub_time', 'is_effective_msg',]

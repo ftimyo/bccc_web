@@ -1,16 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from redactor.fields import RedactorField
 from .utils import MediaFileSystemStorage
 import hashlib
 import datetime
 import os
 
 class About(models.Model):
-    desc = models.TextField('Church Description', help_text='教會簡介 (support HTML Tags.')
+    desc = RedactorField(verbose_name='Church Description', redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
     pastor = models.CharField('Pastor Names', max_length=50)
-    pastor_profile = models.TextField('Pastor Profile', help_text='牧者簡介 (support HTML Tags)')
-    faith = models.TextField('Faith Statement', help_text='信仰告白 (support HTML Tags)')
+    pastor_profile = RedactorField(verbose_name='Pastor Profile', redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
+    faith = RedactorField(verbose_name='Faith Statement', redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
 
     update_time = models.DateTimeField('Time Modified', auto_now=True)
 
@@ -21,7 +25,8 @@ class About(models.Model):
 
 class YearlyTheme(models.Model):
     title = models.CharField('Theme', max_length=100, help_text='教會年度主題 (字數限制, 50 字)')
-    text = models.TextField('Description', help_text = '教會年度主題詳盡說明 (support HTML Tags)')
+    text = RedactorField(verbose_name='Description', redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
 
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
 
@@ -54,7 +59,8 @@ class Contact(models.Model):
 ######Notice############################
 class Notice(models.Model):
     effective_date = models.DateField('Effective Date')
-    desc = models.TextField('Notice Content', help_text='通啟 (支持HTML Tags)')
+    desc = RedactorField(verbose_name='Notice Description', redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
     pub_time = models.DateTimeField('Time Published', auto_now_add=True)
     owner = models.ForeignKey(User, editable=False, verbose_name='Publisher')
 
@@ -87,7 +93,10 @@ class Event(models.Model):
     location = models.CharField('Location', max_length=50)
 
     title = models.CharField('Event Title', help_text='活動標題', max_length=50)
-    text = models.TextField('Event Description (Optional)', help_text='活動詳細說明 (支持HTML Tags.)', null=True, blank=True)
+    text = RedactorField(verbose_name='Event Description (Optional)', null=True, blank=True,
+            redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
+
     flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
 
@@ -172,7 +181,8 @@ class EventAttachment(models.Model):
 class Fellowship(models.Model):
 
     name = models.CharField('Fellowship Name', max_length=50, help_text='團契名稱')
-    desc = models.TextField('Fellowship Description', help_text='團契說明 (支持HTML Tags.)')
+    desc = RedactorField(verbose_name='Fellowship Description', redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
     location = models.CharField('Location', max_length=50, help_text='地點')
     schedule = models.CharField('Time', max_length=50,
             help_text='The time schedule of activities, for example 每週五 晚上7:30.')
@@ -206,7 +216,9 @@ class FellowshipMessage(models.Model):
     fellowship = models.ForeignKey(Fellowship, verbose_name='Fellowship')
     effective_date = models.DateField('Effective Date')
     title = models.CharField('Subject', max_length=50)
-    text = models.TextField('Message (Optional)', blank=True, null=True)
+    text = RedactorField(verbose_name='Message (Optional)', null=True, blank=True,
+            redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
 
     def attachments(self):
         return self.messageattachment_set.all()
