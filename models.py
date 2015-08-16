@@ -100,7 +100,7 @@ class Event(models.Model):
     flyer = models.ImageField(verbose_name='Flyer Image (Optional)', help_text='活動宣傳圖片',
             upload_to=rename_flyer, null=True, blank=True)
 
-    md5sum = models.CharField(max_length=36, editable=False)
+    md5sum = models.CharField(max_length=36, editable=False, blank=True, null=True)
 
     def attachments(self):
         return self.eventattachment_set.all()
