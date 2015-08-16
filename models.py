@@ -137,7 +137,7 @@ class Event(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.pk:  # file is new
+        if not self.pk and self.flyer:  # file is new
             md5 = hashlib.md5()
             for chunk in self.flyer.chunks():
                 md5.update(chunk)
@@ -180,17 +180,20 @@ class EventAttachment(models.Model):
 ######Fellowship Model##################
 class Fellowship(models.Model):
 
-    name = models.CharField('Fellowship Name', max_length=50, help_text='團契名稱')
+    name = models.CharField('Fellowship Name', max_length=20, help_text='團契間稱')
+    full_name = models.CharField('Fellowship Full Name', max_length=50, help_text='團契全稱')
     desc = RedactorField(verbose_name='Fellowship Description', redactor_options={'focus': 'true'},
             allow_file_upload=False, allow_image_upload=False)
-    location = models.CharField('Location', max_length=50, help_text='地點')
-    schedule = models.CharField('Time', max_length=50,
+    location = models.CharField('Location', max_length=50, help_text='地點', blank=True, null=True)
+    schedule = models.CharField('Time', max_length=50, blank=True, null=True,
             help_text='The time schedule of activities, for example 每週五 晚上7:30.')
 
     #contact info
-    admin = models.CharField('Person in Charge', max_length=20, help_text='負責人')
-    admin_email = models.EmailField('Email')
-    admin_phone = models.CharField('Phone', max_length=16, help_text='Format: <em>XXX-XXX-XXXX</em>')
+    admin = models.CharField('Person in Charge', max_length=20, help_text='負責人', blank=True, null=True)
+    admin_email = models.EmailField('Email', blank=True, null=True)
+    admin_phone = models.CharField('Phone', max_length=16, help_text='Format: <em>XXX-XXX-XXXX</em>', blank=True, null=True)
+    admin_other = models.CharField('Other Contact Information', max_length=100,
+	    help_text='Other Contact Information, for example QQ, Wechat, facebook etc.', blank=True, null=True)
 
     #display option
     display = models.BooleanField('Show on Website', default=True)
@@ -283,7 +286,9 @@ class Sermon(models.Model):
     title = models.CharField('Title', max_length=100)
     author = models.CharField('Author', max_length=50)
     keywords = models.CharField('Keywords', max_length=50, help_text='Used for search')
-    text = models.TextField('Sermon Text (Optional)', null=True, blank=True)
+    text = RedactorField(verbose_name='Sermon Text (Optional)', null=True, blank=True,
+            redactor_options={'focus': 'true'},
+            allow_file_upload=False, allow_image_upload=False)
     catalog = models.ForeignKey(SermonCatalog, verbose_name='Catalog')
 
     def attachments(self):

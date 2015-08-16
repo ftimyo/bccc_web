@@ -313,7 +313,7 @@
 					{% else %}
 						<div class='col-md-12' style="height : 320px; overflow-y : scroll;">
 					{% endif %}
-					<h3>{{ fellow.name }}</h3>
+					<h3>{{ fellow.full_name }}</h3>
 					{% if fellow.schedule %}
 					<div class="tt"><b>時間：</b>{{ fellow.schedule }}</div>
 					{% endif %}
@@ -327,7 +327,10 @@
 					<div class="tt"><b>電話：</b>{{ fellow.admin_phone }}</div>
 					{% endif %}
 					{% if fellow.admin_email %}
-					<div class="tt"><b>郵件：</b>{{ fellow.admin_email }}</div>
+					<div class="tt"><b>電子郵件：</b>{{ fellow.admin_email }}</div>
+					{% endif %}
+					{% if fellow.admin_other %}
+					<div class="tt"><b>其他聯絡：</b>{{ fellow.admin_other }}</div>
 					{% endif %}
 					<div class="tt">
 					{% autoescape off %}

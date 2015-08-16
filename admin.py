@@ -107,8 +107,8 @@ class MessageAttachmentInline(admin.StackedInline):
 class FellowshipAdmin(admin.ModelAdmin):
     fieldsets = [
             (None, {'fields' : ('display', 'priority')}),
-            (None, {'fields' : ('name', 'schedule', 'location',
-                'admin','admin_phone','admin_email')}),
+            (None, {'fields' : ('name', 'full_name', 'schedule', 'location',
+                'admin','admin_phone','admin_email', 'admin_other')}),
             (None, {'fields' : ('desc',)}),
             ]
 
