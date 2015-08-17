@@ -53,7 +53,7 @@ class ContactAdmin(admin.ModelAdmin):
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
     fieldsets = [
-            (None, {'fields' : ('effective_date','desc',)}),
+            (None, {'fields' : ('desc', 'effective_date',)}),
             ]
     list_display = ('effective_date', 'owner', 'pub_time', 'desc', 'is_effective_notice',)
     list_filter = ['pub_time', 'effective_date',]
@@ -76,8 +76,8 @@ class EventAttachmentInline(admin.StackedInline):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
-            (None, {'fields' : ('event_date', 'event_time', 'location',)}),
             (None, {'fields' : ('title', 'text',),}),
+            (None, {'fields' : ('event_date', 'event_time', 'location',)}),
             (None, {'fields' : ('flyer',)}),
             ]
 
@@ -121,8 +121,8 @@ class FellowshipAdmin(admin.ModelAdmin):
 @admin.register(FellowshipMessage)
 class FellowshipMessageAdmin(admin.ModelAdmin):
     fieldsets = [
-            (None, {'fields' : ('fellowship', 'effective_date')}),
-            (None, {'fields' : ('title', 'text',)}),
+            (None, {'fields' : ('fellowship',)}),
+            (None, {'fields' : ('title', 'text', 'effective_date',)}),
             ]
 
     formfield_overrides = {
@@ -160,7 +160,7 @@ class SermonAdmin(admin.ModelAdmin):
             ]
 @admin.register(SermonCatalog)
 class SermonCatalogAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name',)
 
 ########################################
 ######Photo Album Admin#################
