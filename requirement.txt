@@ -1,4 +1,6 @@
-django
-Pillow
-django-admin-bootstrapped
-django-wysiwyg-redactor
+Django==1.8.2
+django-admin-bootstrapped==2.5.4
+django-cleanup==0.3.1
+django-wysiwyg-redactor==0.4.8.1
+Pillow==2.8.2
+wheel==0.24.0

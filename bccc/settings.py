@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'church',
     'redactor',
+    'django_cleanup',
 )
 
 MIDDLEWARE_CLASSES = (
