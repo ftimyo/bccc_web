@@ -6,6 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
 	<link rel="stylesheet" type="text/css" href="{% static 'church/style.css' %}"/>
+	<!--Icon Begins-->
+	<link rel="apple-touch-icon" sizes="57x57" href="{% static 'church/apple-icon-57x57.png' %}">
+	<link rel="apple-touch-icon" sizes="60x60" href="{% static 'church/apple-icon-60x60.png' %}">
+	<link rel="apple-touch-icon" sizes="72x72" href="{% static 'church/apple-icon-72x72.png' %}">
+	<link rel="apple-touch-icon" sizes="76x76" href="{% static 'church/apple-icon-76x76.png' %}">
+	<link rel="apple-touch-icon" sizes="114x114" href="{% static 'church/apple-icon-114x114.png' %}">
+	<link rel="apple-touch-icon" sizes="120x120" href="{% static 'church/apple-icon-120x120.png' %}">
+	<link rel="apple-touch-icon" sizes="144x144" href="{% static 'church/apple-icon-144x144.png' %}">
+	<link rel="apple-touch-icon" sizes="152x152" href="{% static 'church/apple-icon-152x152.png' %}">
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'church/apple-icon-180x180.png' %}">
+	<link rel="icon" type="image/png" sizes="192x192"  href="{% static 'church/android-icon-192x192.png' %}">
+	<link rel="icon" type="image/png" sizes="32x32" href="{% static 'church/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="96x96" href="{% static 'church/favicon-96x96.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'church/favicon-16x16.png' %}">
+	<link rel="manifest" href="{% static 'church/manifest.json' %}">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="{% static 'church/ms-icon-144x144.png' %}">
+	<meta name="theme-color" content="#ffffff">
+	<!--Icon Ends-->
+
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="http://maps.googleapis.com/maps/api/js"></script>
@@ -32,12 +52,12 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-			{% if abouts and themes %}
-        <li><a href="#about" title="About">教會介紹</a></li>
-			{% endif %}
-
 			{% if events %}
 				<li><a href="#event" title="Events">近期活動</a></li>
+			{% endif %}
+
+			{% if abouts and themes %}
+        <li><a href="#about" title="About">教會介紹</a></li>
 			{% endif %}
 
 			{% if fellowships %}
@@ -105,65 +125,6 @@
         <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
-    </div>
-	</div>
-	{% endif %}
-
-	{#####About#####}
-	{% if abouts and themes %}
-  <div id='about'>
-		<hr/><br/><br/>
-  </div>
-
-  <div class="container">
-    <h1>教會介紹</h1>
-    <ul class="nav nav-pills red-pills nav-justified">
-      <li class="active"><a data-toggle="tab" href="#AboutChurch">教會簡介</a></li>
-      <li><a data-toggle="tab" href="#pastor">牧者簡介</a></li>
-      <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
-      <li><a data-toggle="tab" href="#theme">年度主題</a></li>
-    </ul>
-    <div class="tab-content about-tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
-    <div id="AboutChurch" class="tab-pane fade in active">
-			<h3>教會簡介</h3>
-			{% for about in abouts %}
-				<div class="tt">
-				{% autoescape off %}
-				{{ about.desc }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    <div id="pastor" class="tab-pane fade">
-			{% for about in abouts %}
-				<h4>{{ about.pastor }}</h4>
-				<div class="tt">
-				{% autoescape off %}
-				{{ about.pastor_profile }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    <div id="faith" class="tab-pane fade">
-			<h3>信仰告白</h3>
-			{% for about in abouts %}
-				<div class="tt">
-				{% autoescape off %}
-				{{ about.faith }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
-    <div id="theme" class="tab-pane fade">
-			{% for theme in themes %}
-				<h3>{{ theme.title }}</h3>
-				<div class="tt">
-				{% autoescape off %}
-				{{ theme.text }}
-				{% endautoescape %}
-				</div>
-			{% endfor %}
-    </div>
     </div>
 	</div>
 	{% endif %}
@@ -282,6 +243,66 @@
 			{% endfor %}
 		</div>
 	{% endif %}
+
+	{#####About#####}
+	{% if abouts and themes %}
+  <div id='about'>
+		<hr/><br/><br/>
+  </div>
+
+  <div class="container">
+    <h1>教會介紹</h1>
+    <ul class="nav nav-pills red-pills nav-justified">
+      <li class="active"><a data-toggle="tab" href="#AboutChurch">教會簡介</a></li>
+      <li><a data-toggle="tab" href="#pastor">牧者簡介</a></li>
+      <li><a data-toggle="tab" href="#faith">信仰告白</a></li>
+      <li><a data-toggle="tab" href="#theme">年度主題</a></li>
+    </ul>
+    <div class="tab-content about-tab-content" style="min-height:150px; max-height:300px; overflow-y: scroll;">
+    <div id="AboutChurch" class="tab-pane fade in active">
+			<h3>教會簡介</h3>
+			{% for about in abouts %}
+				<div class="tt">
+				{% autoescape off %}
+				{{ about.desc }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    <div id="pastor" class="tab-pane fade">
+			{% for about in abouts %}
+				<h4>{{ about.pastor }}</h4>
+				<div class="tt">
+				{% autoescape off %}
+				{{ about.pastor_profile }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    <div id="faith" class="tab-pane fade">
+			<h3>信仰告白</h3>
+			{% for about in abouts %}
+				<div class="tt">
+				{% autoescape off %}
+				{{ about.faith }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    <div id="theme" class="tab-pane fade">
+			{% for theme in themes %}
+				<h3>{{ theme.title }}</h3>
+				<div class="tt">
+				{% autoescape off %}
+				{{ theme.text }}
+				{% endautoescape %}
+				</div>
+			{% endfor %}
+    </div>
+    </div>
+	</div>
+	{% endif %}
+
 
 	{#####Fellowship#####}
 	{% if fellowships %}
