@@ -99,7 +99,7 @@ def control_filter(request, domain, entries):
         sort = {'newest': 'newest', 'oldest': 'oldest'}.get(sort, 'newest')
 
     if entries:
-        entries = pager(entries, page, 7)
+        entries = pager(entries, page, 25)
 
     if not search:
         search=''

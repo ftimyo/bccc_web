@@ -262,13 +262,13 @@ $(function() {
 	$('#page-btn-group-top').twbsPagination({
 		totalPages:{{ entries.paginator.num_pages }},
 		visiblePages: 7,
-		href:"?page={% verbatim %}{{number}}{% endverbatim %}&domain={{ domain }}&catalog={{ catalog.id }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}"
+		href:"?page={% verbatim %}{{number}}{% endverbatim %}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}"
 
 	});
 	$('#page-btn-group-bottom').twbsPagination({
 		totalPages:{{ entries.paginator.num_pages }},
 		visiblePages: 7,
-		href:"?page={% verbatim %}{{number}}{% endverbatim %}&domain={{ domain }}&catalog={{ catalog.id }}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}"
+		href:"?page={% verbatim %}{{number}}{% endverbatim %}&search={{ search }}&sdate={{ sdate }}&edate={{ edate }}&sort={{ sort }}"
 
 	});
 });
