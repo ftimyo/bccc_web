@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.decorators.gzip import gzip_page
@@ -27,25 +28,24 @@ def album(request, album = None):
 
 
 @gzip_page
-def browse(request):
+def browse(request, domain = None, catalog = None):
+    '''
     domain = None
     domain = request.GET.get('domain')
+    '''
 
     context = {}
 
     if not domain:
         context.update(level1())
     else:
-        context.update(level2(request, domain))
+        context.update(level2(request, domain, catalog))
 
     return render(request, "church/browse.html", context)
 
 @gzip_page
-def detail(request):
+def detail(request, domain = None, catalog = None, entry_id = None):
     context = dict()
-    domain = request.GET.get('domain')
-    catalog = request.GET.get('catalog')
-    entry_id = request.GET.get('entry_id')
     context.update(detail_page(request, domain, catalog, entry_id))
 
     if not context:
@@ -63,7 +63,6 @@ def index(request):
     fellowships = Fellowship.objects.filter(display=True)
     sermon_list = Sermon.objects.all()[:100]
     photos = Photo.objects.filter(carousel=True)[:8]
-
     page = request.GET.get('page')
     sermons = pager(sermon_list, page)
 

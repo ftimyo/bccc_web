@@ -52,8 +52,7 @@ def event(request, domain):
     return context
 
 
-def level2(request, domain):
-    catalog = request.GET.get('catalog')
+def level2(request, domain, catalog):
 
     if domain == 'message':
         return message(request, domain, catalog)

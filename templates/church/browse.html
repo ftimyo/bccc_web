@@ -52,7 +52,10 @@
 <hr/>
 <!--Open Form-->
 <center>
-<form class="filter-form" role="form" action="{% url 'church:browse' %}" method="GET">
+<form class="filter-form" role="form"
+action="{% url 'church:browse' %}/{{domain}}{%if catalog%}/{{catalog.id}}{%endif%}"
+method="GET">
+{% csrf_token %}
 
 <!--Open Time Picker-->
 <div class="form-group">
@@ -72,8 +75,6 @@
 <!--Close Time Picker-->
 
 <!--Hidden Fields-->
-<input type="hidden" value="{{ catalog.id }}" name="catalog" id="catalog"/>
-<input type="hidden" value="{{ domain }}" name="domain" id="domain"/>
 <input type="hidden" value="{{ sort }}" name="sort" id="sort"/>
 <input type="hidden" value="{{ search }}" name="search" id="search"/>
 <!--Hidden Fields-->
@@ -88,7 +89,10 @@
 
 <!--Open Form-->
 <center>
-<form class="filter-form" role="form" action="{% url 'church:browse' %}" method="GET">
+<form class="filter-form" role="form"
+action="{% url 'church:browse' %}/{{domain}}{%if catalog%}/{{catalog.id}}{%endif%}"
+method="GET">
+{% csrf_token %}
 
 
 <!--Open Search Box-->
@@ -99,8 +103,6 @@
 <!--Close Search Box-->
 
 <!--Hidden Fields-->
-<input type="hidden" value="{{ catalog.id }}" name="catalog" id="catalog"/>
-<input type="hidden" value="{{ domain }}" name="domain" id="domain"/>
 <input type="hidden" value="{{ sort }}" name="sort" id="sort"/>
 <input type="hidden" value="{{ sdate }}" name="sdate" id="sdate"/>
 <input type="hidden" value="{{ edate }}" name="edate" id="edate"/>
@@ -128,7 +130,7 @@
 <h2>事工資訊</h2>
 <div class="list-group">
 {% for message_catalog in message_catalogs %}
-<a href="{% url 'church:browse' %}?domain=message&catalog={{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
+<a href="{% url 'church:browse' %}/message/{{ message_catalog.id }}" class="list-group-item">{{ message_catalog }}資訊檔案</a>
 {% endfor %}
 </div>
 {% else %}
@@ -139,7 +141,7 @@
 <h2>證道信息</h2>
 <div class="list-group">
 {% for sermon_catalog in sermon_catalogs %}
-<a href="{% url 'church:browse' %}?domain=sermon&catalog={{ sermon_catalog.id }}" class="list-group-item">{{ sermon_catalog }}檔案</a>
+<a href="{% url 'church:browse' %}/sermon/{{ sermon_catalog.id }}" class="list-group-item">{{ sermon_catalog }}檔案</a>
 {% endfor %}
 </div>
 {% else %}
@@ -148,12 +150,12 @@
 
 <h2>年度主題</h2>
 <div class="list-group">
-<a href="{% url 'church:browse' %}?domain=theme" class="list-group-item">年度主題檔案</a>
+<a href="{% url 'church:browse' %}/theme" class="list-group-item">年度主題檔案</a>
 </div>
 
 <h2>活動資訊</h2>
 <div class="list-group">
-<a href="{% url 'church:browse' %}?domain=event" class="list-group-item">活動資訊檔案</a>
+<a href="{% url 'church:browse' %}/event" class="list-group-item">活動資訊檔案</a>
 </div>
 
 </div>
@@ -191,7 +193,10 @@
 <!--Open Level2 List-->
 <div class="list-group">
 {% for entry in entries %}
-<a target="_blank" href="{% url 'church:detail' %}?domain={{ domain }}&catalog={{ catalog.id }}&entry_id={{entry.id}}" class="list-group-item">
+<a target="_blank"
+	href="{% url 'church:browse' %}/{{ domain }}{%if catalog.id%}/{{ catalog.id }}{%endif%}/{{entry.id}}"
+	class="list-group-item">
+
 	[ {{entry.pub_time|date:"m/d/y"}} ] {{ entry.title }}
 </a>
 {% endfor %}
@@ -221,11 +226,12 @@
 <hr/>
 
 <center><!--Open Form-->
-<form class="sort-form" role="form" action="{% url 'church:browse' %}" method="GET">
+<form class="sort-form" role="form"
+action="{% url 'church:browse' %}/{{domain}}{%if catalog%}/{{catalog.id}}{%endif%}"
+	method="GET">
+{% csrf_token %}
 
 <!--Hidden Fields-->
-<input type="hidden" value="{{ catalog.id }}" name="catalog" id="catalog"/>
-<input type="hidden" value="{{ domain }}" name="domain" id="domain"/>
 <input type="hidden" value="{{ search }}" name="search" id="search"/>
 <input type="hidden" value="{{ sdate }}" name="sdate" id="sdate"/>
 <input type="hidden" value="{{ edate }}" name="edate" id="edate"/>
