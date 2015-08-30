@@ -15,9 +15,7 @@ from .album import show_albums, show_photos
 # Create your views here.
 
 @gzip_page
-def album(request):
-    album = None
-    album = request.GET.get('album')
+def album(request, album = None):
     context = {}
 
     if not album:

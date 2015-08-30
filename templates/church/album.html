@@ -49,7 +49,7 @@
 	<h2>相簿</h2>
 	{% for album in albums %}
 	{% if album.photo_set.all %}
-	<a href="{% url 'church:album' %}?album={{ album.id }}">
+	<a href="{% url 'church:album' %}/{{album.id}}">
 	<div class="w3-third">
 	<div class="w3-card-4">
 	<img src="{{ album.photo_set.all.0.image.url }}" style="width:100%;height:100%;">
