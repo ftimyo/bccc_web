@@ -87,6 +87,11 @@ class Notice(models.Model):
 def rename_flyer(instance, filename):
     h = instance.md5sum
     basename, ext = os.path.splitext(filename)
+
+    if not h:
+        h = timezone.now().strftime("%Y%m%d%H%M%S")
+        return os.path.join('flyer', h + ext.lower())
+
     return os.path.join('flyer', h[0:1], h[1:2], h + ext.lower())
 
 class Event(models.Model):
@@ -101,9 +106,9 @@ class Event(models.Model):
             allow_file_upload=False, allow_image_upload=False)
 
     flyer = models.ImageField(verbose_name='活動宣傳圖片 (Optional)',
-            upload_to=rename_flyer, null=True, blank=True)
+            upload_to=rename_flyer, blank=True)
 
-    md5sum = models.CharField(max_length=36, editable=False, blank=True, null=True)
+    md5sum = models.CharField(max_length=36, editable=False)
 
     def attachments(self):
         return self.eventattachment_set.all()
@@ -140,7 +145,7 @@ class Event(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.pk and self.flyer:  # file is new
+        if not self.pk and self.flyer:
             md5 = hashlib.md5()
             for chunk in self.flyer.chunks():
                 md5.update(chunk)
@@ -312,7 +317,7 @@ class Sermon(models.Model):
 def rename_sermon_file(instance, filename):
     h = instance.md5sum
     basename, ext = os.path.splitext(filename)
-    return os.path.join('event', h[0:1], h[1:2], h + ext.lower())
+    return os.path.join('sermon', h[0:1], h[1:2], h + ext.lower())
 
 class SermonDocument(models.Model):
     name = models.CharField('附件文件名稱 (限255字)', max_length=255)
