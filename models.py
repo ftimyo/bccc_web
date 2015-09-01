@@ -89,8 +89,11 @@ def rename_flyer(instance, filename):
     basename, ext = os.path.splitext(filename)
 
     if not h:
-        h = timezone.now().strftime("%Y%m%d%H%M%S")
-        return os.path.join('flyer', h + ext.lower())
+        md5 = hashlib.md5()
+        for chunk in instance.flyer.chunks():
+            md5.update(chunk)
+        h = md5.hexdigest()
+        instance.md5sum = h
 
     return os.path.join('flyer', h[0:1], h[1:2], h + ext.lower())
 
